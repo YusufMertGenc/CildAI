@@ -30,8 +30,9 @@ Gereksiz hastane ziyaretlerini azaltmak, erken teşhis imkânı sağlamak ve kul
 4. Yeni Ebeveynler
    -Çocuklarının cilt problemlerine dair erken bilgi almak isteyen, doktora gitmeden önce durumun ciddiyetini öğrenmek isteyen aileler.
 5. Sağlık Bilinci Yüksek Dijital Kullanıcılar
+   
    -Kendi sağlığıyla ilgilenen, teknolojiye yatkın ve dijital sağlık uygulamalarını aktif kullanan bireyler.
-6. Cilt Bakımı ve Güzellikle İlgilenenler
+7. Cilt Bakımı ve Güzellikle İlgilenenler
    -Kozmetik ürünleri kullanmadan önce cilt durumu hakkında bilgi almak isteyen, estetik görünümüne önem veren kullanıcılar.
    
    

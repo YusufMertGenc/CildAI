@@ -6,7 +6,7 @@
 | Name              | Title                        | GitHub                                                                 | LinkedIn                                                                 |
 |-------------------|------------------------------|------------------------------------------------------------------------|--------------------------------------------------------------------------|
 | Yusuf Mert Genç   | Scrum Master – Developer     | [GitHub Profile](https://github.com/YusufMertGenc)                     | [LinkedIn Profile](https://www.linkedin.com/in/yusufmertgenc/)           |
-| Feyza İnal        | Product Owner – Developer    | [GitHub Profile](https://github.com/feyza-inal)                        | [LinkedIn Profile](https://www.linkedin.com/in/feyzainalcs1/)            |
-| Muhammed İkbal    | Developer                    | [GitHub Profile](https://github.com/m-ikbal)                           | [LinkedIn Profile](https://www.linkedin.com/in/m-ikbal/)                 |
+| Feyza İnal        | Product Owner – Developer    | [GitHub Profile](https://github.com/feyza-inl)                        | [LinkedIn Profile](https://www.linkedin.com/in/feyzainalcse1/)            |
+| Muhammed İkbal    | Developer                    | [GitHub Profile](https://github.com/m-ikbal)                           | [LinkedIn Profile](https://www.linkedin.com/in/m-ikb4l/)                 |
 
 

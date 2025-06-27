@@ -16,7 +16,5 @@ CildAI
 ## Ürün Açıklaması
 
 Günümüzde dermatoloji (cildiye) bölümlerinden randevu almak her geçen gün daha da zorlaşıyor. Ancak birçok cilt problemi basit çözümlerle giderilebileceği gibi, bazıları da göz ardı edildiğinde ciddi sağlık sorunlarına yol açabiliyor. İşte tam bu noktada CildAI devreye giriyor.
-
 CildAI, kullanıcıların cilt problemlerini hızlıca analiz edebilmesini sağlayan yapay zekâ destekli bir dijital dermatoloji asistanıdır. Kullanıcılar ciltlerindeki problemi gösteren bir fotoğraf yükler; CildAI bu görüntüyü analiz ederek olası cilt rahatsızlıklarını tanımlar ve uygun çözüm önerileri sunar.
-
 Gereksiz hastane ziyaretlerini azaltmak, erken teşhis imkânı sağlamak ve kullanıcıları bilinçlendirmek için tasarlanan CildAI, cilt sağlığını herkes için erişilebilir ve anlaşılır hâle getiriyor

@@ -21,18 +21,31 @@ Gereksiz hastane ziyaretlerini azaltmak, erken teşhis imkânı sağlamak ve kul
 
 ## Hedef Kitle
 
-1. Yoğun Tempolu Çalışan Bireyler
-   -Gün içinde hastaneye gitmeye vakit bulamayan, sağlık problemlerini erteleyen ancak hızlı bilgiye ihtiyaç duyan kişiler.
-2. Üniversite Öğrencileri ve Genç Yetişkinler
-   -Akne, sivilce gibi yaygın cilt problemleri yaşayan; hem çözüm arayan hem de doktora gitmekte zorlanan genç kitle.
-3. Kırsal Bölgelerde Yaşayanlar
-   -Dermatoloji uzmanına ulaşmanın zor olduğu bölgelerde yaşayan ve basit cilt problemlerini hızlıca analiz etmek isteyen kullanıcılar.
-4. Yeni Ebeveynler
-   -Çocuklarının cilt problemlerine dair erken bilgi almak isteyen, doktora gitmeden önce durumun ciddiyetini öğrenmek isteyen aileler.
-5. Sağlık Bilinci Yüksek Dijital Kullanıcılar
-   
-   -Kendi sağlığıyla ilgilenen, teknolojiye yatkın ve dijital sağlık uygulamalarını aktif kullanan bireyler.
-7. Cilt Bakımı ve Güzellikle İlgilenenler
-   -Kozmetik ürünleri kullanmadan önce cilt durumu hakkında bilgi almak isteyen, estetik görünümüne önem veren kullanıcılar.
+<ol>
+  <li>
+    <strong>Yoğun Tempolu Çalışan Bireyler</strong><br>
+    <span>- Gün içinde hastaneye gitmeye vakit bulamayan, sağlık problemlerini erteleyen ancak hızlı bilgiye ihtiyaç duyan kişiler.</span>
+  </li>
+  <li>
+    <strong>Üniversite Öğrencileri ve Genç Yetişkinler</strong><br>
+    <span>- Akne, sivilce gibi yaygın cilt problemleri yaşayan; hem çözüm arayan hem de doktora gitmekte zorlanan genç kitle.</span>
+  </li>
+  <li>
+    <strong>Kırsal Bölgelerde Yaşayanlar</strong><br>
+    <span>- Dermatoloji uzmanına ulaşmanın zor olduğu bölgelerde yaşayan ve basit cilt problemlerini hızlıca analiz etmek isteyen kullanıcılar.</span>
+  </li>
+  <li>
+    <strong>Yeni Ebeveynler</strong><br>
+    <span>- Çocuklarının cilt problemlerine dair erken bilgi almak isteyen, doktora gitmeden önce durumun ciddiyetini öğrenmek isteyen aileler.</span>
+  </li>
+  <li>
+    <strong>Sağlık Bilinci Yüksek Dijital Kullanıcılar</strong><br>
+    <span>- Kendi sağlığıyla ilgilenen, teknolojiye yatkın ve dijital sağlık uygulamalarını aktif kullanan bireyler.</span>
+  </li>
+  <li>
+    <strong>Cilt Bakımı ve Güzellikle İlgilenenler</strong><br>
+    <span>- Kozmetik ürünleri kullanmadan önce cilt durumu hakkında bilgi almak isteyen, estetik görünümüne önem veren kullanıcılar.</span>
+  </li>
+</ol>
    
    

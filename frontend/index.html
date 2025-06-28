@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>CildAI – Cilt Analiz Asistanı</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="header">
+      <img src="logoooo.jpg" alt="CildAI Logo" class="logo" />
+      <h1>CildAI – Cilt Analiz Asistanı</h1>
+    </div>
+
+    <form id="uploadForm">
+      <label>Cilt Fotoğrafı Yükle:</label><br />
+      <input type="file" id="imageInput" accept="image/*" required /><br /><br />
+
+      <label>Eklemek istediğiniz açıklama:</label><br />
+      <textarea id="userNotes" placeholder="Varsa şüphelendiğiniz şeyler, ek açıklamalar..." rows="4" style="width: 100%; border-radius: 8px; padding: 10px;"></textarea><br /><br />
+
+      <button type="submit">🔍 Analiz Et</button>
+    </form>
+
+    <div id="result" class="result-box"></div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

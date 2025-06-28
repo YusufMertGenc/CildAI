@@ -8,7 +8,7 @@
 | Yusuf Mert Genç   | Scrum Master – Developer     | [GitHub Profile](https://github.com/YusufMertGenc)                     | [LinkedIn Profile](https://www.linkedin.com/in/yusufmertgenc/)           |
 | Feyza İnal        | Product Owner – Developer    | [GitHub Profile](https://github.com/feyza-inl)                        | [LinkedIn Profile](https://www.linkedin.com/in/feyzainalcse1/)            |
 | Muhammed İkbal    | Developer                    | [GitHub Profile](https://github.com/m-ikbal)                           | [LinkedIn Profile](https://www.linkedin.com/in/m-ikb4l/)                 |
-| ???               | Developer                    | [GitHub Profile]().                                                    | [LinkedIn Profile]()                                                     |
+| Muzaffer Türkoğlu | Developer                    | [GitHub Profile](https://github.com/muzafferturkoglu).                  | [LinkedIn Profile](https://www.linkedin.com/in/muzaffert%C3%BCrko%C4%9Flu/)                                                     |
 
 ## Ürün İsmi
 CildAI

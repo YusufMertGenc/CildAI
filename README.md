@@ -24,7 +24,7 @@ CildAI, kullanıcıların cilt problemlerini hızlıca analiz edebilmesini sağl
 Gereksiz hastane ziyaretlerini azaltmak, erken teşhis imkânı sağlamak ve kullanıcıları bilinçlendirmek için tasarlanan CildAI, cilt sağlığını herkes için erişilebilir ve anlaşılır hâle getiriyor
 
 
-## Ürün Özellikleri
+
 
 <section style="font-family: Arial, sans-serif; padding: 2rem; background-color: #fdf6f9; color: #333;">
   <h2 style="color: #b23a48; border-bottom: 2px solid #ffc0cb; padding-bottom: 0.5rem;">Ürün Özellikleri – CildAI</h2>

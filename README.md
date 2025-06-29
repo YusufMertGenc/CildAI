@@ -13,6 +13,10 @@
 ## Ürün İsmi
 CildAI
 
+
+## Product Backlog URL
+https://trello.com/invite/b/685bc83a4f7c773d4bd4486c/ATTI8f82cf1744507d75dcd0ac5707eb5785723871F9/bootcamp-grup-106
+
 ## Ürün Açıklaması
 
 Günümüzde dermatoloji (cildiye) bölümlerinden randevu almak her geçen gün daha da zorlaşıyor. Ancak birçok cilt problemi basit çözümlerle giderilebileceği gibi, bazıları da göz ardı edildiğinde ciddi sağlık sorunlarına yol açabiliyor. İşte tam bu noktada CildAI devreye giriyor.

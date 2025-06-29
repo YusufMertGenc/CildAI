@@ -25,25 +25,25 @@ Gereksiz hastane ziyaretlerini azaltmak, erken teşhis imkânı sağlamak ve kul
 <section style="font-family: Arial, sans-serif; padding: 2rem; background-color: #fdf6f9; color: #333;">
   <h2 style="color: #b23a48; border-bottom: 2px solid #ffc0cb; padding-bottom: 0.5rem;">Ürün Özellikleri – CildAI</h2>
 
-  <h3>📷 Cilt Fotoğrafı ile Yapay Zekâ Tabanlı Analiz</h3>
+  <h3> Cilt Fotoğrafı ile Yapay Zekâ Tabanlı Analiz</h3>
   <p>Kullanıcılar ciltlerindeki problemi gösteren bir fotoğraf yükleyerek analiz başlatabilir. Yüklenen görsel Gemini API kullanılarak analiz edilir; kullanıcıya olası cilt rahatsızlıkları, ürün önerileri ve risk durumu hakkında net bir çıktı sunulur.</p>
 
-  <h3>📝 Açıklama Ekleyerek Daha İyi Tahmin</h3>
+  <h3> Açıklama Ekleyerek Daha İyi Tahmin</h3>
   <p>Kullanıcılar fotoğraf yüklerken aynı zamanda belirtilerini veya şüphelendikleri durumu isterlerse açıklayabilir. Bu bilgiler Gemini modeline iletilerek daha doğru ve kişiselleştirilmiş yanıtlar alınması sağlanır.</p>
 
-  <h3>🧴 Ürün ve Doğal Çözüm Önerileri</h3>
+  <h3> Ürün ve Doğal Çözüm Önerileri</h3>
   <p>Model, analiz sonucunda hem eczaneden alınabilecek hem de bitkisel/doğal yollarla uygulanabilecek çözüm önerileri sunar. Kullanıcıya doğrudan kullanabileceği ürünlerin listesi madde madde verilir.</p>
 
-  <h3>🩺 Ciddi Risk Uyarı Sistemi</h3>
+  <h3> Ciddi Risk Uyarı Sistemi</h3>
   <p>Model, potansiyel olarak tehlikeli veya ciddi cilt hastalıklarında kullanıcıyı <strong>“Mutlaka dermatoloğa git”</strong> gibi net ifadelerle uyarır. Risk düşükse yalnızca “Hayır” denilerek kullanıcı gereksiz endişeye sevk edilmez.</p>
 
-  <h3>🌐 Türkçe ve Açıklayıcı Yanıtlar</h3>
+  <h3> Türkçe ve Açıklayıcı Yanıtlar</h3>
   <p>CildAI, tıbbi terimleri sadeleştirerek Türkçe ile yanıt verir. Karmaşık cümlelerden kaçınılır; maddeli ve bölümlere ayrılmış bir çıktı sunulur.</p>
 
-  <h3>⚙️ Web Arayüzü Üzerinden Hızlı ve Basit Kullanım</h3>
+  <h3> Web Arayüzü Üzerinden Hızlı ve Basit Kullanım</h3>
   <p>Kullanıcılar tarayıcı üzerinden kolayca fotoğraf ve video yükleyip analiz başlatabilir. Form alanı, yükleme durumu ve sonuç bölümü kullanıcı deneyimine uygun sade ve işlevsel bir tasarımla sunulur.</p>
 
-  <h3>📂 Gizlilik ve Veri Güvenliği</h3>
+  <h3> Gizlilik ve Veri Güvenliği</h3>
   <p>Yüklenen görseller ve kullanıcı notları yalnızca analiz amacıyla kullanılır, sunucuda depolanmaz. API üzerinden tek seferlik işlenir ve kullanıcı verisi işlenme sonrasında tutulmaz.</p>
 </section>
 

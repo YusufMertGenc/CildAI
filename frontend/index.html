@@ -2,26 +2,39 @@
 <html lang="tr">
   <head>
     <meta charset="UTF-8" />
-    <title>CildAI – Cilt Analiz Asistanı</title>
+    <title>CildAI – Dijital Cilt Analiz Asistanı</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <div class="header">
       <img src="logoooo.jpg" alt="CildAI Logo" class="logo" />
-      <h1>CildAI – Cilt Analiz Asistanı</h1>
+      <h1>CildAI</h1>
+      <p class="subtitle">Cilt sağlığınız için yapay zekâ destekli analiz asistanı</p>
     </div>
 
-    <form id="uploadForm">
-      <label>Cilt Fotoğrafı Yükle:</label><br />
-      <input type="file" id="imageInput" accept="image/*" required /><br /><br />
+    <section class="intro-box">
+      <p>📷 Cilt problemini gösteren bir fotoğraf yükleyin. Açıklama eklerseniz daha doğru sonuçlar alırsınız. Gemini modeli saniyeler içinde analiz eder.</p>
+    </section>
 
-      <label>Eklemek istediğiniz açıklama:</label><br />
-      <textarea id="userNotes" placeholder="Varsa şüphelendiğiniz şeyler, ek açıklamalar..." rows="4" style="width: 100%; border-radius: 8px; padding: 10px;"></textarea><br /><br />
+    <form id="uploadForm" class="upload-section">
+      <div class="upload-card">
+        <h2>🔬 Analize Başla</h2>
+        <p>Görsel yükleyin, açıklama girin ve analiz butonuna tıklayın.</p>
 
-      <button type="submit">🔍 Analiz Et</button>
+        <label for="imageInput" class="custom-file-upload">+ Fotoğraf Seç</label>
+        <input type="file" id="imageInput" accept="image/*" required hidden />
+
+        <textarea id="userNotes" placeholder="Varsa belirtmek istediğiniz belirtiler veya notlar..." rows="4"></textarea>
+
+        <button type="submit">🔍 Analizi Başlat</button>
+      </div>
     </form>
 
     <div id="result" class="result-box"></div>
+
+    <footer class="footer">
+      <p>© 2025 CildAI | Geliştirici Bootcamp Projesi</p>
+    </footer>
 
     <script src="script.js"></script>
   </body>

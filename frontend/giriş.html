@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CildAI - Yapay Zeka ile Cilt Analizi</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+
+        :root {
+            --primary-green: #00D4AA;
+            --secondary-green: #4ECDC4;
+            --light-green: #A8E6CF;
+            --mint: #B8F2FF;
+            --neutral-light: #F7F9FC;
+            --neutral-medium: #E8EDF3;
+            --neutral-dark: #2C3E50;
+            --white: #FFFFFF;
+            --accent-pink: #FFB6C1;
+            --shadow-light: 0 10px 40px rgba(0, 212, 170, 0.1);
+            --shadow-medium: 0 20px 60px rgba(0, 212, 170, 0.15);
+            --shadow-strong: 0 30px 80px rgba(0, 212, 170, 0.2);
+            --gradient-main: linear-gradient(135deg, #00D4AA 0%, #4ECDC4 50%, #A8E6CF 100%);
+            --gradient-soft: linear-gradient(135deg, rgba(0, 212, 170, 0.1) 0%, rgba(168, 230, 207, 0.1) 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+            line-height: 1.6;
+            background: var(--neutral-light);
+        }
+
+        /* Advanced Animations */
+        @keyframes slideInFromLeft {
+            0% {
+                opacity: 0;
+                transform: translateX(-100px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInFromRight {
+            0% {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeInScale {
+            0% {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes floatingY {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        @keyframes rotateGlow {
+            0% {
+                transform: rotate(0deg);
+                box-shadow: 0 0 30px rgba(0, 212, 170, 0.3);
+            }
+            50% {
+                transform: rotate(180deg);
+                box-shadow: 0 0 50px rgba(0, 212, 170, 0.5);
+            }
+            100% {
+                transform: rotate(360deg);
+                box-shadow: 0 0 30px rgba(0, 212, 170, 0.3);
+            }
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 1rem 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(0, 212, 170, 0.1);
+        }
+
+        .navbar.scrolled {
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: var(--shadow-light);
+            padding: 0.8rem 0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 900;
+            background: var(--gradient-main);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--neutral-dark);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 0.5rem 1rem;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 50%;
+            background: var(--primary-green);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-link:hover {
+            color: var(--primary-green);
+        }
+
+        .nav-link:hover::after {
+            width: 80%;
+        }
+
+        .nav-btn {
+            background: var(--gradient-main);
+            color: white;
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-medium);
+            text-decoration: none;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-strong);
+            color: white;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, #F7F9FC 0%, #E8F5F0 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-content {
+            animation: slideInFromLeft 1s ease-out;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(0, 212, 170, 0.1);
+            color: var(--primary-green);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            border: 2px solid rgba(0, 212, 170, 0.2);
+        }
+
+        .hero-title {
+            font-size: clamp(3.5rem, 8vw, 6rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            color: var(--neutral-dark);
+            letter-spacing: -0.04em;
+        }
+
+        .hero-title .highlight {
+            background: var(--gradient-main);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: #666;
+            margin-bottom: 2.5rem;
+            line-height: 1.7;
+            font-weight: 400;
+            max-width: 90%;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .btn {
+            padding: 1.2rem 2.5rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.6s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: var(--gradient-main);
+            color: white;
+            box-shadow: var(--shadow-medium);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-strong);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary-green);
+            border: 2px solid var(--primary-green);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary-green);
+            color: white;
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary-green);
+            display: block;
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 0.95rem;
+            color: #666;
+            font-weight: 500;
+            margin-top: 0.5rem;
+        }
+
+        /* Hero Visual */
+        .hero-visual {
+            position: relative;
+            animation: slideInFromRight 1s ease-out;
+        }
+
+        .hero-image-container {
+            position: relative;
+            width: 100%;
+            height: 600px;
+            background: var(--gradient-soft);
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: var(--shadow-strong);
+        }
+
+        .hero-main-image {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: 400px;
+            background: radial-gradient(ellipse at center,
+                rgba(255, 218, 185, 0.9) 0%,
+                rgba(240, 177, 149, 0.8) 30%,
+                rgba(222, 165, 132, 0.7) 60%,
+                rgba(205, 133, 103, 0.6) 100%);
+            border-radius: 50%;
+            animation: floatingY 4s ease-in-out infinite;
+        }
+
+        .floating-elements {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .floating-circle {
+            position: absolute;
+            border-radius: 50%;
+            animation: rotateGlow 8s linear infinite;
+        }
+
+        .circle-1 {
+            top: 10%;
+            left: 10%;
+            width: 60px;
+            height: 60px;
+            background: var(--light-green);
+            opacity: 0.6;
+            animation-delay: 0s;
+        }
+
+        .circle-2 {
+            top: 20%;
+            right: 15%;
+            width: 40px;
+            height: 40px;
+            background: var(--secondary-green);
+            opacity: 0.7;
+            animation-delay: 2s;
+        }
+
+        .circle-3 {
+            bottom: 20%;
+            left: 20%;
+            width: 80px;
+            height: 80px;
+            background: var(--primary-green);
+            opacity: 0.5;
+            animation-delay: 4s;
+        }
+
+        .circle-4 {
+            bottom: 10%;
+            right: 10%;
+            width: 50px;
+            height: 50px;
+            background: var(--mint);
+            opacity: 0.8;
+            animation-delay: 6s;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 8rem 2rem;
+            background: var(--white);
+        }
+
+        .features-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+
+        .section-badge {
+            display: inline-block;
+            background: rgba(0, 212, 170, 0.1);
+            color: var(--primary-green);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            border: 2px solid rgba(0, 212, 170, 0.2);
+        }
+
+        .section-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            color: var(--neutral-dark);
+            letter-spacing: -0.02em;
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 3rem;
+            margin-top: 4rem;
+        }
+
+        .feature-card {
+            background: var(--white);
+            padding: 3rem 2.5rem;
+            border-radius: 25px;
+            box-shadow: var(--shadow-light);
+            transition: all 0.4s ease;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--gradient-main);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-strong);
+            border-color: rgba(0, 212, 170, 0.2);
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--gradient-main);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover .feature-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .feature-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--neutral-dark);
+        }
+
+        .feature-description {
+            color: #666;
+            line-height: 1.7;
+            font-size: 1rem;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 6rem 2rem;
+            background: var(--gradient-soft);
+            text-align: center;
+        }
+
+        .cta-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .cta-title {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            color: var(--neutral-dark);
+        }
+
+        .cta-subtitle {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 3rem;
+            line-height: 1.6;
+        }
+
+        /* Login Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+        }
+
+        .modal-content {
+            background: var(--white);
+            margin: 3% auto;
+            padding: 3rem;
+            border-radius: 25px;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+            animation: fadeInScale 0.4s ease-out;
+            box-shadow: var(--shadow-strong);
+        }
+
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #999;
+            transition: color 0.3s ease;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .close:hover {
+            color: var(--primary-green);
+            background: rgba(0, 212, 170, 0.1);
+        }
+
+        .modal h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--neutral-dark);
+            font-weight: 700;
+            font-size: 1.8rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+            color: var(--neutral-dark);
+            font-size: 0.95rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            border: 2px solid var(--neutral-medium);
+            border-radius: 15px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: var(--neutral-light);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary-green);
+            background: var(--white);
+            box-shadow: 0 0 0 4px rgba(0, 212, 170, 0.1);
+        }
+
+        .modal-footer {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--neutral-medium);
+        }
+
+        .modal-footer a {
+            color: var(--primary-green);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .modal-footer a:hover {
+            color: var(--secondary-green);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+                text-align: center;
+            }
+
+            .hero-image-container {
+                height: 500px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .hero-stats {
+                justify-content: center;
+                gap: 2rem;
+                flex-wrap: wrap;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .feature-card {
+                padding: 2rem 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-image-container {
+                height: 400px;
+            }
+
+            .hero-main-image {
+                width: 250px;
+                height: 320px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="logo">CildAI</div>
+            <ul class="nav-menu">
+                <li><a href="#" class="nav-link">Ana Sayfa</a></li>
+                <li><a href="#" class="nav-link">Hakkımızda</a></li>
+                <li><a href="#" class="nav-link">Özellikler</a></li>
+                <li><a href="#" class="nav-link">İletişim</a></li>
+                <li><a href="#" class="nav-btn" onclick="openLoginModal()">Giriş Yap</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    ✨ AI Destekli Cilt Analizi
+                </div>
+
+                <h1 class="hero-title">
+                    Cildinizin <span class="highlight">Geleceğini</span><br>
+                    Keşfedin
+                </h1>
+
+                <p class="hero-subtitle">
+                    Yapay zeka teknolojisi ile cildinizi analiz edin, kişiselleştirilmiş
+                    bakım önerileri alın ve sağlıklı bir cilde kavuşun. Profesyonel
+                    dermatolog onaylı çözümler.
+                </p>
+
+                <div class="hero-buttons">
+                    <a href="#" class="btn btn-primary" onclick="startAnalysis()">
+                        🚀 Ücretsiz Analiz Başlat
+                    </a>
+                    <a href="#" class="btn btn-secondary">
+                        📖 Nasıl Çalışır?
+                    </a>
+                </div>
+
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">125K+</span>
+                        <span class="stat-label">Mutlu Kullanıcı</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">99.2%</span>
+                        <span class="stat-label">Doğruluk Oranı</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">24/7</span>
+                        <span class="stat-label">AI Destek</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-visual">
+                <div class="hero-image-container">
+                    <div class="hero-main-image"></div>
+                    <div class="floating-elements">
+                        <div class="floating-circle circle-1"></div>
+                        <div class="floating-circle circle-2"></div>
+                        <div class="floating-circle circle-3"></div>
+                        <div class="floating-circle circle-4"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="features-container">
+            <div class="section-header">
+                <div class="section-badge">Neden CildAI?</div>
+                <h2 class="section-title">Gelişmiş Özelliklerimiz</h2>
+                <p class="section-subtitle">
+                    En son teknoloji ile cildinizi analiz edin ve
+                    kişiselleştirilmiş çözümler keşfedin
+                </p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🧬</div>
+                    <h3 class="feature-title">Derin AI Analizi</h3>
+                    <p class="feature-description">
+                        Gelişmiş makine öğrenmesi algoritmaları ile cildinizi
+                        moleküler seviyede analiz eder ve en doğru sonuçları sunar.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3 class="feature-title">Anında Sonuç</h3>
+                    <p class="feature-description">
+                        Sadece 5 saniyede cildinizi analiz eder ve detaylı
+                        raporu anında sunar. Zaman kaybı yok!
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3 class="feature-title">Kişisel Öneriler</h3>
+                    <p class="feature-description">
+                        Cilt tipinize özel bakım rutini, ürün önerileri
+                        ve yaşam tarzı tavsiyeleri alın.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3 class="feature-title">Güvenli & Gizli</h3>
+                    <p class="feature-description">
+                        Verileriniz 256-bit şifreleme ile korunur.
+                        Gizliliğiniz bizim en büyük önceliğimizdir.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">👨‍⚕️</div>
+                    <h3 class="feature-title">Uzman Onaylı</h3>
+                    <p class="feature-description">
+                        Tüm önerilerimiz dermatolog onaylıdır ve
+                        bilimsel araştırmalara dayanmaktadır.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3 class="feature-title">İlerleme Takibi</h3>
+                    <p class="feature-description">
+                        Cildinizin gelişimini takip edin, trend analizi
+                        yapın ve iyileşme sürecinizi izleyin.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-container">
+            <h2 class="cta-title">Sağlıklı Cilde Giden Yolculuğunuz Başlasın</h2>
+            <p class="cta-subtitle">
+                Milyonlarca kişi CildAI ile cildi hakkında daha bilinçli kararlar alıyor.
+                Siz de bu topluluğa katılın!
+            </p>
+            <a href="#" class="btn btn-primary" onclick="startAnalysis()">
+                🚀 Hemen Başlayın - Ücretsiz
+            </a>
+        </div>
+    </section>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeLoginModal()">&times;</span>
+            <h2>Hesabınıza Giriş Yapın</h2>
+            <form>
+                <div class="form-group">
+                    <label for="email">E-posta Adresiniz</label>
+                    <input type="email" id="email" name="email" placeholder="ornek@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Şifreniz</label>
+                    <input type="password" id="password" name="password" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
+                    🚀 Giriş Yap
+                </button>
+            </form>
+            <div class="modal-footer">
+                <p style="color: #666; margin-bottom: 1rem;">
+                    Hesabınız yok mu?
+                    <a href="#">Ücretsiz Kayıt Olun</a>
+                </p>
+                <p style="color: #666; font-size: 0.9rem;">
+                    <a href="#">Şifremi Unuttum</a>
+                </p>
+            </div

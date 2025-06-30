@@ -21,8 +21,22 @@
         <h2>🔬 Analize Başla</h2>
         <p>Görsel yükleyin, açıklama girin ve analiz butonuna tıklayın.</p>
 
+        <!-- Fotoğraf Seç butonu -->
         <label for="imageInput" class="custom-file-upload">+ Fotoğraf Seç</label>
         <input type="file" id="imageInput" accept="image/*" required hidden />
+
+        <!-- Fotoğraf Çek Butonu -->
+        <button type="button" id="start-camera">📸 Fotoğraf Çek</button>
+        <div id="camera" style="display: none;">
+          <video id="video" width="320" height="240" autoplay></video>
+          <button type="button" id="snap">Fotoğraf Çek</button>
+        </div>
+
+        <!-- Çekilen Fotoğraf -->
+        <div id="photo-preview" style="display: none;">
+          <canvas id="snapshot" width="320" height="240"></canvas>
+          <button type="button" id="remove-photo">❌ Fotoğrafı Kaldır</button>
+        </div>
 
         <textarea id="userNotes" placeholder="Varsa belirtmek istediğiniz belirtiler veya notlar..." rows="4"></textarea>
 
@@ -37,5 +51,71 @@
     </footer>
 
     <script src="script.js"></script>
+    <script>
+      // Kamera başlatma ve fotoğraf çekme işlemleri
+      const startCameraButton = document.getElementById('start-camera');
+      const cameraDiv = document.getElementById('camera');
+      const videoElement = document.getElementById('video');
+      const snapButton = document.getElementById('snap');
+      const snapshotCanvas = document.getElementById('snapshot');
+      const context = snapshotCanvas.getContext('2d');
+      const photoPreview = document.getElementById('photo-preview');
+      const removePhotoButton = document.getElementById('remove-photo');
+
+      startCameraButton.addEventListener('click', function() {
+        cameraDiv.style.display = 'block'; // Kamerayı göster
+        startCamera(); // Kamerayı başlat
+        startCameraButton.style.display = 'none'; // Fotoğraf çekme butonunu gizle
+      });
+
+      // Kamerayı başlatma
+      function startCamera() {
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+          navigator.mediaDevices.getUserMedia({ video: true })
+            .then(function(stream) {
+              videoElement.srcObject = stream;
+            })
+            .catch(function(error) {
+              console.error("Kamera başlatılamadı: ", error);
+            });
+        } else {
+          alert("Kamera desteği bulunamadı.");
+        }
+      }
+
+      // Fotoğraf çekme işlemi
+      snapButton.addEventListener('click', function() {
+        context.drawImage(videoElement, 0, 0, snapshotCanvas.width, snapshotCanvas.height);
+        snapshotCanvas.style.display = 'block'; // Fotoğrafı göster
+        photoPreview.style.display = 'block'; // Fotoğraf önizlemesini göster
+        cameraDiv.style.display = 'none'; // Kamerayı gizle
+      });
+
+      // Fotoğrafı kaldırma işlemi
+      removePhotoButton.addEventListener('click', function() {
+        snapshotCanvas.style.display = 'none';
+        photoPreview.style.display = 'none';
+        startCameraButton.style.display = 'block'; // Fotoğraf çekme butonunu geri getir
+      });
+
+      // Fotoğraf seçme işlemi
+      const fileInput = document.getElementById('imageInput');
+      fileInput.addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+          // Burada dosya yükleme işlemi yapılabilir.
+          alert("Fotoğraf başarıyla seçildi: " + file.name);
+        }
+      });
+
+      // Analiz başlat butonuna tıklanması
+      const analyzeButton = document.querySelector('form button[type="submit"]');
+      analyzeButton.addEventListener('click', function(e) {
+        e.preventDefault(); // Formun sayfayı yeniden yüklemesini engelle
+        const comment = document.getElementById('userNotes').value;
+        alert("Analiz başlatıldı! Yorum: " + comment);
+        // Burada fotoğraf ve yorumla ilgili API'yi çağırabilirsiniz.
+      });
+    </script>
   </body>
 </html>

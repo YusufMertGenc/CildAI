@@ -591,9 +591,10 @@
                     bakım önerileri alın ve sağlıklı bir cilde kavuşun.
                 </p>
 
-                <a href="#" class="hero-button" onclick="startAnalysis()">
-                    🚀 Ücretsiz Analiz Başlat
+                <a href="#" class="hero-button" onclick="openLoginModal()">
+                🚀 Ücretsiz Analiz Başlat
                 </a>
+
             </div>
 
             <div class="hero-visual">
@@ -684,9 +685,10 @@
             <p class="cta-subtitle">
                 Yapay zeka destekli cilt analizi ile cildiniz hakkında daha bilinçli kararlar alın.
             </p>
-            <a href="#" class="hero-button" onclick="startAnalysis()">
+            <a href="#" class="hero-button" onclick="openLoginModal()">
                 🚀 Hemen Başlayın - Ücretsiz
             </a>
+
         </div>
     </section>
 
@@ -745,7 +747,7 @@
         <div class="modal-content">
             <span class="close" onclick="closeLoginModal()">&times;</span>
             <h2>Hesabınıza Giriş Yapın</h2>
-            <form>
+            <form onsubmit="event.preventDefault(); window.location.href='index.html';">
                 <div class="form-group">
                     <label for="email">E-posta Adresiniz</label>
                     <input type="email" id="email" name="email" placeholder="ornek@email.com" required>
@@ -760,9 +762,10 @@
             </form>
             <div class="modal-footer">
                 <p style="color: #718096; margin-bottom: 1rem;">
-                    Hesabınız yok mu?
-                    <a href="#">Ücretsiz Kayıt Olun</a>
+                Hesabınız yok mu?
+                <a href="auth.html">Ücretsiz Kayıt Olun</a>
                 </p>
+
                 <p style="color: #718096; font-size: 0.85rem;">
                     <a href="#">Şifremi Unuttum</a>
                 </p>

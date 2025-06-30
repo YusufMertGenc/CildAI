@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CildAI - Giriş Yap / Kayıt Ol</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CildAI - Kayıt Ol</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
@@ -216,80 +216,30 @@
     </style>
 </head>
 <body>
-    <div class="auth-container">
-        <a href="./index.html" class="auth-logo">CildAI</a>
+  <div class="auth-container">
+    <a href="./index.html" class="auth-logo">CildAI</a>
 
-        <div class="tab-buttons">
-            <button class="tab-button active" onclick="openTab('login')">Giriş Yap</button>
-            <button class="tab-button" onclick="openTab('signup')">Kayıt Ol</button>
+    <div id="signup" class="tab-content active">
+      <form>
+        <div class="form-group">
+          <label for="signup-email">E-posta Adresiniz</label>
+          <input type="email" id="signup-email" name="email" placeholder="ornek@email.com" required />
         </div>
+        <div class="form-group">
+          <label for="signup-password">Şifre Oluşturun</label>
+          <input type="password" id="signup-password" name="password" placeholder="••••••••" required />
+        </div>
+        <div class="form-group">
+          <label for="signup-confirm-password">Şifreyi Tekrar Girin</label>
+          <input type="password" id="signup-confirm-password" name="confirm-password" placeholder="••••••••" required />
+        </div>
+        <button type="submit" class="auth-button">Kayıt Ol</button>
+      </form>
 
-        <div id="login" class="tab-content active">
-            <form>
-                <div class="form-group">
-                    <label for="login-email">E-posta Adresiniz</label>
-                    <input type="email" id="login-email" name="email" placeholder="ornek@email.com" required>
-                </div>
-                <div class="form-group">
-                    <label for="login-password">Şifreniz</label>
-                    <input type="password" id="login-password" name="password" placeholder="••••••••" required>
-                </div>
-                <button type="submit" class="auth-button">
-                    Giriş Yap
-                </button>
-            </form>
-            <div class="auth-links">
-                <p><a href="#">Şifremi Unuttum</a></p>
-            </div>
-        </div>
-
-        <div id="signup" class="tab-content">
-            <form>
-                <div class="form-group">
-                    <label for="signup-email">E-posta Adresiniz</label>
-                    <input type="email" id="signup-email" name="email" placeholder="ornek@email.com" required>
-                </div>
-                <div class="form-group">
-                    <label for="signup-password">Şifre Oluşturun</label>
-                    <input type="password" id="signup-password" name="password" placeholder="••••••••" required>
-                </div>
-                <div class="form-group">
-                    <label for="signup-confirm-password">Şifreyi Tekrar Girin</label>
-                    <input type="password" id="signup-confirm-password" name="confirm-password" placeholder="••••••••" required>
-                </div>
-                <button type="submit" class="auth-button">
-                    Kayıt Ol
-                </button>
-            </form>
-            <div class="auth-links">
-                <p>Zaten bir hesabınız var mı? <a href="#" onclick="openTab('login')">Giriş Yapın</a></p>
-            </div>
-        </div>
+      <div class="auth-links">
+        <p>Zaten bir hesabınız var mı? <a href="index.html">Giriş Yapın</a></p>
+      </div>
     </div>
-
-    <script>
-        function openTab(tabName) {
-            const tabs = document.getElementsByClassName('tab-content');
-            for (let i = 0; i < tabs.length; i++) {
-                tabs[i].classList.remove('active');
-            }
-
-            const buttons = document.getElementsByClassName('tab-button');
-            for (let i = 0; i < buttons.length; i++) {
-                buttons[i].classList.remove('active');
-            }
-
-            document.getElementById(tabName).classList.add('active');
-            event.currentTarget.classList.add('active');
-        }
-
-        // Initialize with login tab active if directly loaded or refresh
-        document.addEventListener('DOMContentLoaded', () => {
-            const loginTabButton = document.querySelector('.tab-buttons .tab-button:first-child');
-            if (loginTabButton) {
-                loginTabButton.click(); // Simulate click to activate
-            }
-        });
-    </script>
+  </div>
 </body>
 </html>

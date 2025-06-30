@@ -13,6 +13,10 @@
 ## Ürün İsmi
 CildAI
 
+
+## Product Backlog URL
+https://trello.com/invite/b/685bc83a4f7c773d4bd4486c/ATTI8f82cf1744507d75dcd0ac5707eb5785723871F9/bootcamp-grup-106
+
 ## Ürün Açıklaması
 
 Günümüzde dermatoloji (cildiye) bölümlerinden randevu almak her geçen gün daha da zorlaşıyor. Ancak birçok cilt problemi basit çözümlerle giderilebileceği gibi, bazıları da göz ardı edildiğinde ciddi sağlık sorunlarına yol açabiliyor. İşte tam bu noktada CildAI devreye giriyor.
@@ -20,9 +24,34 @@ CildAI, kullanıcıların cilt problemlerini hızlıca analiz edebilmesini sağl
 Gereksiz hastane ziyaretlerini azaltmak, erken teşhis imkânı sağlamak ve kullanıcıları bilinçlendirmek için tasarlanan CildAI, cilt sağlığını herkes için erişilebilir ve anlaşılır hâle getiriyor
 
 
-## Ürün Özellikleri
 
-Biraz yapınca daha iyi doldururuz sanki
+
+<section style="font-family: Arial, sans-serif; padding: 2rem; background-color: #fdf6f9; color: #333;">
+  <h2 style="color: #b23a48; border-bottom: 2px solid #ffc0cb; padding-bottom: 0.5rem;">Ürün Özellikleri – CildAI</h2>
+
+  <h3> Cilt Fotoğrafı ile Yapay Zekâ Tabanlı Analiz</h3>
+  <p>Kullanıcılar ciltlerindeki problemi gösteren bir fotoğraf yükleyerek analiz başlatabilir. Yüklenen görsel Gemini API kullanılarak analiz edilir; kullanıcıya olası cilt rahatsızlıkları, ürün önerileri ve risk durumu hakkında net bir çıktı sunulur.</p>
+
+  <h3> Açıklama Ekleyerek Daha İyi Tahmin</h3>
+  <p>Kullanıcılar fotoğraf yüklerken aynı zamanda belirtilerini veya şüphelendikleri durumu isterlerse açıklayabilir. Bu bilgiler Gemini modeline iletilerek daha doğru ve kişiselleştirilmiş yanıtlar alınması sağlanır.</p>
+
+  <h3> Ürün ve Doğal Çözüm Önerileri</h3>
+  <p>Model, analiz sonucunda hem eczaneden alınabilecek hem de bitkisel/doğal yollarla uygulanabilecek çözüm önerileri sunar. Kullanıcıya doğrudan kullanabileceği ürünlerin listesi madde madde verilir.</p>
+
+  <h3> Ciddi Risk Uyarı Sistemi</h3>
+  <p>Model, potansiyel olarak tehlikeli veya ciddi cilt hastalıklarında kullanıcıyı <strong>“Mutlaka dermatoloğa git”</strong> gibi net ifadelerle uyarır. Risk düşükse yalnızca “Hayır” denilerek kullanıcı gereksiz endişeye sevk edilmez.</p>
+
+  <h3> Türkçe ve Açıklayıcı Yanıtlar</h3>
+  <p>CildAI, tıbbi terimleri sadeleştirerek Türkçe ile yanıt verir. Karmaşık cümlelerden kaçınılır; maddeli ve bölümlere ayrılmış bir çıktı sunulur.</p>
+
+  <h3> Web Arayüzü Üzerinden Hızlı ve Basit Kullanım</h3>
+  <p>Kullanıcılar tarayıcı üzerinden kolayca fotoğraf ve video yükleyip analiz başlatabilir. Form alanı, yükleme durumu ve sonuç bölümü kullanıcı deneyimine uygun sade ve işlevsel bir tasarımla sunulur.</p>
+
+  <h3> Gizlilik ve Veri Güvenliği</h3>
+  <p>Yüklenen görseller ve kullanıcı notları yalnızca analiz amacıyla kullanılır, sunucuda depolanmaz. API üzerinden tek seferlik işlenir ve kullanıcı verisi işlenme sonrasında tutulmaz.</p>
+</section>
+
+
 
 
 ## Hedef Kitle

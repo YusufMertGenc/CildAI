@@ -5,23 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CildAI - Yapay Zeka ile Cilt Analizi</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
         :root {
-            --primary-green: #00D4AA;
-            --secondary-green: #4ECDC4;
-            --light-green: #A8E6CF;
-            --mint: #B8F2FF;
-            --neutral-light: #F7F9FC;
-            --neutral-medium: #E8EDF3;
-            --neutral-dark: #2C3E50;
+            --primary: #E8D5F0;
+            --secondary: #F5E6F2;
+            --accent: #DFC7E8;
+            --light-blue: #E6F3FF;
+            --soft-pink: #F9E8F0;
             --white: #FFFFFF;
-            --accent-pink: #FFB6C1;
-            --shadow-light: 0 10px 40px rgba(0, 212, 170, 0.1);
-            --shadow-medium: 0 20px 60px rgba(0, 212, 170, 0.15);
-            --shadow-strong: 0 30px 80px rgba(0, 212, 170, 0.2);
-            --gradient-main: linear-gradient(135deg, #00D4AA 0%, #4ECDC4 50%, #A8E6CF 100%);
-            --gradient-soft: linear-gradient(135deg, rgba(0, 212, 170, 0.1) 0%, rgba(168, 230, 207, 0.1) 100%);
+            --text-dark: #2D3748;
+            --text-medium: #4A5568;
+            --text-light: #718096;
+            --border: #E2E8F0;
+            --background: #FAFAFA;
+            --gradient-primary: linear-gradient(135deg, #E8D5F0 0%, #F5E6F2 50%, #DFC7E8 100%);
+            --gradient-soft: linear-gradient(135deg, rgba(232, 213, 240, 0.1) 0%, rgba(245, 230, 242, 0.1) 100%);
+            --shadow-soft: 0 4px 20px rgba(232, 213, 240, 0.3);
+            --shadow-medium: 0 8px 30px rgba(223, 199, 232, 0.4);
         }
 
         * {
@@ -31,68 +32,10 @@
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
-            overflow-x: hidden;
+            font-family: 'Inter', sans-serif;
             line-height: 1.6;
-            background: var(--neutral-light);
-        }
-
-        /* Advanced Animations */
-        @keyframes slideInFromLeft {
-            0% {
-                opacity: 0;
-                transform: translateX(-100px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes slideInFromRight {
-            0% {
-                opacity: 0;
-                transform: translateX(100px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes fadeInScale {
-            0% {
-                opacity: 0;
-                transform: scale(0.8);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        @keyframes floatingY {
-            0%, 100% {
-                transform: translateY(0px);
-            }
-            50% {
-                transform: translateY(-20px);
-            }
-        }
-
-        @keyframes rotateGlow {
-            0% {
-                transform: rotate(0deg);
-                box-shadow: 0 0 30px rgba(0, 212, 170, 0.3);
-            }
-            50% {
-                transform: rotate(180deg);
-                box-shadow: 0 0 50px rgba(0, 212, 170, 0.5);
-            }
-            100% {
-                transform: rotate(360deg);
-                box-shadow: 0 0 30px rgba(0, 212, 170, 0.3);
-            }
+            color: var(--text-dark);
+            background: var(--background);
         }
 
         /* Navigation */
@@ -100,18 +43,12 @@
             position: fixed;
             top: 0;
             width: 100%;
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(20px);
             padding: 1rem 0;
             z-index: 1000;
+            border-bottom: 1px solid var(--border);
             transition: all 0.3s ease;
-            border-bottom: 1px solid rgba(0, 212, 170, 0.1);
-        }
-
-        .navbar.scrolled {
-            background: rgba(255, 255, 255, 0.98);
-            box-shadow: var(--shadow-light);
-            padding: 0.8rem 0;
         }
 
         .nav-container {
@@ -124,13 +61,12 @@
         }
 
         .logo {
-            font-size: 2.5rem;
-            font-weight: 900;
-            background: var(--gradient-main);
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: var(--gradient-primary);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            letter-spacing: -0.02em;
         }
 
         .nav-menu {
@@ -142,51 +78,35 @@
 
         .nav-link {
             text-decoration: none;
-            color: var(--neutral-dark);
+            color: var(--text-medium);
             font-weight: 500;
-            font-size: 0.95rem;
-            transition: all 0.3s ease;
-            position: relative;
-            padding: 0.5rem 1rem;
-        }
-
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: 0;
-            left: 50%;
-            background: var(--primary-green);
-            transition: all 0.3s ease;
-            transform: translateX(-50%);
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+            padding: 0.5rem 0;
         }
 
         .nav-link:hover {
-            color: var(--primary-green);
-        }
-
-        .nav-link:hover::after {
-            width: 80%;
+            color: var(--primary);
         }
 
         .nav-btn {
-            background: var(--gradient-main);
-            color: white;
-            padding: 0.8rem 2rem;
+            background: var(--gradient-primary);
+            color: var(--text-dark);
+            padding: 0.7rem 1.5rem;
             border: none;
-            border-radius: 50px;
+            border-radius: 25px;
             font-weight: 600;
+            font-size: 0.9rem;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: var(--shadow-medium);
             text-decoration: none;
+            box-shadow: var(--shadow-soft);
         }
 
         .nav-btn:hover {
             transform: translateY(-2px);
-            box-shadow: var(--shadow-strong);
-            color: white;
+            box-shadow: var(--shadow-medium);
+            color: var(--text-dark);
         }
 
         /* Hero Section */
@@ -194,9 +114,8 @@
             min-height: 100vh;
             display: flex;
             align-items: center;
-            background: linear-gradient(135deg, #F7F9FC 0%, #E8F5F0 100%);
-            position: relative;
-            overflow: hidden;
+            background: linear-gradient(135deg, #FAFAFA 0%, var(--light-blue) 100%);
+            padding-top: 80px;
         }
 
         .hero-container {
@@ -207,228 +126,139 @@
             grid-template-columns: 1fr 1fr;
             gap: 4rem;
             align-items: center;
-            position: relative;
-            z-index: 2;
         }
 
         .hero-content {
-            animation: slideInFromLeft 1s ease-out;
+            opacity: 0;
+            transform: translateX(-30px);
+            animation: slideIn 0.8s ease-out 0.2s forwards;
         }
 
         .hero-badge {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            background: rgba(0, 212, 170, 0.1);
-            color: var(--primary-green);
-            padding: 0.5rem 1.5rem;
-            border-radius: 50px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin-bottom: 2rem;
-            border: 2px solid rgba(0, 212, 170, 0.2);
+            background: var(--white);
+            color: var(--text-medium);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-soft);
         }
 
         .hero-title {
-            font-size: clamp(3.5rem, 8vw, 6rem);
-            font-weight: 900;
-            line-height: 1.1;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 800;
+            line-height: 1.2;
             margin-bottom: 1.5rem;
-            color: var(--neutral-dark);
-            letter-spacing: -0.04em;
+            color: var(--text-dark);
         }
 
         .hero-title .highlight {
-            background: var(--gradient-main);
+            background: var(--gradient-primary);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            position: relative;
         }
 
         .hero-subtitle {
-            font-size: 1.3rem;
-            color: #666;
-            margin-bottom: 2.5rem;
-            line-height: 1.7;
-            font-weight: 400;
+            font-size: 1.1rem;
+            color: var(--text-medium);
+            margin-bottom: 2rem;
+            line-height: 1.6;
             max-width: 90%;
         }
 
-        .hero-buttons {
-            display: flex;
-            gap: 1.5rem;
-            margin-bottom: 3rem;
-        }
-
-        .btn {
-            padding: 1.2rem 2.5rem;
-            border: none;
-            border-radius: 50px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.4s ease;
-            text-decoration: none;
+        .hero-button {
             display: inline-flex;
             align-items: center;
-            gap: 0.8rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            transition: left 0.6s;
-        }
-
-        .btn:hover::before {
-            left: 100%;
-        }
-
-        .btn-primary {
-            background: var(--gradient-main);
-            color: white;
+            gap: 0.5rem;
+            background: var(--gradient-primary);
+            color: var(--text-dark);
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
             box-shadow: var(--shadow-medium);
         }
 
-        .btn-primary:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-strong);
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: var(--primary-green);
-            border: 2px solid var(--primary-green);
-        }
-
-        .btn-secondary:hover {
-            background: var(--primary-green);
-            color: white;
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-medium);
-        }
-
-        .hero-stats {
-            display: flex;
-            gap: 3rem;
-            margin-top: 2rem;
-        }
-
-        .stat-item {
-            text-align: center;
-        }
-
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: var(--primary-green);
-            display: block;
-            line-height: 1;
-        }
-
-        .stat-label {
-            font-size: 0.95rem;
-            color: #666;
-            font-weight: 500;
-            margin-top: 0.5rem;
+        .hero-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(223, 199, 232, 0.5);
+            color: var(--text-dark);
         }
 
         /* Hero Visual */
         .hero-visual {
             position: relative;
-            animation: slideInFromRight 1s ease-out;
+            opacity: 0;
+            transform: translateX(30px);
+            animation: slideIn 0.8s ease-out 0.4s forwards;
         }
 
         .hero-image-container {
             position: relative;
             width: 100%;
-            height: 600px;
+            height: 500px;
             background: var(--gradient-soft);
             border-radius: 30px;
             overflow: hidden;
-            box-shadow: var(--shadow-strong);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-medium);
         }
 
-        .hero-main-image {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 300px;
-            height: 400px;
-            background: radial-gradient(ellipse at center,
-                rgba(255, 218, 185, 0.9) 0%,
-                rgba(240, 177, 149, 0.8) 30%,
-                rgba(222, 165, 132, 0.7) 60%,
-                rgba(205, 133, 103, 0.6) 100%);
-            border-radius: 50%;
-            animation: floatingY 4s ease-in-out infinite;
-        }
-
-        .floating-elements {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-        }
-
-        .floating-circle {
+        .hero-visual-element {
             position: absolute;
             border-radius: 50%;
-            animation: rotateGlow 8s linear infinite;
-        }
-
-        .circle-1 {
-            top: 10%;
-            left: 10%;
-            width: 60px;
-            height: 60px;
-            background: var(--light-green);
-            opacity: 0.6;
-            animation-delay: 0s;
-        }
-
-        .circle-2 {
-            top: 20%;
-            right: 15%;
-            width: 40px;
-            height: 40px;
-            background: var(--secondary-green);
             opacity: 0.7;
-            animation-delay: 2s;
         }
 
-        .circle-3 {
-            bottom: 20%;
+        .element-1 {
+            top: 15%;
             left: 20%;
             width: 80px;
             height: 80px;
-            background: var(--primary-green);
-            opacity: 0.5;
-            animation-delay: 4s;
+            background: var(--primary);
+            animation: float 6s ease-in-out infinite;
         }
 
-        .circle-4 {
-            bottom: 10%;
-            right: 10%;
-            width: 50px;
-            height: 50px;
-            background: var(--mint);
-            opacity: 0.8;
-            animation-delay: 6s;
+        .element-2 {
+            top: 30%;
+            right: 15%;
+            width: 60px;
+            height: 60px;
+            background: var(--secondary);
+            animation: float 6s ease-in-out infinite 2s;
+        }
+
+        .element-3 {
+            bottom: 25%;
+            left: 15%;
+            width: 100px;
+            height: 100px;
+            background: var(--accent);
+            animation: float 6s ease-in-out infinite 4s;
+        }
+
+        .element-4 {
+            bottom: 15%;
+            right: 25%;
+            width: 70px;
+            height: 70px;
+            background: var(--light-blue);
+            animation: float 6s ease-in-out infinite 1s;
         }
 
         /* Features Section */
         .features {
-            padding: 8rem 2rem;
+            padding: 6rem 2rem;
             background: var(--white);
         }
 
@@ -439,132 +269,157 @@
 
         .section-header {
             text-align: center;
-            margin-bottom: 5rem;
+            margin-bottom: 4rem;
         }
 
         .section-badge {
             display: inline-block;
-            background: rgba(0, 212, 170, 0.1);
-            color: var(--primary-green);
-            padding: 0.5rem 1.5rem;
-            border-radius: 50px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-            border: 2px solid rgba(0, 212, 170, 0.2);
+            background: var(--soft-pink);
+            color: var(--text-medium);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            border: 1px solid var(--border);
         }
 
         .section-title {
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            font-weight: 800;
-            margin-bottom: 1.5rem;
-            color: var(--neutral-dark);
-            letter-spacing: -0.02em;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
         }
 
         .section-subtitle {
-            font-size: 1.2rem;
-            color: #666;
+            font-size: 1.1rem;
+            color: var(--text-medium);
             max-width: 600px;
             margin: 0 auto;
-            line-height: 1.7;
+            line-height: 1.6;
         }
 
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 3rem;
-            margin-top: 4rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
         }
 
         .feature-card {
             background: var(--white);
-            padding: 3rem 2.5rem;
-            border-radius: 25px;
-            box-shadow: var(--shadow-light);
-            transition: all 0.4s ease;
-            border: 2px solid transparent;
+            padding: 2rem;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
             position: relative;
-            overflow: hidden;
-        }
-
-        .feature-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: var(--gradient-main);
-            transform: scaleX(0);
-            transition: transform 0.4s ease;
         }
 
         .feature-card:hover {
-            transform: translateY(-10px);
-            box-shadow: var(--shadow-strong);
-            border-color: rgba(0, 212, 170, 0.2);
-        }
-
-        .feature-card:hover::before {
-            transform: scaleX(1);
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-medium);
         }
 
         .feature-icon {
-            width: 80px;
-            height: 80px;
-            background: var(--gradient-main);
-            border-radius: 20px;
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-primary);
+            border-radius: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2rem;
-            color: white;
-            margin-bottom: 2rem;
-            transition: all 0.3s ease;
-        }
-
-        .feature-card:hover .feature-icon {
-            transform: scale(1.1) rotate(5deg);
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
         }
 
         .feature-title {
-            font-size: 1.4rem;
-            font-weight: 700;
+            font-size: 1.2rem;
+            font-weight: 600;
             margin-bottom: 1rem;
-            color: var(--neutral-dark);
+            color: var(--text-dark);
         }
 
         .feature-description {
-            color: #666;
-            line-height: 1.7;
-            font-size: 1rem;
+            color: var(--text-medium);
+            line-height: 1.6;
+            font-size: 0.95rem;
         }
 
         /* CTA Section */
         .cta-section {
-            padding: 6rem 2rem;
+            padding: 4rem 2rem;
             background: var(--gradient-soft);
             text-align: center;
         }
 
         .cta-container {
-            max-width: 800px;
+            max-width: 700px;
             margin: 0 auto;
         }
 
         .cta-title {
-            font-size: clamp(2.5rem, 5vw, 3.5rem);
-            font-weight: 800;
-            margin-bottom: 1.5rem;
-            color: var(--neutral-dark);
+            font-size: clamp(2rem, 4vw, 2.5rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
         }
 
         .cta-subtitle {
-            font-size: 1.2rem;
-            color: #666;
-            margin-bottom: 3rem;
+            font-size: 1.1rem;
+            color: var(--text-medium);
+            margin-bottom: 2rem;
             line-height: 1.6;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--text-dark);
+            color: var(--white);
+            padding: 3rem 2rem 2rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .footer-section p,
+        .footer-section a {
+            color: #CBD5E0;
+            text-decoration: none;
+            line-height: 1.6;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: var(--primary);
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #4A5568;
+            padding-top: 2rem;
+            text-align: center;
+            color: #A0AEC0;
+            font-size: 0.85rem;
         }
 
         /* Login Modal */
@@ -576,98 +431,98 @@
             top: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.5);
             backdrop-filter: blur(10px);
         }
 
         .modal-content {
             background: var(--white);
-            margin: 3% auto;
-            padding: 3rem;
-            border-radius: 25px;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 20px;
             width: 90%;
-            max-width: 500px;
+            max-width: 400px;
             position: relative;
-            animation: fadeInScale 0.4s ease-out;
-            box-shadow: var(--shadow-strong);
+            box-shadow: var(--shadow-medium);
         }
 
         .close {
             position: absolute;
-            top: 20px;
-            right: 25px;
-            font-size: 28px;
-            font-weight: bold;
+            top: 15px;
+            right: 20px;
+            font-size: 24px;
             cursor: pointer;
-            color: #999;
+            color: var(--text-light);
             transition: color 0.3s ease;
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
         }
 
         .close:hover {
-            color: var(--primary-green);
-            background: rgba(0, 212, 170, 0.1);
+            color: var(--text-dark);
         }
 
         .modal h2 {
             text-align: center;
-            margin-bottom: 2rem;
-            color: var(--neutral-dark);
-            font-weight: 700;
-            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-dark);
+            font-weight: 600;
         }
 
         .form-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 0.8rem;
-            font-weight: 600;
-            color: var(--neutral-dark);
-            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-dark);
+            font-size: 0.9rem;
         }
 
         .form-group input {
             width: 100%;
-            padding: 1rem 1.5rem;
-            border: 2px solid var(--neutral-medium);
-            border-radius: 15px;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            background: var(--neutral-light);
-            font-family: 'Poppins', sans-serif;
+            padding: 0.8rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            font-size: 0.9rem;
+            transition: border-color 0.3s ease;
+            font-family: 'Inter', sans-serif;
         }
 
         .form-group input:focus {
             outline: none;
-            border-color: var(--primary-green);
-            background: var(--white);
-            box-shadow: 0 0 0 4px rgba(0, 212, 170, 0.1);
+            border-color: var(--primary);
         }
 
         .modal-footer {
             text-align: center;
-            margin-top: 2rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid var(--neutral-medium);
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
         }
 
         .modal-footer a {
-            color: var(--primary-green);
+            color: var(--primary);
             text-decoration: none;
-            font-weight: 600;
-            transition: color 0.3s ease;
+            font-weight: 500;
+            font-size: 0.9rem;
         }
 
-        .modal-footer a:hover {
-            color: var(--secondary-green);
+        /* Animations */
+        @keyframes slideIn {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
         }
 
         /* Responsive Design */
@@ -679,7 +534,7 @@
             }
 
             .hero-image-container {
-                height: 500px;
+                height: 400px;
             }
         }
 
@@ -688,47 +543,24 @@
                 display: none;
             }
 
-            .hero-buttons {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .btn {
-                width: 100%;
-                justify-content: center;
-            }
-
-            .hero-stats {
-                justify-content: center;
-                gap: 2rem;
-                flex-wrap: wrap;
+            .hero {
+                padding-top: 100px;
             }
 
             .features-grid {
                 grid-template-columns: 1fr;
-                gap: 2rem;
             }
 
-            .feature-card {
-                padding: 2rem 1.5rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .hero-image-container {
-                height: 400px;
-            }
-
-            .hero-main-image {
-                width: 250px;
-                height: 320px;
+            .footer-container {
+                grid-template-columns: 1fr;
+                text-align: center;
             }
         }
     </style>
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="navbar" id="navbar">
+    <nav class="navbar">
         <div class="nav-container">
             <div class="logo">CildAI</div>
             <ul class="nav-menu">
@@ -756,44 +588,20 @@
 
                 <p class="hero-subtitle">
                     Yapay zeka teknolojisi ile cildinizi analiz edin, kişiselleştirilmiş
-                    bakım önerileri alın ve sağlıklı bir cilde kavuşun. Profesyonel
-                    dermatolog onaylı çözümler.
+                    bakım önerileri alın ve sağlıklı bir cilde kavuşun.
                 </p>
 
-                <div class="hero-buttons">
-                    <a href="#" class="btn btn-primary" onclick="startAnalysis()">
-                        🚀 Ücretsiz Analiz Başlat
-                    </a>
-                    <a href="#" class="btn btn-secondary">
-                        📖 Nasıl Çalışır?
-                    </a>
-                </div>
-
-                <div class="hero-stats">
-                    <div class="stat-item">
-                        <span class="stat-number">125K+</span>
-                        <span class="stat-label">Mutlu Kullanıcı</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-number">99.2%</span>
-                        <span class="stat-label">Doğruluk Oranı</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-number">24/7</span>
-                        <span class="stat-label">AI Destek</span>
-                    </div>
-                </div>
+                <a href="#" class="hero-button" onclick="startAnalysis()">
+                    🚀 Ücretsiz Analiz Başlat
+                </a>
             </div>
 
             <div class="hero-visual">
                 <div class="hero-image-container">
-                    <div class="hero-main-image"></div>
-                    <div class="floating-elements">
-                        <div class="floating-circle circle-1"></div>
-                        <div class="floating-circle circle-2"></div>
-                        <div class="floating-circle circle-3"></div>
-                        <div class="floating-circle circle-4"></div>
-                    </div>
+                    <div class="hero-visual-element element-1"></div>
+                    <div class="hero-visual-element element-2"></div>
+                    <div class="hero-visual-element element-3"></div>
+                    <div class="hero-visual-element element-4"></div>
                 </div>
             </div>
         </div>
@@ -874,14 +682,63 @@
         <div class="cta-container">
             <h2 class="cta-title">Sağlıklı Cilde Giden Yolculuğunuz Başlasın</h2>
             <p class="cta-subtitle">
-                Milyonlarca kişi CildAI ile cildi hakkında daha bilinçli kararlar alıyor.
-                Siz de bu topluluğa katılın!
+                Yapay zeka destekli cilt analizi ile cildiniz hakkında daha bilinçli kararlar alın.
             </p>
-            <a href="#" class="btn btn-primary" onclick="startAnalysis()">
+            <a href="#" class="hero-button" onclick="startAnalysis()">
                 🚀 Hemen Başlayın - Ücretsiz
             </a>
         </div>
     </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>CildAI</h3>
+                <p>Yapay zeka teknolojisiyle cildinizin geleceğini keşfedin. Sağlıklı cilde giden yolculuğunuzda yanınızdayız.</p>
+            </div>
+
+            <div class="footer-section">
+                <h3>Hızlı Linkler</h3>
+                <ul>
+                    <li><a href="#">Ana Sayfa</a></li>
+                    <li><a href="#">Hakkımızda</a></li>
+                    <li><a href="#">Özellikler</a></li>
+                    <li><a href="#">Fiyatlandırma</a></li>
+                    <li><a href="#">Blog</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Destek</h3>
+                <ul>
+                    <li><a href="#">Yardım Merkezi</a></li>
+                    <li><a href="#">SSS</a></li>
+                    <li><a href="#">İletişim</a></li>
+                    <li><a href="#">Canlı Destek</a></li>
+                    <li><a href="#">Geri Bildirim</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>İletişim</h3>
+                <ul>
+                    <li><a href="mailto:info@cildai.com">info@cildai.com</a></li>
+                    <li><a href="tel:+905001234567">+90 500 123 45 67</a></li>
+                    <li>İstanbul, Türkiye</li>
+                    <li><a href="#">Sosyal Medya</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2025 CildAI. Tüm hakları saklıdır. |
+               <a href="#">Gizlilik Politikası</a> |
+               <a href="#">Kullanım Şartları</a> |
+               <a href="#">Çerez Politikası</a>
+            </p>
+        </div>
+    </footer>
 
     <!-- Login Modal -->
     <div id="loginModal" class="modal">
@@ -897,16 +754,53 @@
                     <label for="password">Şifreniz</label>
                     <input type="password" id="password" name="password" placeholder="••••••••" required>
                 </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
+                <button type="submit" class="hero-button" style="width: 100%; margin-top: 1rem; justify-content: center;">
                     🚀 Giriş Yap
                 </button>
             </form>
             <div class="modal-footer">
-                <p style="color: #666; margin-bottom: 1rem;">
+                <p style="color: #718096; margin-bottom: 1rem;">
                     Hesabınız yok mu?
                     <a href="#">Ücretsiz Kayıt Olun</a>
                 </p>
-                <p style="color: #666; font-size: 0.9rem;">
+                <p style="color: #718096; font-size: 0.85rem;">
                     <a href="#">Şifremi Unuttum</a>
                 </p>
-            </div
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Login Modal Functions
+        function openLoginModal() {
+            document.getElementById('loginModal').style.display = 'block';
+        }
+
+        function closeLoginModal() {
+            document.getElementById('loginModal').style.display = 'none';
+        }
+
+        function startAnalysis() {
+            alert('Cilt analizi özelliği yakında aktif olacak!');
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('loginModal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -4,223 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CildAI - Kayıt Ol</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-
-        :root {
-            --primary: #E8D5F0;
-            --secondary: #F5E6F2;
-            --accent: #DFC7E8;
-            --light-blue: #E6F3FF;
-            --soft-pink: #F9E8F0;
-            --white: #FFFFFF;
-            --text-dark: #2D3748;
-            --text-medium: #4A5568;
-            --text-light: #718096;
-            --border: #E2E8F0;
-            --background: #FAFAFA;
-            --gradient-primary: linear-gradient(135deg, #E8D5F0 0%, #F5E6F2 50%, #DFC7E8 100%);
-            --gradient-soft: linear-gradient(135deg, rgba(232, 213, 240, 0.1) 0%, rgba(245, 230, 242, 0.1) 100%);
-            --shadow-soft: 0 4px 20px rgba(232, 213, 240, 0.3);
-            --shadow-medium: 0 8px 30px rgba(223, 199, 232, 0.4);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            line-height: 1.6;
-            color: var(--text-dark);
-            background: var(--background);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 2rem;
-        }
-
-        .auth-container {
-            background: var(--white);
-            padding: 2.5rem;
-            border-radius: 20px;
-            box-shadow: var(--shadow-medium);
-            width: 100%;
-            max-width: 450px;
-            text-align: center;
-            border: 1px solid var(--border);
-        }
-
-        .auth-logo {
-            font-size: 2.5rem;
-            font-weight: 800;
-            background: var(--gradient-primary);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 2rem;
-            display: block;
-        }
-
-        .tab-buttons {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 2rem;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .tab-button {
-            flex: 1;
-            padding: 0.8rem 1.5rem;
-            background: none;
-            border: none;
-            font-family: 'Inter', sans-serif;
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--text-medium);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border-bottom: 3px solid transparent;
-            border-radius: 0; /* Override any global border-radius */
-        }
-
-        .tab-button:hover {
-            color: var(--primary);
-        }
-
-        .tab-button.active {
-            color: var(--primary);
-            border-color: var(--primary);
-        }
-
-        .form-group {
-            margin-bottom: 1.2rem;
-            text-align: left;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.6rem;
-            font-weight: 500;
-            color: var(--text-dark);
-            font-size: 0.95rem;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 1rem 1.2rem;
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            font-size: 1rem;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
-            font-family: 'Inter', sans-serif;
-            color: var(--text-dark);
-        }
-
-        .form-group input::placeholder {
-            color: var(--text-light);
-        }
-
-        .form-group input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(232, 213, 240, 0.5); /* Primary color with opacity */
-        }
-
-        .auth-button {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            background: var(--gradient-primary);
-            color: var(--text-dark);
-            padding: 1rem 2rem;
-            border: none;
-            border-radius: 25px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            box-shadow: var(--shadow-medium);
-            width: 100%;
-            margin-top: 1rem;
-        }
-
-        .auth-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 40px rgba(223, 199, 232, 0.5);
-            color: var(--text-dark);
-        }
-
-        .auth-links {
-            margin-top: 1.5rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid var(--border);
-            color: var(--text-light);
-            font-size: 0.9rem;
-        }
-
-        .auth-links a {
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: 600;
-            transition: color 0.3s ease;
-        }
-
-        .auth-links a:hover {
-            color: var(--accent);
-        }
-
-        .auth-links p {
-            margin-bottom: 0.8rem;
-        }
-
-        /* Hide content by default */
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        /* Responsive */
-        @media (max-width: 500px) {
-            .auth-container {
-                padding: 1.5rem;
-            }
-
-            .auth-logo {
-                font-size: 2rem;
-            }
-
-            .tab-button {
-                padding: 0.6rem 1rem;
-                font-size: 0.9rem;
-            }
-
-            .form-group input {
-                padding: 0.8rem 1rem;
-                font-size: 0.9rem;
-            }
-
-            .auth-button {
-                padding: 0.8rem 1.5rem;
-                font-size: 0.95rem;
-            }
-        }
-    </style>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="auth-container">
     <a href="./index.html" class="auth-logo">CildAI</a>
 
     <div id="signup" class="tab-content active">
-      <form>
+      <form onsubmit="handleSignup(event)">
         <div class="form-group">
           <label for="signup-email">E-posta Adresiniz</label>
           <input type="email" id="signup-email" name="email" placeholder="ornek@email.com" required />
@@ -241,5 +32,32 @@
       </div>
     </div>
   </div>
+
+  <script>
+    function handleSignup(event) {
+      event.preventDefault();
+
+      const email = document.getElementById("signup-email").value.trim();
+      const password = document.getElementById("signup-password").value;
+      const confirmPassword = document.getElementById("signup-confirm-password").value;
+
+      const existingError = document.getElementById("signup-error");
+      if (existingError) existingError.remove();
+
+      if (password !== confirmPassword) {
+        const error = document.createElement("p");
+        error.id = "signup-error";
+        error.textContent = "❌ Şifreler eşleşmiyor.";
+        error.style.color = "#e53e3e";
+        error.style.marginTop = "1rem";
+        document.querySelector("form").appendChild(error);
+        return;
+      }
+
+      if (email && password && confirmPassword) {
+        window.location.href = "giriş.html";
+      }
+    }
+  </script>
 </body>
 </html>

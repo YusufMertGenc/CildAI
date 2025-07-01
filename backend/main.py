@@ -110,12 +110,15 @@ async def analyze_skin(file: UploadFile = File(...), notes: str = Form("")):
 
         # Gemini API'ye fotoğrafı ve promptu gönder
         response = model.generate_content([{
-            "mime_type": file.content_type,
+            "mime_type": "image/png",
             "data": image_bytes
         }, prompt])
 
         return {"advice": response.text}
+
     except Exception as e:
+        import traceback
+        traceback.print_exc()
         raise HTTPException(status_code=500, detail=f"Bir hata oluştu: {str(e)}")
 
 

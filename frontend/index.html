@@ -11,262 +11,238 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 
-  <body>
-    <div class="container">
-      <div class="header">
-        <img src="logoooo.jpg" alt="CildAI Logo" class="logo" />
-        <h1>CildAI</h1>
-        <p class="subtitle">
-          Cilt sağlığınız için yapay zekâ destekli analiz asistanı
-        </p>
-      </div>
-
-      <section class="intro-box">
-        <p>
-          📷 Cilt problemini gösteren bir fotoğraf yükleyin veya çekin. Açıklama
-          eklerseniz daha doğru sonuçlar alırsınız. Gemini modeli saniyeler
-          içinde analiz eder.
-        </p>
-      </section>
-
-      <form id="uploadForm" class="upload-section">
-        <div class="upload-card">
-          <h2>🔬 Analize Başla</h2>
-          <p>
-            Görsel yükleyin, belirtmek istediğiniz notları girin ve analiz
-            butonuna tıklayın.
-          </p>
-
-          <div class="button-group">
-            <label for="imageInput" class="action-button primary"
-              >+ Fotoğraf Seç</label
-            >
-            <input type="file" id="imageInput" accept="image/*" required hidden />
-
-            <button type="button" id="start-camera" class="action-button primary">
-              📸 Fotoğraf Çek
-            </button>
-          </div>
-
-          <div id="camera" style="display: none">
-            <video id="video" width="320" height="240" autoplay></video>
-            <button type="button" id="snap" class="action-button secondary">
-              Fotoğraf Çek
-            </button>
-          </div>
-
-          <div id="photo-preview" style="display: none">
-            <canvas id="snapshot" width="320" height="240"></canvas>
-            <button type="button" id="remove-photo" class="action-button danger">
-              ❌ Fotoğrafı Kaldır
-            </button>
-          </div>
-
-          <textarea
-            id="userNotes"
-            placeholder="Varsa belirtmek istediğiniz belirtiler veya notlar..."
-            rows="4"
-          ></textarea>
-
-          <button type="submit" class="action-button primary">
-            🔍 Analizi Başlat
-          </button>
-        </div>
-      </form>
-      <div style="text-align: center; margin-top: 1.5rem;">
-  <button onclick="window.location.href='giriş.html'" style="padding: 0.7rem 1.5rem; background: #4A5568; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">
-    🏠 Ana Sayfaya Dön
-  </button>
-</div>
-
-
-      <div id="result" class="result-box">Analiz sonuçları burada görünecek...</div>
-
-      <footer class="footer">
-        <p>© 2025 CildAI | Geliştirici Bootcamp Projesi</p>
-      </footer>
+<body>
+  <div class="container">
+    <div class="header">
+      <img src="logoooo.jpg" alt="CildAI Logo" class="logo" />
+      <h1>CildAI</h1>
+      <p class="subtitle">
+        Cilt sağlığınız için yapay zekâ destekli analiz asistanı
+      </p>
     </div>
 
-    <script>
-      // Kamera başlatma ve fotoğraf çekme işlemleri
-      const startCameraButton = document.getElementById("start-camera");
-      const cameraDiv = document.getElementById("camera");
-      const videoElement = document.getElementById("video");
-      const snapButton = document.getElementById("snap");
-      const snapshotCanvas = document.getElementById("snapshot");
-      const context = snapshotCanvas.getContext("2d");
-      const photoPreview = document.getElementById("photo-preview");
-      const removePhotoButton = document.getElementById("remove-photo");
-      const imageInput = document.getElementById("imageInput"); // Added for file input handling
-      const customFileUploadLabel = document.querySelector(".custom-file-upload");
-      const buttonGroup = document.querySelector(".button-group");
+    <section class="intro-box">
+      <p>
+        📷 Cilt problemini gösteren bir fotoğraf yükleyin veya çekin. Açıklama
+        eklerseniz daha doğru sonuçlar alırsınız. Gemini modeli saniyeler
+        içinde analiz eder.
+      </p>
+    </section>
 
-      let stream = null; // To store the camera stream
+    <form id="uploadForm" class="upload-section">
+      <div class="upload-card">
+        <h2>🔬 Analize Başla</h2>
+        <p>
+          Görsel yükleyin, belirtmek istediğiniz notları girin ve analiz
+          butonuna tıklayın.
+        </p>
 
-      startCameraButton.addEventListener("click", function () {
-        cameraDiv.style.display = "flex"; // Use flex for better centering of video
-        photoPreview.style.display = "none"; // Hide photo preview if visible
-        imageInput.value = null; // Clear any selected file
-        startCamera(); // Kamerayı başlat
-        startCameraButton.style.display = "none"; // Fotoğraf çekme butonunu gizle
-        customFileUploadLabel.style.display = "none"; // Hide file upload label
-      });
+        <div class="button-group">
+          <label for="imageInput" class="action-button primary">+ Fotoğraf Seç</label>
+          <input type="file" id="imageInput" accept="image/*" required hidden />
 
-      // Kamerayı başlatma
-      function startCamera() {
-        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-          navigator.mediaDevices
-            .getUserMedia({ video: true })
-            .then(function (s) {
-              stream = s; // Store stream to stop it later
-              videoElement.srcObject = stream;
-              videoElement.play(); // Start playing the video stream
-            })
-            .catch(function (error) {
-              console.error("Kamera başlatılamadı: ", error);
-              alert(
-                "Kamera erişimi reddedildi veya cihaz bulunamadı. Lütfen izinleri kontrol edin."
-              );
-              resetCameraAndFileInput();
-            });
-        } else {
-          alert("Tarayıcınız kamera desteği sunmuyor.");
-          resetCameraAndFileInput();
-        }
-      }
+          <button type="button" id="start-camera" class="action-button primary">
+            📸 Fotoğraf Çek
+          </button>
+        </div>
 
-      // Stop camera stream
-      function stopCamera() {
-        if (stream) {
-          stream.getTracks().forEach((track) => track.stop());
-          videoElement.srcObject = null;
-          stream = null;
-        }
-      }
+        <div id="camera" style="display: none">
+          <video id="video" width="320" height="240" autoplay></video>
+          <button type="button" id="snap" class="action-button secondary">
+            Fotoğraf Çek
+          </button>
+        </div>
 
-      // Fotoğraf çekme işlemi
-      snapButton.addEventListener("click", function () {
-        context.drawImage(videoElement, 0, 0, snapshotCanvas.width, snapshotCanvas.height);
-        snapshotCanvas.style.display = "block"; // Fotoğrafı göster
-        photoPreview.style.display = "flex"; // Fotoğraf önizlemesini göster
-        cameraDiv.style.display = "none"; // Kamerayı gizle
-        stopCamera(); // Stop camera stream after snapping
-      });
+        <div id="photo-preview" style="display: none">
+          <canvas id="snapshot" width="320" height="240"></canvas>
+          <button type="button" id="remove-photo" class="action-button danger">
+            ❌ Fotoğrafı Kaldır
+          </button>
+        </div>
 
-      // Fotoğrafı kaldırma işlemi
-      removePhotoButton.addEventListener("click", function () {
-        snapshotCanvas.style.display = "none";
-        photoPreview.style.display = "none";
+        <textarea
+          id="userNotes"
+          placeholder="Varsa belirtmek istediğiniz belirtiler veya notlar..."
+          rows="4"
+        ></textarea>
+
+        <button type="submit" class="action-button primary">
+          🔍 Analizi Başlat
+        </button>
+      </div>
+    </form>
+
+    <div style="text-align: center; margin-top: 1.5rem;">
+      <button onclick="window.location.href='giriş.html'" style="padding: 0.7rem 1.5rem; background: #4A5568; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">
+        🏠 Ana Sayfaya Dön
+      </button>
+    </div>
+
+    <div id="result" class="result-box">Analiz sonuçları burada görünecek...</div>
+
+    <footer class="footer">
+      <p>© 2025 CildAI | Geliştirici Bootcamp Projesi</p>
+    </footer>
+  </div>
+
+  <script>
+  const startCameraButton = document.getElementById("start-camera");
+  const cameraDiv = document.getElementById("camera");
+  const videoElement = document.getElementById("video");
+  const snapButton = document.getElementById("snap");
+  const snapshotCanvas = document.getElementById("snapshot");
+  const context = snapshotCanvas.getContext("2d");
+  const photoPreview = document.getElementById("photo-preview");
+  const removePhotoButton = document.getElementById("remove-photo");
+  const imageInput = document.getElementById("imageInput");
+  const customFileUploadLabel = document.querySelector(".custom-file-upload");
+  const uploadForm = document.getElementById("uploadForm");
+  const resultBox = document.getElementById("result");
+
+  let stream = null;
+
+  startCameraButton.addEventListener("click", function () {
+    cameraDiv.style.display = "flex";
+    photoPreview.style.display = "none";
+    imageInput.value = null;
+    startCamera();
+    startCameraButton.style.display = "none";
+  });
+
+  function startCamera() {
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      navigator.mediaDevices.getUserMedia({ video: true }).then(function (s) {
+        stream = s;
+        videoElement.srcObject = stream;
+        videoElement.play();
+      }).catch(function (error) {
+        console.error("Kamera başlatılamadı: ", error);
+        alert("Kamera erişimi reddedildi veya cihaz bulunamadı.");
         resetCameraAndFileInput();
       });
+    } else {
+      alert("Tarayıcınız kamera desteği sunmuyor.");
+      resetCameraAndFileInput();
+    }
+  }
 
-      // Reset camera and file input buttons
-      function resetCameraAndFileInput() {
-        stopCamera(); // Ensure camera is stopped
-        startCameraButton.style.display = "inline-flex"; // Show camera button
-        customFileUploadLabel.style.display = "inline-flex"; // Show file upload label
-        imageInput.value = null; // Clear selected file
-        cameraDiv.style.display = "none"; // Hide camera div
-      }
+  function stopCamera() {
+    if (stream) {
+      stream.getTracks().forEach((track) => track.stop());
+      videoElement.srcObject = null;
+      stream = null;
+    }
+  }
 
-      // Fotoğraf seçme işlemi (from file)
-      imageInput.addEventListener("change", function (event) {
-        const file = event.target.files[0];
-        if (file) {
-          stopCamera(); // Stop camera if active
-          cameraDiv.style.display = "none"; // Hide camera div
-          startCameraButton.style.display = "none"; // Hide camera button
+  snapButton.addEventListener("click", function () {
+  context.clearRect(0, 0, snapshotCanvas.width, snapshotCanvas.height);
+  context.fillStyle = "#ffffff";
+  context.fillRect(0, 0, snapshotCanvas.width, snapshotCanvas.height);
+  context.drawImage(videoElement, 0, 0, snapshotCanvas.width, snapshotCanvas.height);
+  snapshotCanvas.style.display = "block";
+  photoPreview.style.display = "flex";
+  cameraDiv.style.display = "none";
+  stopCamera();
+  console.log("📸 Fotoğraf çekildi ve canvas'a çizildi.");
+});
 
-          const reader = new FileReader();
-          reader.onload = function (e) {
-            const img = new Image();
-            img.onload = function () {
-              context.clearRect(0, 0, snapshotCanvas.width, snapshotCanvas.height);
-              // Calculate aspect ratio to fit the image while maintaining proportions
-              const aspectRatio = img.width / img.height;
-              let drawWidth = snapshotCanvas.width;
-              let drawHeight = snapshotCanvas.height;
 
-              if (snapshotCanvas.width / snapshotCanvas.height > aspectRatio) {
-                  drawWidth = snapshotCanvas.height * aspectRatio;
-              } else {
-                  drawHeight = snapshotCanvas.width / aspectRatio;
-              }
-              const offsetX = (snapshotCanvas.width - drawWidth) / 2;
-              const offsetY = (snapshotCanvas.height - drawHeight) / 2;
+  removePhotoButton.addEventListener("click", function () {
+    snapshotCanvas.style.display = "none";
+    photoPreview.style.display = "none";
+    resetCameraAndFileInput();
+  });
 
-              context.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
-              snapshotCanvas.style.display = "block";
-              photoPreview.style.display = "flex";
-            };
-            img.src = e.target.result;
-          };
-          reader.readAsDataURL(file);
-        } else {
-          // If user cancels file selection, reset everything
-          resetCameraAndFileInput();
-        }
+  function resetCameraAndFileInput() {
+    stopCamera();
+    startCameraButton.style.display = "inline-flex";
+    imageInput.value = null;
+    cameraDiv.style.display = "none";
+  }
+
+  imageInput.addEventListener("change", function (event) {
+    const file = event.target.files[0];
+    if (file) {
+      stopCamera();
+      cameraDiv.style.display = "none";
+      startCameraButton.style.display = "none";
+
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const img = new Image();
+        img.onload = function () {
+          context.clearRect(0, 0, snapshotCanvas.width, snapshotCanvas.height);
+          const aspectRatio = img.width / img.height;
+          let drawWidth = snapshotCanvas.width;
+          let drawHeight = snapshotCanvas.height;
+
+          if (snapshotCanvas.width / snapshotCanvas.height > aspectRatio) {
+            drawWidth = snapshotCanvas.height * aspectRatio;
+          } else {
+            drawHeight = snapshotCanvas.width / aspectRatio;
+          }
+
+          const offsetX = (snapshotCanvas.width - drawWidth) / 2;
+          const offsetY = (snapshotCanvas.height - drawHeight) / 2;
+
+          context.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
+          snapshotCanvas.style.display = "block";
+          photoPreview.style.display = "flex";
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    } else {
+      resetCameraAndFileInput();
+    }
+  });
+
+uploadForm.addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  const userNotes = document.getElementById("userNotes").value;
+
+  snapshotCanvas.toBlob(async function (blob) {
+    console.log("🧪 toBlob sonucu:", blob);
+
+    if (!blob || blob.size === 0) {
+      alert("Lütfen analiz için geçerli bir fotoğraf çekin veya yükleyin.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", blob, "photo.png");
+    formData.append("notes", userNotes);
+
+    resultBox.innerHTML = `<p style="color: var(--text-medium); font-style: normal;">Analiz ediliyor... Lütfen bekleyin.</p>`;
+
+    try {
+      const response = await fetch("http://127.0.0.1:8000/analyze-skin", {
+        method: "POST",
+        body: formData,
       });
 
-      // Analiz başlat butonuna tıklanması
-      const uploadForm = document.getElementById("uploadForm");
-      const resultBox = document.getElementById("result");
+      const data = await response.json();
+      const lines = (data.advice || "").split(/1\.|2\.|3\./);
 
-      uploadForm.addEventListener("submit", function (e) {
-        e.preventDefault(); // Formun sayfayı yeniden yüklemesini engelle
+      resultBox.innerHTML = `
+        <div class="result-box">
+          <h2>🩺 Analiz Sonucu</h2>
+          <h3>1. Tespit</h3><p>${lines[1]?.trim()}</p>
+          <h3>2. Çözüm</h3><p>${lines[2]?.trim()}</p>
+          <h3>3. Risk Durumu</h3><p>${lines[3]?.trim()}</p>
+          <div style="text-align:center; margin-top: 2rem;">
+            <button onclick="window.location.reload()" style="padding: 0.7rem 1.5rem; background:#b23a48; color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">🔁 Yeni Analiz Yap</button>
+          </div>
+        </div>
+      `;
+    } catch (error) {
+      resultBox.innerHTML = `<p>❌ Analiz sırasında hata oluştu: ${error.message}</p>`;
+    }
+  }, "image/png");
+});
 
-        const userNotes = document.getElementById("userNotes").value;
-        let imageData = null;
+</script>
 
-        // Check if an image is from camera or file input
-        if (snapshotCanvas.style.display === "block") {
-          imageData = snapshotCanvas.toDataURL("image/png"); // Get image data from canvas
-        } else {
-          alert("Lütfen analiz için bir fotoğraf seçin veya çekin.");
-          return;
-        }
-
-        if (!imageData || imageData === "data:,") { // "data:," indicates empty canvas
-            alert("Analiz için bir fotoğraf gereklidir.");
-            return;
-        }
-
-        resultBox.innerHTML =
-          '<p style="color: var(--text-medium); font-style: normal;">Analiz ediliyor... Lütfen bekleyin.</p>';
-        resultBox.style.color = "var(--text-medium)";
-        resultBox.style.fontStyle = "normal";
-
-        // Simulate API call (replace with actual API call)
-        console.log("Fotoğraf verisi (Base64):", imageData.substring(0, 50) + "..."); // Log first 50 chars
-        console.log("Kullanıcı Notları:", userNotes);
-
-        setTimeout(() => {
-          const simulatedResult = `
-                <h3>Analiz Sonucu: Kuru Cilt Eğilimi</h3>
-                <p>Cildinizde hafif kuruluk, bazı bölgelerde gerginlik ve ince çizgiler gözlemlenmektedir. Mevcut notlarınızda belirttiğiniz kaşıntı hissi de kuruluğa işaret etmektedir.</p>
-                <h4>Öneriler:</h4>
-                <ul>
-                    <li><strong>Yoğun Nemlendirme:</strong> Hyaluronik asit ve seramid içeren nemlendiricileri günde iki kez uygulayın.</li>
-                    <li><strong>Nazik Temizlik:</strong> Sülfat içermeyen, nazik temizleyiciler kullanın.</li>
-                    <li><strong>Bol Su Tüketimi:</strong> Gün içinde yeterli miktarda su içmeye özen gösterin.</li>
-                    <li><strong>Güneş Koruması:</strong> Her mevsim yüksek faktörlü güneş kremi kullanın.</li>
-                    <li><strong>Uzman Görüşü:</strong> Belirtiler devam ederse bir dermatoloğa danışmanız önerilir.</li>
-                </ul>
-            `;
-          resultBox.innerHTML = `
-  ${simulatedResult}
-  <div style="text-align: center; margin-top: 2rem;">
-    <button onclick="window.location.reload()" style="padding: 0.7rem 1.5rem; background: #b23a48; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">
-      🔁 Yeni Analiz Yap
-    </button>
-    
-  </div>
-`;
-
-          resultBox.style.color = "var(--text-dark)";
-          resultBox.style.fontStyle = "normal";
-        }, 3000); // Simulate 3-second analysis time
-      });
-    </script>
-  </body>
+</body>
 </html>

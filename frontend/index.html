@@ -39,7 +39,7 @@
 
         <div class="button-group">
           <label for="imageInput" class="action-button primary">+ Fotoğraf Seç</label>
-          <input type="file" id="imageInput" accept="image/*" required hidden />
+          <input type="file" id="imageInput" name="file" accept="image/*" style="display: none;" />
 
           <button type="button" id="start-camera" class="action-button primary">
             📸 Fotoğraf Çek
@@ -95,7 +95,6 @@
   const photoPreview = document.getElementById("photo-preview");
   const removePhotoButton = document.getElementById("remove-photo");
   const imageInput = document.getElementById("imageInput");
-  const customFileUploadLabel = document.querySelector(".custom-file-upload");
   const uploadForm = document.getElementById("uploadForm");
   const resultBox = document.getElementById("result");
 
@@ -135,17 +134,16 @@
   }
 
   snapButton.addEventListener("click", function () {
-  context.clearRect(0, 0, snapshotCanvas.width, snapshotCanvas.height);
-  context.fillStyle = "#ffffff";
-  context.fillRect(0, 0, snapshotCanvas.width, snapshotCanvas.height);
-  context.drawImage(videoElement, 0, 0, snapshotCanvas.width, snapshotCanvas.height);
-  snapshotCanvas.style.display = "block";
-  photoPreview.style.display = "flex";
-  cameraDiv.style.display = "none";
-  stopCamera();
-  console.log("📸 Fotoğraf çekildi ve canvas'a çizildi.");
-});
-
+    context.clearRect(0, 0, snapshotCanvas.width, snapshotCanvas.height);
+    context.fillStyle = "#ffffff";
+    context.fillRect(0, 0, snapshotCanvas.width, snapshotCanvas.height);
+    context.drawImage(videoElement, 0, 0, snapshotCanvas.width, snapshotCanvas.height);
+    snapshotCanvas.style.display = "block";
+    photoPreview.style.display = "flex";
+    cameraDiv.style.display = "none";
+    stopCamera();
+    console.log("📸 Fotoğraf çekildi ve canvas'a çizildi.");
+  });
 
   removePhotoButton.addEventListener("click", function () {
     snapshotCanvas.style.display = "none";
@@ -197,52 +195,67 @@
     }
   });
 
-uploadForm.addEventListener("submit", function (e) {
-  e.preventDefault();
+  uploadForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+    console.log("🚀 Form gönderildi!");
 
-  const userNotes = document.getElementById("userNotes").value;
+    const userNotes = document.getElementById("userNotes").value;
 
-  snapshotCanvas.toBlob(async function (blob) {
-    console.log("🧪 toBlob sonucu:", blob);
+    const isCanvasEmpty = (() => {
+      const blank = document.createElement("canvas");
+      blank.width = snapshotCanvas.width;
+      blank.height = snapshotCanvas.height;
+      return snapshotCanvas.toDataURL() === blank.toDataURL();
+    })();
 
-    if (!blob || blob.size === 0) {
+    if (isCanvasEmpty) {
       alert("Lütfen analiz için geçerli bir fotoğraf çekin veya yükleyin.");
       return;
     }
 
-    const formData = new FormData();
-    formData.append("file", blob, "photo.png");
-    formData.append("notes", userNotes);
+    snapshotCanvas.toBlob(async function (blob) {
+      console.log("🧪 toBlob sonucu:", blob);
 
-    resultBox.innerHTML = `<p style="color: var(--text-medium); font-style: normal;">Analiz ediliyor... Lütfen bekleyin.</p>`;
+      if (!blob || blob.size === 0) {
+        alert("Görsel işlenemedi. Lütfen tekrar deneyin.");
+        return;
+      }
 
-    try {
-      const response = await fetch("http://127.0.0.1:8000/analyze-skin", {
-        method: "POST",
-        body: formData,
-      });
+      const formData = new FormData();
+      formData.append("file", blob, "photo.png");
+      formData.append("notes", userNotes);
 
-      const data = await response.json();
-      const lines = (data.advice || "").split(/1\.|2\.|3\./);
+      resultBox.innerHTML = `⏳ Analiz ediliyor...`;
 
-      resultBox.innerHTML = `
-        <div class="result-box">
-          <h2>🩺 Analiz Sonucu</h2>
-          <h3>1. Tespit</h3><p>${lines[1]?.trim()}</p>
-          <h3>2. Çözüm</h3><p>${lines[2]?.trim()}</p>
-          <h3>3. Risk Durumu</h3><p>${lines[3]?.trim()}</p>
-          <div style="text-align:center; margin-top: 2rem;">
-            <button onclick="window.location.reload()" style="padding: 0.7rem 1.5rem; background:#b23a48; color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">🔁 Yeni Analiz Yap</button>
-          </div>
-        </div>
-      `;
-    } catch (error) {
-      resultBox.innerHTML = `<p>❌ Analiz sırasında hata oluştu: ${error.message}</p>`;
-    }
-  }, "image/png");
-});
+      try {
+        const response = await fetch("http://127.0.0.1:8000/analyze-skin", {
+          method: "POST",
+          body: formData,
+        });
 
-</script>
+        const data = await response.json();
+        const lines = (data.advice || "").split(/1\.|2\.|3\./);
 
+        resultBox.innerHTML = `
+      <div class="result-box">
+    <h2>🩺 Analiz Sonucu</h2>
+    <h3>1. Tespit</h3><p>${lines[1]?.trim()}</p>
+    <h3>2. Çözüm</h3><p>${lines[2]?.trim()}</p>
+    <h3>3. Risk Durumu</h3><p>${lines[3]?.trim()}</p>
+    <div style="text-align:center; margin-top: 2rem;">
+      <button onclick="window.location.reload()" style="padding: 0.7rem 1.5rem; background:#b23a48; color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">
+        🔁 Yeni Analiz Yap
+      </button>
+    </div>
+  </div>
+`;
+
+      } catch (error) {
+        console.log("❌ Hata:", error);
+        resultBox.innerHTML = `<p>❌ Hata oluştu: ${error.message}</p>`;
+      }
+    }, "image/png");
+  });
+  </script>
 </body>
 </html>

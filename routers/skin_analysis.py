@@ -12,7 +12,7 @@ from routers.auth import get_current_user
 from starlette import status
 
 load_dotenv()
-API_KEY = os.getenv("GOOGLE_API_KEY")
+API_KEY = os.getenv("GEMINI_API_KEY")
 
 genai.configure(api_key=API_KEY)
 
@@ -36,9 +36,7 @@ user_dependency = Annotated[dict, Depends(get_current_user)]
 
 # Cilt Analiz End Point'i
 @router.post("/analyze-skin")
-async def analyze_skin(user: user_dependency, db: db_dependency, file: UploadFile = File(...), notes: str = Form("")):
-    if user is None:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Unauthorized")
+async def analyze_skin(file: UploadFile = File(...), notes: str = Form("")):
     try:
         image_bytes = await file.read()
         # Fotoğrafı kontrol et
@@ -136,9 +134,7 @@ async def analyze_skin(user: user_dependency, db: db_dependency, file: UploadFil
 
 # Fotoğraf Yükleme End Point'i
 @router.post("/upload-photo/")
-async def upload_photo(user: user_dependency, db: db_dependency, file: UploadFile = File(...)):
-    if user is None:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Unauthorized")
+async def upload_photo(file: UploadFile = File(...)):
     try:
         # Fotoğrafı al
         image_data = await file.read()

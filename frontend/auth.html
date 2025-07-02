@@ -1,63 +1,64 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CildAI - Kayıt Ol</title>
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>CildAI - Kayıt Ol</title>
+    <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-  <div class="auth-container">
+<div class="auth-container">
     <a href="./index.html" class="auth-logo">CildAI</a>
 
     <div id="signup" class="tab-content active">
-      <form onsubmit="handleSignup(event)">
-        <div class="form-group">
-          <label for="signup-email">E-posta Adresiniz</label>
-          <input type="email" id="signup-email" name="email" placeholder="ornek@email.com" required />
-        </div>
-        <div class="form-group">
-          <label for="signup-password">Şifre Oluşturun</label>
-          <input type="password" id="signup-password" name="password" placeholder="••••••••" required />
-        </div>
-        <div class="form-group">
-          <label for="signup-confirm-password">Şifreyi Tekrar Girin</label>
-          <input type="password" id="signup-confirm-password" name="confirm-password" placeholder="••••••••" required />
-        </div>
-        <button type="submit" class="auth-button">Kayıt Ol</button>
-      </form>
+        <form onsubmit="handleSignup(event)">
+            <div class="form-group">
+                <label for="signup-email">E-posta Adresiniz</label>
+                <input type="email" id="signup-email" name="email" placeholder="ornek@email.com" required/>
+            </div>
+            <div class="form-group">
+                <label for="signup-password">Şifre Oluşturun</label>
+                <input type="password" id="signup-password" name="password" placeholder="••••••••" required/>
+            </div>
+            <div class="form-group">
+                <label for="signup-confirm-password">Şifreyi Tekrar Girin</label>
+                <input type="password" id="signup-confirm-password" name="confirm-password" placeholder="••••••••"
+                       required/>
+            </div>
+            <button type="submit" class="auth-button">Kayıt Ol</button>
+        </form>
 
-      <div class="auth-links">
-        <p>Zaten bir hesabınız var mı? <a href="index.html">Giriş Yapın</a></p>
-      </div>
+        <div class="auth-links">
+            <p>Zaten bir hesabınız var mı? <a href="index.html">Giriş Yapın</a></p>
+        </div>
     </div>
-  </div>
+</div>
 
-  <script>
+<script>
     function handleSignup(event) {
-      event.preventDefault();
+        event.preventDefault();
 
-      const email = document.getElementById("signup-email").value.trim();
-      const password = document.getElementById("signup-password").value;
-      const confirmPassword = document.getElementById("signup-confirm-password").value;
+        const email = document.getElementById("signup-email").value.trim();
+        const password = document.getElementById("signup-password").value;
+        const confirmPassword = document.getElementById("signup-confirm-password").value;
 
-      const existingError = document.getElementById("signup-error");
-      if (existingError) existingError.remove();
+        const existingError = document.getElementById("signup-error");
+        if (existingError) existingError.remove();
 
-      if (password !== confirmPassword) {
-        const error = document.createElement("p");
-        error.id = "signup-error";
-        error.textContent = "❌ Şifreler eşleşmiyor.";
-        error.style.color = "#e53e3e";
-        error.style.marginTop = "1rem";
-        document.querySelector("form").appendChild(error);
-        return;
-      }
+        if (password !== confirmPassword) {
+            const error = document.createElement("p");
+            error.id = "signup-error";
+            error.textContent = "❌ Şifreler eşleşmiyor.";
+            error.style.color = "#e53e3e";
+            error.style.marginTop = "1rem";
+            document.querySelector("form").appendChild(error);
+            return;
+        }
 
-      if (email && password && confirmPassword) {
-        window.location.href = "giriş.html";
-      }
+        if (email && password && confirmPassword) {
+            window.location.href = "giriş.html";
+        }
     }
-  </script>
+</script>
 </body>
 </html>

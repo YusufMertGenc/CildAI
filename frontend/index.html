@@ -1,666 +1,685 @@
 <!DOCTYPE html>
 <html lang="tr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>CildAI – Dijital Cilt Analiz Asistanı</title>
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
-      rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+            rel="stylesheet"
     />
     <style>
-      :root {
-        --primary: #e8d5f0;
-        --secondary: #f5e6f2;
-        --accent: #dfc7e8;
-        --light-blue: #e6f3ff; /* Not directly used but kept for palette context */
-        --soft-pink: #f9e8f0;
-        --white: #ffffff;
-        --text-dark: #2d3748;
-        --text-medium: #4a5568;
-        --text-light: #718096;
-        --border: #e2e8f0;
-        --background: #fafafa;
-        --gradient-primary: linear-gradient(135deg, #e8d5f0 0%, #f5e6f2 50%, #dfc7e8 100%);
-        --gradient-button: linear-gradient(90deg, #dfc7e8 0%, #e8d5f0 100%); /* New button gradient */
-        --shadow-soft: 0 4px 20px rgba(232, 213, 240, 0.3);
-        --shadow-medium: 0 8px 30px rgba(223, 199, 232, 0.4);
-        --shadow-deep: 0 15px 40px rgba(223, 199, 232, 0.5); /* For hover effects */
-      }
-
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
-      body {
-        font-family: "Inter", sans-serif;
-        line-height: 1.6;
-        color: var(--text-dark);
-        background: linear-gradient(
-          270deg,
-          var(--background),
-          var(--soft-pink),
-          var(--background)
-        );
-        background-size: 600% 600%;
-        animation: gradientAnimation 60s ease infinite;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        min-height: 100vh;
-        padding: 2rem 1rem;
-        position: relative; /* For potential future overlays */
-      }
-
-      @keyframes gradientAnimation {
-        0% {
-          background-position: 0% 50%;
+        :root {
+            --primary: #e8d5f0;
+            --secondary: #f5e6f2;
+            --accent: #dfc7e8;
+            --light-blue: #e6f3ff; /* Not directly used but kept for palette context */
+            --soft-pink: #f9e8f0;
+            --white: #ffffff;
+            --text-dark: #2d3748;
+            --text-medium: #4a5568;
+            --text-light: #718096;
+            --border: #e2e8f0;
+            --background: #fafafa;
+            --gradient-primary: linear-gradient(135deg, #e8d5f0 0%, #f5e6f2 50%, #dfc7e8 100%);
+            --gradient-button: linear-gradient(90deg, #dfc7e8 0%, #e8d5f0 100%); /* New button gradient */
+            --shadow-soft: 0 4px 20px rgba(232, 213, 240, 0.3);
+            --shadow-medium: 0 8px 30px rgba(223, 199, 232, 0.4);
+            --shadow-deep: 0 15px 40px rgba(223, 199, 232, 0.5); /* For hover effects */
         }
-        50% {
-          background-position: 100% 50%;
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        100% {
-          background-position: 0% 50%;
+
+        body {
+            font-family: "Inter", sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: linear-gradient(
+                    270deg,
+                    var(--background),
+                    var(--soft-pink),
+                    var(--background)
+            );
+            background-size: 600% 600%;
+            animation: gradientAnimation 60s ease infinite;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem 1rem;
+            position: relative; /* For potential future overlays */
         }
-      }
 
-      .container {
-        max-width: 900px; /* Slightly wider container */
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 2.5rem; /* Spacing between sections */
-      }
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
 
-      .header {
-        text-align: center;
-        margin-bottom: 1rem; /* Reduced margin for tighter layout */
-        padding-top: 1.5rem;
-      }
+        .container {
+            max-width: 900px; /* Slightly wider container */
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2.5rem; /* Spacing between sections */
+        }
 
-      .header .logo {
-        width: 120px; /* Slightly larger logo */
-        height: 120px;
-        border-radius: 50%;
-        object-fit: cover;
-        margin-bottom: 1rem;
-        border: 4px solid var(--primary); /* Thicker border */
-        box-shadow: var(--shadow-medium); /* Stronger shadow */
-      }
+        .header {
+            text-align: center;
+            margin-bottom: 1rem; /* Reduced margin for tighter layout */
+            padding-top: 1.5rem;
+        }
 
-      .header h1 {
-        font-size: clamp(2.5rem, 6vw, 4rem); /* Larger and more responsive */
-        font-weight: 800;
-        background: var(--gradient-primary);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        margin-bottom: 0.75rem;
-        letter-spacing: -0.05em; /* Tighter letter spacing */
-      }
+        .header .logo {
+            width: 120px; /* Slightly larger logo */
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1rem;
+            border: 4px solid var(--primary); /* Thicker border */
+            box-shadow: var(--shadow-medium); /* Stronger shadow */
+        }
 
-      .header .subtitle {
-        font-size: clamp(1rem, 2.5vw, 1.3rem); /* More prominent subtitle */
-        color: var(--text-medium);
-        max-width: 600px;
-        margin: 0 auto;
-        line-height: 1.5;
-      }
-
-      .intro-box {
-        background: var(--soft-pink);
-        color: var(--text-medium);
-        padding: 1.8rem 2.5rem; /* More padding */
-        border-radius: 20px; /* More rounded */
-        text-align: center;
-        border: 1px solid var(--border);
-        box-shadow: var(--shadow-soft);
-        max-width: 800px; /* Wider intro box */
-        width: 100%;
-        font-size: 1.05rem; /* Slightly larger text */
-        font-weight: 500;
-        line-height: 1.6;
-      }
-
-      .upload-section {
-        width: 100%;
-        max-width: 800px; /* Wider upload section */
-        margin-bottom: 3rem; /* Adjusted margin */
-      }
-
-      .upload-card {
-        background: var(--white);
-        padding: 3rem; /* More generous padding */
-        border-radius: 25px; /* More rounded corners */
-        box-shadow: var(--shadow-deep); /* More pronounced shadow */
-        border: 1px solid var(--border);
-        text-align: center;
-        position: relative; /* For potential loading spinner overlay */
-      }
-
-      .upload-card h2 {
-        font-size: clamp(2rem, 4vw, 2.5rem); /* Larger heading */
-        font-weight: 700;
-        margin-bottom: 1rem;
-        color: var(--text-dark);
-        position: relative;
-      }
-
-      .upload-card h2::after {
-        content: "";
-        display: block;
-        width: 60px; /* Underline effect */
-        height: 4px;
-        background: var(--accent);
-        margin: 0.75rem auto 2.5rem; /* Spacing below heading */
-        border-radius: 2px;
-      }
-
-      .upload-card p {
-        color: var(--text-medium);
-        margin-bottom: 2.5rem; /* More spacing */
-        font-size: 1rem;
-      }
-
-      /* Buttons - Unified Styling */
-      .action-button {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.75rem; /* More space for icons */
-        padding: 1rem 2rem; /* Larger buttons */
-        border: none;
-        border-radius: 30px; /* More rounded */
-        font-size: 1.05rem; /* Slightly larger text */
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        text-decoration: none;
-        margin: 0.6rem; /* Consistent margin */
-        min-width: 180px; /* Minimum width for consistency */
-      }
-
-      /* Primary action buttons */
-      .action-button.primary {
-        background: var(--gradient-button); /* New gradient */
-        color: var(--text-dark);
-        box-shadow: var(--shadow-medium);
-      }
-
-      .action-button.primary:hover {
-        transform: translateY(-4px);
-        box-shadow: var(--shadow-deep);
-        color: var(--text-dark); /* Ensure text color doesn't change */
-      }
-
-      /* Secondary action buttons (e.g., snap, remove) */
-      .action-button.secondary {
-        background-color: var(--accent);
-        color: var(--white);
-        box-shadow: 0 4px 15px rgba(223, 199, 232, 0.3);
-      }
-
-      .action-button.secondary:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(223, 199, 232, 0.5);
-      }
-
-      /* Danger/Remove button */
-      .action-button.danger {
-        background-color: #e53e3e; /* Red color */
-        color: var(--white);
-        box-shadow: 0 4px 15px rgba(229, 62, 62, 0.2);
-      }
-
-      .action-button.danger:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(229, 62, 62, 0.4);
-      }
-
-      /* Specific button overrides */
-      #start-camera,
-      .custom-file-upload {
-        background: var(--gradient-button);
-        color: var(--text-dark);
-      }
-
-      #snap {
-        background: var(--accent);
-        color: var(--white);
-      }
-
-      #remove-photo {
-        background: #e53e3e;
-        color: var(--white);
-      }
-
-      .upload-section button[type="submit"] {
-        padding: 1.2rem 3rem; /* Even larger submit button */
-        font-size: 1.15rem;
-        background: var(--gradient-primary);
-        box-shadow: var(--shadow-deep);
-        width: auto;
-        min-width: 250px;
-        margin-top: 2rem; /* More space above submit */
-      }
-
-      #camera,
-      #photo-preview {
-        margin-top: 2rem;
-        background: var(--background);
-        border-radius: 18px; /* Slightly more rounded */
-        padding: 1.5rem; /* More padding */
-        border: 1px solid var(--border);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 100%; /* Take full width of parent */
-        max-width: 450px; /* Max width for media elements */
-        margin-left: auto;
-        margin-right: auto;
-      }
-
-      #video {
-        width: 100%;
-        max-width: 400px; /* Increased max width */
-        height: auto;
-        border-radius: 15px;
-        margin-bottom: 1.5rem;
-        background: #000;
-        box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2); /* Inner shadow for video */
-      }
-
-      #snapshot {
-        width: 100%;
-        max-width: 400px;
-        height: auto;
-        border-radius: 15px;
-        margin-bottom: 1.5rem;
-        border: 1px solid var(--border);
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      }
-
-      textarea {
-        width: 100%; /* Full width within card */
-        max-width: 100%;
-        padding: 1.2rem; /* More padding */
-        margin-top: 2.5rem; /* More space above */
-        margin-bottom: 2rem; /* More space below */
-        border: 1px solid var(--border);
-        border-radius: 15px; /* More rounded */
-        font-family: 'Inter', sans-serif;
-        font-size: 1rem;
-        color: var(--text-dark);
-        background-color: var(--background);
-        resize: vertical;
-        min-height: 120px; /* Taller textarea */
-        transition: border-color 0.3s ease, box-shadow 0.3s ease;
-      }
-
-      textarea:focus {
-        outline: none;
-        border-color: var(--accent); /* Focus color changed */
-        box-shadow: 0 0 0 4px rgba(223, 199, 232, 0.4); /* Stronger focus shadow */
-      }
-
-      .result-box {
-        background: var(--white);
-        padding: 2.5rem;
-        border-radius: 20px;
-        box-shadow: var(--shadow-soft);
-        border: 1px solid var(--border);
-        max-width: 800px;
-        width: 100%;
-        min-height: 180px; /* Taller result box */
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        color: var(--text-light);
-        font-style: italic;
-        text-align: center;
-        margin-top: 2rem;
-      }
-
-      .result-box h3 {
-          font-size: 1.5rem;
-          color: var(--text-dark);
-          margin-bottom: 1rem;
-      }
-
-      .result-box p {
-          font-size: 1rem;
-          color: var(--text-medium);
-          margin-bottom: 1rem;
-          line-height: 1.6;
-      }
-
-      .result-box h4 {
-          font-size: 1.2rem;
-          color: var(--text-dark);
-          margin-top: 1.5rem;
-          margin-bottom: 0.8rem;
-      }
-
-      .result-box ul {
-          list-style: none;
-          padding: 0;
-          text-align: left;
-          width: 100%;
-          max-width: 500px; /* Constrain list width */
-      }
-
-      .result-box ul li {
-          margin-bottom: 0.6rem;
-          color: var(--text-medium);
-          font-size: 0.95rem;
-          padding-left: 1.5rem;
-          position: relative;
-      }
-
-      .result-box ul li::before {
-          content: '•'; /* Custom bullet point */
-          color: var(--accent);
-          font-size: 1.2em;
-          position: absolute;
-          left: 0;
-          top: 0;
-      }
-
-
-      .footer {
-        margin-top: auto;
-        padding: 2.5rem 1rem 1.5rem; /* More padding */
-        color: var(--text-light);
-        font-size: 0.95rem; /* Slightly larger text */
-        text-align: center;
-        width: 100%;
-      }
-
-      /* Responsive adjustments */
-      @media (max-width: 768px) {
         .header h1 {
-          font-size: clamp(2rem, 5vw, 3.5rem);
+            font-size: clamp(2.5rem, 6vw, 4rem); /* Larger and more responsive */
+            font-weight: 800;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.05em; /* Tighter letter spacing */
         }
+
         .header .subtitle {
-          font-size: 0.95rem;
+            font-size: clamp(1rem, 2.5vw, 1.3rem); /* More prominent subtitle */
+            color: var(--text-medium);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.5;
         }
+
         .intro-box {
-          padding: 1.2rem 1.8rem;
-          font-size: 0.9rem;
+            background: var(--soft-pink);
+            color: var(--text-medium);
+            padding: 1.8rem 2.5rem; /* More padding */
+            border-radius: 20px; /* More rounded */
+            text-align: center;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-soft);
+            max-width: 800px; /* Wider intro box */
+            width: 100%;
+            font-size: 1.05rem; /* Slightly larger text */
+            font-weight: 500;
+            line-height: 1.6;
         }
+
+        .upload-section {
+            width: 100%;
+            max-width: 800px; /* Wider upload section */
+            margin-bottom: 3rem; /* Adjusted margin */
+        }
+
         .upload-card {
-          padding: 2rem;
+            background: var(--white);
+            padding: 3rem; /* More generous padding */
+            border-radius: 25px; /* More rounded corners */
+            box-shadow: var(--shadow-deep); /* More pronounced shadow */
+            border: 1px solid var(--border);
+            text-align: center;
+            position: relative; /* For potential loading spinner overlay */
         }
+
         .upload-card h2 {
-          font-size: clamp(1.6rem, 3.5vw, 2rem);
+            font-size: clamp(2rem, 4vw, 2.5rem); /* Larger heading */
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+            position: relative;
         }
+
+        .upload-card h2::after {
+            content: "";
+            display: block;
+            width: 60px; /* Underline effect */
+            height: 4px;
+            background: var(--accent);
+            margin: 0.75rem auto 2.5rem; /* Spacing below heading */
+            border-radius: 2px;
+        }
+
+        .upload-card p {
+            color: var(--text-medium);
+            margin-bottom: 2.5rem; /* More spacing */
+            font-size: 1rem;
+        }
+
+        /* Buttons - Unified Styling */
         .action-button {
-          padding: 0.8rem 1.2rem;
-          font-size: 0.9rem;
-          min-width: 150px;
-          margin: 0.4rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem; /* More space for icons */
+            padding: 1rem 2rem; /* Larger buttons */
+            border: none;
+            border-radius: 30px; /* More rounded */
+            font-size: 1.05rem; /* Slightly larger text */
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            margin: 0.6rem; /* Consistent margin */
+            min-width: 180px; /* Minimum width for consistency */
         }
+
+        /* Primary action buttons */
+        .action-button.primary {
+            background: var(--gradient-button); /* New gradient */
+            color: var(--text-dark);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .action-button.primary:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-deep);
+            color: var(--text-dark); /* Ensure text color doesn't change */
+        }
+
+        /* Secondary action buttons (e.g., snap, remove) */
+        .action-button.secondary {
+            background-color: var(--accent);
+            color: var(--white);
+            box-shadow: 0 4px 15px rgba(223, 199, 232, 0.3);
+        }
+
+        .action-button.secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(223, 199, 232, 0.5);
+        }
+
+        /* Danger/Remove button */
+        .action-button.danger {
+            background-color: #e53e3e; /* Red color */
+            color: var(--white);
+            box-shadow: 0 4px 15px rgba(229, 62, 62, 0.2);
+        }
+
+        .action-button.danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(229, 62, 62, 0.4);
+        }
+
+        /* Specific button overrides */
+        #start-camera,
+        .custom-file-upload {
+            background: var(--gradient-button);
+            color: var(--text-dark);
+        }
+
+        #snap {
+            background: var(--accent);
+            color: var(--white);
+        }
+
+        #remove-photo {
+            background: #e53e3e;
+            color: var(--white);
+        }
+
         .upload-section button[type="submit"] {
-          padding: 1rem 2rem;
-          font-size: 1rem;
-          min-width: 200px;
+            padding: 1.2rem 3rem; /* Even larger submit button */
+            font-size: 1.15rem;
+            background: var(--gradient-primary);
+            box-shadow: var(--shadow-deep);
+            width: auto;
+            min-width: 250px;
+            margin-top: 2rem; /* More space above submit */
         }
+
         #camera,
         #photo-preview {
-            padding: 1rem;
+            margin-top: 2rem;
+            background: var(--background);
+            border-radius: 18px; /* Slightly more rounded */
+            padding: 1.5rem; /* More padding */
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%; /* Take full width of parent */
+            max-width: 450px; /* Max width for media elements */
+            margin-left: auto;
+            margin-right: auto;
         }
-        textarea {
-            padding: 1rem;
-            min-height: 100px;
-            font-size: 0.9rem;
-        }
-        .result-box {
-            padding: 2rem;
-            min-height: 150px;
-        }
-      }
 
-      @media (max-width: 480px) {
-        .header .logo {
-          width: 100px;
-          height: 100px;
+        #video {
+            width: 100%;
+            max-width: 400px; /* Increased max width */
+            height: auto;
+            border-radius: 15px;
+            margin-bottom: 1.5rem;
+            background: #000;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2); /* Inner shadow for video */
         }
-        .header h1 {
-          font-size: 2.2rem;
+
+        #snapshot {
+            width: 100%;
+            max-width: 400px;
+            height: auto;
+            border-radius: 15px;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
-        .header .subtitle {
-          font-size: 0.85rem;
-        }
-        .intro-box {
-          padding: 1rem 1.2rem;
-          font-size: 0.8rem;
-        }
-        .upload-card {
-          padding: 1.5rem;
-        }
-        .upload-card h2 {
-          font-size: 1.4rem;
-        }
-        .upload-card p {
-          font-size: 0.85rem;
-        }
-        .action-button {
-          width: calc(100% - 1.2rem); /* Full width for small screens */
-          margin: 0.4rem 0.6rem;
-        }
-        .upload-section button[type="submit"] {
-          width: calc(100% - 1.2rem);
-          min-width: unset;
-        }
-        #video, #snapshot {
-            max-width: 100%;
-        }
+
         textarea {
-            font-size: 0.85rem;
+            width: 100%; /* Full width within card */
+            max-width: 100%;
+            padding: 1.2rem; /* More padding */
+            margin-top: 2.5rem; /* More space above */
+            margin-bottom: 2rem; /* More space below */
+            border: 1px solid var(--border);
+            border-radius: 15px; /* More rounded */
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            color: var(--text-dark);
+            background-color: var(--background);
+            resize: vertical;
+            min-height: 120px; /* Taller textarea */
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
-      }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--accent); /* Focus color changed */
+            box-shadow: 0 0 0 4px rgba(223, 199, 232, 0.4); /* Stronger focus shadow */
+        }
+
+        .result-box {
+            background: var(--white);
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid var(--border);
+            max-width: 800px;
+            width: 100%;
+            min-height: 180px; /* Taller result box */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-light);
+            font-style: italic;
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .result-box h3 {
+            font-size: 1.5rem;
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+        }
+
+        .result-box p {
+            font-size: 1rem;
+            color: var(--text-medium);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .result-box h4 {
+            font-size: 1.2rem;
+            color: var(--text-dark);
+            margin-top: 1.5rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .result-box ul {
+            list-style: none;
+            padding: 0;
+            text-align: left;
+            width: 100%;
+            max-width: 500px; /* Constrain list width */
+        }
+
+        .result-box ul li {
+            margin-bottom: 0.6rem;
+            color: var(--text-medium);
+            font-size: 0.95rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .result-box ul li::before {
+            content: '•'; /* Custom bullet point */
+            color: var(--accent);
+            font-size: 1.2em;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+
+        .footer {
+            margin-top: auto;
+            padding: 2.5rem 1rem 1.5rem; /* More padding */
+            color: var(--text-light);
+            font-size: 0.95rem; /* Slightly larger text */
+            text-align: center;
+            width: 100%;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: clamp(2rem, 5vw, 3.5rem);
+            }
+
+            .header .subtitle {
+                font-size: 0.95rem;
+            }
+
+            .intro-box {
+                padding: 1.2rem 1.8rem;
+                font-size: 0.9rem;
+            }
+
+            .upload-card {
+                padding: 2rem;
+            }
+
+            .upload-card h2 {
+                font-size: clamp(1.6rem, 3.5vw, 2rem);
+            }
+
+            .action-button {
+                padding: 0.8rem 1.2rem;
+                font-size: 0.9rem;
+                min-width: 150px;
+                margin: 0.4rem;
+            }
+
+            .upload-section button[type="submit"] {
+                padding: 1rem 2rem;
+                font-size: 1rem;
+                min-width: 200px;
+            }
+
+            #camera,
+            #photo-preview {
+                padding: 1rem;
+            }
+
+            textarea {
+                padding: 1rem;
+                min-height: 100px;
+                font-size: 0.9rem;
+            }
+
+            .result-box {
+                padding: 2rem;
+                min-height: 150px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header .logo {
+                width: 100px;
+                height: 100px;
+            }
+
+            .header h1 {
+                font-size: 2.2rem;
+            }
+
+            .header .subtitle {
+                font-size: 0.85rem;
+            }
+
+            .intro-box {
+                padding: 1rem 1.2rem;
+                font-size: 0.8rem;
+            }
+
+            .upload-card {
+                padding: 1.5rem;
+            }
+
+            .upload-card h2 {
+                font-size: 1.4rem;
+            }
+
+            .upload-card p {
+                font-size: 0.85rem;
+            }
+
+            .action-button {
+                width: calc(100% - 1.2rem); /* Full width for small screens */
+                margin: 0.4rem 0.6rem;
+            }
+
+            .upload-section button[type="submit"] {
+                width: calc(100% - 1.2rem);
+                min-width: unset;
+            }
+
+            #video, #snapshot {
+                max-width: 100%;
+            }
+
+            textarea {
+                font-size: 0.85rem;
+            }
+        }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <div class="header">
-        <img src="logoooo.jpg" alt="CildAI Logo" class="logo" />
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <img src="logoooo.jpg" alt="CildAI Logo" class="logo"/>
         <h1>CildAI</h1>
         <p class="subtitle">
-          Cilt sağlığınız için yapay zekâ destekli analiz asistanı
+            Cilt sağlığınız için yapay zekâ destekli analiz asistanı
         </p>
-      </div>
-
-      <section class="intro-box">
-        <p>
-          📷 Cilt problemini gösteren bir fotoğraf yükleyin veya çekin. Açıklama
-          eklerseniz daha doğru sonuçlar alırsınız. Gemini modeli saniyeler
-          içinde analiz eder.
-        </p>
-      </section>
-
-      <form id="uploadForm" class="upload-section">
-        <div class="upload-card">
-          <h2>🔬 Analize Başla</h2>
-          <p>
-            Görsel yükleyin, belirtmek istediğiniz notları girin ve analiz
-            butonuna tıklayın.
-          </p>
-
-          <div class="button-group">
-            <label for="imageInput" class="action-button primary"
-              >+ Fotoğraf Seç</label
-            >
-            <input type="file" id="imageInput" accept="image/*" required hidden />
-
-            <button type="button" id="start-camera" class="action-button primary">
-              📸 Fotoğraf Çek
-            </button>
-          </div>
-
-          <div id="camera" style="display: none">
-            <video id="video" width="320" height="240" autoplay></video>
-            <button type="button" id="snap" class="action-button secondary">
-              Fotoğraf Çek
-            </button>
-          </div>
-
-          <div id="photo-preview" style="display: none">
-            <canvas id="snapshot" width="320" height="240"></canvas>
-            <button type="button" id="remove-photo" class="action-button danger">
-              ❌ Fotoğrafı Kaldır
-            </button>
-          </div>
-
-          <textarea
-            id="userNotes"
-            placeholder="Varsa belirtmek istediğiniz belirtiler veya notlar..."
-            rows="4"
-          ></textarea>
-
-          <button type="submit" class="action-button primary">
-            🔍 Analizi Başlat
-          </button>
-        </div>
-      </form>
-
-      <div id="result" class="result-box">Analiz sonuçları burada görünecek...</div>
-
-      <footer class="footer">
-        <p>© 2025 CildAI | Geliştirici Bootcamp Projesi</p>
-      </footer>
     </div>
 
-    <script>
-      // Kamera başlatma ve fotoğraf çekme işlemleri
-      const startCameraButton = document.getElementById("start-camera");
-      const cameraDiv = document.getElementById("camera");
-      const videoElement = document.getElementById("video");
-      const snapButton = document.getElementById("snap");
-      const snapshotCanvas = document.getElementById("snapshot");
-      const context = snapshotCanvas.getContext("2d");
-      const photoPreview = document.getElementById("photo-preview");
-      const removePhotoButton = document.getElementById("remove-photo");
-      const imageInput = document.getElementById("imageInput"); // Added for file input handling
-      const customFileUploadLabel = document.querySelector(".custom-file-upload");
-      const buttonGroup = document.querySelector(".button-group");
+    <section class="intro-box">
+        <p>
+            📷 Cilt problemini gösteren bir fotoğraf yükleyin veya çekin. Açıklama
+            eklerseniz daha doğru sonuçlar alırsınız. Gemini modeli saniyeler
+            içinde analiz eder.
+        </p>
+    </section>
 
-      let stream = null; // To store the camera stream
+    <form id="uploadForm" class="upload-section">
+        <div class="upload-card">
+            <h2>🔬 Analize Başla</h2>
+            <p>
+                Görsel yükleyin, belirtmek istediğiniz notları girin ve analiz
+                butonuna tıklayın.
+            </p>
 
-      startCameraButton.addEventListener("click", function () {
+            <div class="button-group">
+                <label for="imageInput" class="action-button primary"
+                >+ Fotoğraf Seç</label
+                >
+                <input type="file" id="imageInput" accept="image/*" required hidden/>
+
+                <button type="button" id="start-camera" class="action-button primary">
+                    📸 Fotoğraf Çek
+                </button>
+            </div>
+
+            <div id="camera" style="display: none">
+                <video id="video" width="320" height="240" autoplay></video>
+                <button type="button" id="snap" class="action-button secondary">
+                    Fotoğraf Çek
+                </button>
+            </div>
+
+            <div id="photo-preview" style="display: none">
+                <canvas id="snapshot" width="320" height="240"></canvas>
+                <button type="button" id="remove-photo" class="action-button danger">
+                    ❌ Fotoğrafı Kaldır
+                </button>
+            </div>
+
+            <textarea
+                    id="userNotes"
+                    placeholder="Varsa belirtmek istediğiniz belirtiler veya notlar..."
+                    rows="4"
+            ></textarea>
+
+            <button type="submit" class="action-button primary">
+                🔍 Analizi Başlat
+            </button>
+        </div>
+    </form>
+
+    <div id="result" class="result-box">Analiz sonuçları burada görünecek...</div>
+
+    <footer class="footer">
+        <p>© 2025 CildAI | Geliştirici Bootcamp Projesi</p>
+    </footer>
+</div>
+
+<script>
+    // Kamera başlatma ve fotoğraf çekme işlemleri
+    const startCameraButton = document.getElementById("start-camera");
+    const cameraDiv = document.getElementById("camera");
+    const videoElement = document.getElementById("video");
+    const snapButton = document.getElementById("snap");
+    const snapshotCanvas = document.getElementById("snapshot");
+    const context = snapshotCanvas.getContext("2d");
+    const photoPreview = document.getElementById("photo-preview");
+    const removePhotoButton = document.getElementById("remove-photo");
+    const imageInput = document.getElementById("imageInput"); // Added for file input handling
+    const customFileUploadLabel = document.querySelector(".custom-file-upload");
+    const buttonGroup = document.querySelector(".button-group");
+
+    let stream = null; // To store the camera stream
+
+    startCameraButton.addEventListener("click", function () {
         cameraDiv.style.display = "flex"; // Use flex for better centering of video
         photoPreview.style.display = "none"; // Hide photo preview if visible
         imageInput.value = null; // Clear any selected file
         startCamera(); // Kamerayı başlat
         startCameraButton.style.display = "none"; // Fotoğraf çekme butonunu gizle
         customFileUploadLabel.style.display = "none"; // Hide file upload label
-      });
+    });
 
-      // Kamerayı başlatma
-      function startCamera() {
+    // Kamerayı başlatma
+    function startCamera() {
         if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-          navigator.mediaDevices
-            .getUserMedia({ video: true })
-            .then(function (s) {
-              stream = s; // Store stream to stop it later
-              videoElement.srcObject = stream;
-              videoElement.play(); // Start playing the video stream
-            })
-            .catch(function (error) {
-              console.error("Kamera başlatılamadı: ", error);
-              alert(
-                "Kamera erişimi reddedildi veya cihaz bulunamadı. Lütfen izinleri kontrol edin."
-              );
-              resetCameraAndFileInput();
-            });
+            navigator.mediaDevices
+                .getUserMedia({video: true})
+                .then(function (s) {
+                    stream = s; // Store stream to stop it later
+                    videoElement.srcObject = stream;
+                    videoElement.play(); // Start playing the video stream
+                })
+                .catch(function (error) {
+                    console.error("Kamera başlatılamadı: ", error);
+                    alert(
+                        "Kamera erişimi reddedildi veya cihaz bulunamadı. Lütfen izinleri kontrol edin."
+                    );
+                    resetCameraAndFileInput();
+                });
         } else {
-          alert("Tarayıcınız kamera desteği sunmuyor.");
-          resetCameraAndFileInput();
+            alert("Tarayıcınız kamera desteği sunmuyor.");
+            resetCameraAndFileInput();
         }
-      }
+    }
 
-      // Stop camera stream
-      function stopCamera() {
+    // Stop camera stream
+    function stopCamera() {
         if (stream) {
-          stream.getTracks().forEach((track) => track.stop());
-          videoElement.srcObject = null;
-          stream = null;
+            stream.getTracks().forEach((track) => track.stop());
+            videoElement.srcObject = null;
+            stream = null;
         }
-      }
+    }
 
-      // Fotoğraf çekme işlemi
-      snapButton.addEventListener("click", function () {
+    // Fotoğraf çekme işlemi
+    snapButton.addEventListener("click", function () {
         context.drawImage(videoElement, 0, 0, snapshotCanvas.width, snapshotCanvas.height);
         snapshotCanvas.style.display = "block"; // Fotoğrafı göster
         photoPreview.style.display = "flex"; // Fotoğraf önizlemesini göster
         cameraDiv.style.display = "none"; // Kamerayı gizle
         stopCamera(); // Stop camera stream after snapping
-      });
+    });
 
-      // Fotoğrafı kaldırma işlemi
-      removePhotoButton.addEventListener("click", function () {
+    // Fotoğrafı kaldırma işlemi
+    removePhotoButton.addEventListener("click", function () {
         snapshotCanvas.style.display = "none";
         photoPreview.style.display = "none";
         resetCameraAndFileInput();
-      });
+    });
 
-      // Reset camera and file input buttons
-      function resetCameraAndFileInput() {
+    // Reset camera and file input buttons
+    function resetCameraAndFileInput() {
         stopCamera(); // Ensure camera is stopped
         startCameraButton.style.display = "inline-flex"; // Show camera button
         customFileUploadLabel.style.display = "inline-flex"; // Show file upload label
         imageInput.value = null; // Clear selected file
         cameraDiv.style.display = "none"; // Hide camera div
-      }
+    }
 
-      // Fotoğraf seçme işlemi (from file)
-      imageInput.addEventListener("change", function (event) {
+    // Fotoğraf seçme işlemi (from file)
+    imageInput.addEventListener("change", function (event) {
         const file = event.target.files[0];
         if (file) {
-          stopCamera(); // Stop camera if active
-          cameraDiv.style.display = "none"; // Hide camera div
-          startCameraButton.style.display = "none"; // Hide camera button
+            stopCamera(); // Stop camera if active
+            cameraDiv.style.display = "none"; // Hide camera div
+            startCameraButton.style.display = "none"; // Hide camera button
 
-          const reader = new FileReader();
-          reader.onload = function (e) {
-            const img = new Image();
-            img.onload = function () {
-              context.clearRect(0, 0, snapshotCanvas.width, snapshotCanvas.height);
-              // Calculate aspect ratio to fit the image while maintaining proportions
-              const aspectRatio = img.width / img.height;
-              let drawWidth = snapshotCanvas.width;
-              let drawHeight = snapshotCanvas.height;
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const img = new Image();
+                img.onload = function () {
+                    context.clearRect(0, 0, snapshotCanvas.width, snapshotCanvas.height);
+                    // Calculate aspect ratio to fit the image while maintaining proportions
+                    const aspectRatio = img.width / img.height;
+                    let drawWidth = snapshotCanvas.width;
+                    let drawHeight = snapshotCanvas.height;
 
-              if (snapshotCanvas.width / snapshotCanvas.height > aspectRatio) {
-                  drawWidth = snapshotCanvas.height * aspectRatio;
-              } else {
-                  drawHeight = snapshotCanvas.width / aspectRatio;
-              }
-              const offsetX = (snapshotCanvas.width - drawWidth) / 2;
-              const offsetY = (snapshotCanvas.height - drawHeight) / 2;
+                    if (snapshotCanvas.width / snapshotCanvas.height > aspectRatio) {
+                        drawWidth = snapshotCanvas.height * aspectRatio;
+                    } else {
+                        drawHeight = snapshotCanvas.width / aspectRatio;
+                    }
+                    const offsetX = (snapshotCanvas.width - drawWidth) / 2;
+                    const offsetY = (snapshotCanvas.height - drawHeight) / 2;
 
-              context.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
-              snapshotCanvas.style.display = "block";
-              photoPreview.style.display = "flex";
+                    context.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
+                    snapshotCanvas.style.display = "block";
+                    photoPreview.style.display = "flex";
+                };
+                img.src = e.target.result;
             };
-            img.src = e.target.result;
-          };
-          reader.readAsDataURL(file);
+            reader.readAsDataURL(file);
         } else {
-          // If user cancels file selection, reset everything
-          resetCameraAndFileInput();
+            // If user cancels file selection, reset everything
+            resetCameraAndFileInput();
         }
-      });
+    });
 
-      // Analiz başlat butonuna tıklanması
-      const uploadForm = document.getElementById("uploadForm");
-      const resultBox = document.getElementById("result");
+    // Analiz başlat butonuna tıklanması
+    const uploadForm = document.getElementById("uploadForm");
+    const resultBox = document.getElementById("result");
 
-      uploadForm.addEventListener("submit", function (e) {
+    uploadForm.addEventListener("submit", function (e) {
         e.preventDefault(); // Formun sayfayı yeniden yüklemesini engelle
 
         const userNotes = document.getElementById("userNotes").value;
@@ -668,10 +687,10 @@
 
         // Check if an image is from camera or file input
         if (snapshotCanvas.style.display === "block") {
-          imageData = snapshotCanvas.toDataURL("image/png"); // Get image data from canvas
+            imageData = snapshotCanvas.toDataURL("image/png"); // Get image data from canvas
         } else {
-          alert("Lütfen analiz için bir fotoğraf seçin veya çekin.");
-          return;
+            alert("Lütfen analiz için bir fotoğraf seçin veya çekin.");
+            return;
         }
 
         if (!imageData || imageData === "data:,") { // "data:," indicates empty canvas
@@ -680,7 +699,7 @@
         }
 
         resultBox.innerHTML =
-          '<p style="color: var(--text-medium); font-style: normal;">Analiz ediliyor... Lütfen bekleyin.</p>';
+            '<p style="color: var(--text-medium); font-style: normal;">Analiz ediliyor... Lütfen bekleyin.</p>';
         resultBox.style.color = "var(--text-medium)";
         resultBox.style.fontStyle = "normal";
 
@@ -689,7 +708,7 @@
         console.log("Kullanıcı Notları:", userNotes);
 
         setTimeout(() => {
-          const simulatedResult = `
+            const simulatedResult = `
                 <h3>Analiz Sonucu: Kuru Cilt Eğilimi</h3>
                 <p>Cildinizde hafif kuruluk, bazı bölgelerde gerginlik ve ince çizgiler gözlemlenmektedir. Mevcut notlarınızda belirttiğiniz kaşıntı hissi de kuruluğa işaret etmektedir.</p>
                 <h4>Öneriler:</h4>
@@ -701,11 +720,11 @@
                     <li><strong>Uzman Görüşü:</strong> Belirtiler devam ederse bir dermatoloğa danışmanız önerilir.</li>
                 </ul>
             `;
-          resultBox.innerHTML = simulatedResult;
-          resultBox.style.color = "var(--text-dark)";
-          resultBox.style.fontStyle = "normal";
+            resultBox.innerHTML = simulatedResult;
+            resultBox.style.color = "var(--text-dark)";
+            resultBox.style.fontStyle = "normal";
         }, 3000); // Simulate 3-second analysis time
-      });
-    </script>
-  </body>
+    });
+</script>
+</body>
 </html>

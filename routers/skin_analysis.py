@@ -1,34 +1,46 @@
-import google.generativeai as genai
-import os
-from dotenv import load_dotenv
-from fastapi import FastAPI, UploadFile, File, Form, HTTPException
-from fastapi.middleware.cors import CORSMiddleware
+from fastapi import UploadFile, File, Form, HTTPException, APIRouter, Depends
 from fastapi.responses import JSONResponse
 import io
 from PIL import Image
+from database import SessionLocal
+import google.generativeai as genai
+import os
+from dotenv import load_dotenv
+from typing import Annotated
+from sqlalchemy.orm import Session
+from routers.auth import get_current_user
+from starlette import status
 
 load_dotenv()
 API_KEY = os.getenv("GOOGLE_API_KEY")
 
 genai.configure(api_key=API_KEY)
 
-app = FastAPI()
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+router = APIRouter(
+    prefix="/skin-analysis",
+    tags=["Skin Analysis"],
 )
 
 
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+
+db_dependency = Annotated[Session, Depends(get_db)]
+user_dependency = Annotated[dict, Depends(get_current_user)]
+
+
 # Cilt Analiz End Point'i
-@app.post("/analyze-skin")
-async def analyze_skin(file: UploadFile = File(...), notes: str = Form("")):
+@router.post("/analyze-skin")
+async def analyze_skin(user: user_dependency, db: db_dependency, file: UploadFile = File(...), notes: str = Form("")):
+    if user is None:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Unauthorized")
     try:
         image_bytes = await file.read()
-
         # Fotoğrafı kontrol et
         if not image_bytes:
             raise HTTPException(status_code=400, detail="Boş bir dosya gönderildi.")
@@ -123,8 +135,10 @@ async def analyze_skin(file: UploadFile = File(...), notes: str = Form("")):
 
 
 # Fotoğraf Yükleme End Point'i
-@app.post("/upload-photo/")
-async def upload_photo(file: UploadFile = File(...)):
+@router.post("/upload-photo/")
+async def upload_photo(user: user_dependency, db: db_dependency, file: UploadFile = File(...)):
+    if user is None:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Unauthorized")
     try:
         # Fotoğrafı al
         image_data = await file.read()
@@ -141,4 +155,3 @@ async def upload_photo(file: UploadFile = File(...)):
         return JSONResponse(content={"message": "Fotoğraf başarıyla alındı ve kaydedildi!"})
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Fotoğraf işlenirken bir hata oluştu: {str(e)}")
-

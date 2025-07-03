@@ -85,28 +85,32 @@ CildAI’nin amacı, gereksiz hastane ziyaretlerini azaltmak, erken müdahale im
    
 ## Sprint 1
 
-Sprint için tamamlanması tahmin edilen puan 150
-Daily scrum: : Daily scrum toplantılarının whatsapp üzerinden yapılmıştır. Ayrıca haftada iki kere google meet üzerinden toplantı yapılmıştır.
+## 🔖 Sprint Notları
 
-Sprint notları:
-1-Sprint'in backlog items kısmının trello üzerinden yapılmasına karar verilmiştir 
-2-
-3-
-4-
-Sprint Board Screenshot
-![image](https://github.com/user-attachments/assets/c93b12a1-2e31-4116-b00d-acca41f33f83)
+1. Sprint'in Backlog Items kısmının **Trello** üzerinden yapılmasına karar verilmiştir.  
+2. Kullanıcı girişi ve kayıt sistemi temel seviyede tamamlanmıştır.  
+3. Görsel yükleme ve kamera ile analiz başlatma fonksiyonu çalışmaktadır.  
+4. Gemini API ile temel analiz senaryosu başarıyla entegre edilmiştir.  
 
-ürünün 1.sprint sonu görüntüleri:
+---
 
-![image](https://github.com/user-attachments/assets/d225b0c2-54d7-45fb-adee-f7646db0872d)
+## 📌 Sprint Board Görüntüsü
 
-![image](https://github.com/user-attachments/assets/3f9d08a1-243f-40c6-8bcb-a5db5547b80f)
+Trello üzerinden planlanan görevlerin durumu aşağıda gösterilmiştir:
 
-![image](https://github.com/user-attachments/assets/339f324b-3d9c-444c-a475-98f126496e95)
+![Sprint Board](https://github.com/user-attachments/assets/c93b12a1-2e31-4116-b00d-acca41f33f83)
 
-![image](https://github.com/user-attachments/assets/af00c56b-fdb5-474d-919f-1eb19bf3ed02)
+---
 
-![image](https://github.com/user-attachments/assets/f927c541-e730-4596-ba6b-85aac7a9030c)
+## 🖼️ Ürünün 1. Sprint Sonu Görüntüleri
+
+Kayıt, giriş, görsel yükleme ve analiz ekranlarından örnekler:
+
+![Görsel 1](https://github.com/user-attachments/assets/d225b0c2-54d7-45fb-adee-f7646db0872d)
+![Görsel 2](https://github.com/user-attachments/assets/3f9d08a1-243f-40c6-8bcb-a5db5547b80f)
+![Görsel 3](https://github.com/user-attachments/assets/339f324b-3d9c-444c-a475-98f126496e95)
+![Görsel 4](https://github.com/user-attachments/assets/af00c56b-fdb5-474d-919f-1eb19bf3ed02)
+![Görsel 5](https://github.com/user-attachments/assets/f927c541-e730-4596-ba6b-85aac7a9030c)
 
 
 

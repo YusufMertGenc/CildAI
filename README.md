@@ -85,6 +85,8 @@ CildAI’nin amacı, gereksiz hastane ziyaretlerini azaltmak, erken müdahale im
    
 ## Sprint 1
 
+Daily Scrum WhatsApp üzerinden yapılması kararlaştırılmıştır. Ayrıca haftada 2 kez Google Meet üzerinden toplantı yapılmaktadır.
+
 ## Sprint Notları
 
 1. Sprint'in Backlog Items kısmının **Trello** üzerinden yapılmasına karar verilmiştir.  

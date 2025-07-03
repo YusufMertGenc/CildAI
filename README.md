@@ -83,4 +83,14 @@ CildAI’nin amacı, gereksiz hastane ziyaretlerini azaltmak, erken müdahale im
   </li>
 </ol>
    
-   
+## Sprint 1
+
+Sprint için tamamlanması tahmin edilen puan 150
+Daily scrum: : Daily scrum toplantılarının whatsapp üzerinden yapılmıştır. Ayrıca haftada iki kere google meet üzerinden toplantı yapılmıştır.
+
+Sprint notları:
+1-
+2-
+3-
+4-
+

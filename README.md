@@ -89,10 +89,28 @@ Sprint için tamamlanması tahmin edilen puan 150
 Daily scrum: : Daily scrum toplantılarının whatsapp üzerinden yapılmıştır. Ayrıca haftada iki kere google meet üzerinden toplantı yapılmıştır.
 
 Sprint notları:
-1-
+1-Sprint'in backlog items kısmının trello üzerinden yapılmasına karar verilmiştir 
 2-
 3-
 4-
-
+Sprint Board Screenshot
 ![image](https://github.com/user-attachments/assets/c93b12a1-2e31-4116-b00d-acca41f33f83)
+
+ürünün 1.sprint sonu görüntüleri:
+
+![image](https://github.com/user-attachments/assets/d225b0c2-54d7-45fb-adee-f7646db0872d)
+
+![image](https://github.com/user-attachments/assets/3f9d08a1-243f-40c6-8bcb-a5db5547b80f)
+
+![image](https://github.com/user-attachments/assets/339f324b-3d9c-444c-a475-98f126496e95)
+
+![image](https://github.com/user-attachments/assets/af00c56b-fdb5-474d-919f-1eb19bf3ed02)
+
+![image](https://github.com/user-attachments/assets/f927c541-e730-4596-ba6b-85aac7a9030c)
+
+
+
+
+
+
 

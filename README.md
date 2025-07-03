@@ -114,7 +114,13 @@ Kayıt, giriş, görsel yükleme ve analiz ekranlarından örnekler:
 
 ![image](https://github.com/user-attachments/assets/b32ac664-8c78-4c87-99f3-04bc5edd413d)
 
+## Sprint 1 Review 
 
+-  Kamera ile fotoğraf çekme ve görsel yükleme modülleri başarıyla entegre edildi.  
+-  Gemini API bağlantısı kurularak temel cilt analiz senaryosu çalıştırıldı.  
+-  Yapay zekâ tarafından analiz edilen görselden yola çıkarak cilt tipi tespiti , bakım önerileri ve var olan cilt sorunun çözümleri hakkında tüyolar kullanıcıya sunuldu.  
+-  Kullanıcı arayüzü tasarlandı ve temel stil uygulamaları tamamlandı.  
+-  Veritabanı bağlantısı için planlar yapıldı ve kullanıcıya özel analiz geçmişi gibi özelliklerin 2. sprintte eklenmesine karar verildi.
 
 
 

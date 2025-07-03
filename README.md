@@ -120,7 +120,8 @@ Kayıt, giriş, görsel yükleme ve analiz ekranlarından örnekler:
 
 ![Ekran görüntüsü 2025-07-03 124754](https://github.com/user-attachments/assets/80a95146-071d-42a2-b4e6-eb6bf80077fb)
 
-![image](https://github.com/user-attachments/assets/b32ac664-8c78-4c87-99f3-04bc5edd413d)
+![image](https://github.com/user-attachments/assets/30713973-ebfa-47c1-aece-079bed4d1ee9)
+
 
 ## Sprint 1 Review 
 

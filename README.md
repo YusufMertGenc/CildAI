@@ -112,8 +112,8 @@ Kayıt, giriş, görsel yükleme ve analiz ekranlarından örnekler:
 
 ![Ekran görüntüsü 2025-07-03 124754](https://github.com/user-attachments/assets/80a95146-071d-42a2-b4e6-eb6bf80077fb)
 
+![image](https://github.com/user-attachments/assets/b32ac664-8c78-4c87-99f3-04bc5edd413d)
 
-![image](https://github.com/user-attachments/assets/78f2b70f-1b6a-4db9-a83f-76b4076e0a3d)
 
 
 

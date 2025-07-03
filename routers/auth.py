@@ -1,5 +1,7 @@
 from datetime import timedelta, datetime, timezone
 from fastapi import APIRouter, Depends, HTTPException
+from zmq.backend import first
+
 from database import SessionLocal
 from typing import Annotated
 from models import User
@@ -62,15 +64,21 @@ def authenticate_user(db: db_dependency, email: str, password: str):
     return user
 
 
-async def get_current_user(token: Annotated[str, Depends(oauth2_bearer)]):
+async def get_current_user(token: Annotated[str, Depends(oauth2_bearer)], db: db_dependency):
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        email: str = payload.get('sub')
         user_id: int = payload.get('id')
-        user_role: str = payload.get('role')
-        if email is None or user_id is None:
-            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Email or ID is invalid")
-        return {"email": email, "id": user_id, "role": user_role}
+        if user_id is None:
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="ID is invalid")
+        user = db.query(User).filter(User.id == user_id).first()
+        if not user:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
+        return {
+            "email": user.email,
+            "first_name": user.first_name,
+            "last_name": user.last_name,
+            "role": user.role
+        }
     except JWTError:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token is invalid")
 
@@ -103,3 +111,8 @@ async def login_for_access_token(from_data: Annotated[OAuth2PasswordRequestForm,
 async def get_all_users(db: db_dependency):
     users = db.query(User).all()
     return users
+
+
+@router.get("/me", status_code=status.HTTP_200_OK)
+async def get_me(current_user: dict = Depends(get_current_user)):
+    return current_user

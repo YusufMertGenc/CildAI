@@ -13,6 +13,15 @@
     <div id="signup" class="tab-content active">
         <form onsubmit="handleSignup(event)">
             <div class="form-group">
+                <label for="signup-first-name">Adınız</label>
+                <input type="text" id="signup-first-name" name="first_name" placeholder="Adınız" required/>
+            </div>
+
+            <div class="form-group">
+                <label for="signup-last-name">Soyadınız</label>
+                <input type="text" id="signup-last-name" name="last_name" placeholder="Soyadınız" required/>
+            </div>
+            <div class="form-group">
                 <label for="signup-email">E-posta Adresiniz</label>
                 <input type="email" id="signup-email" name="email" placeholder="ornek@email.com" required/>
             </div>
@@ -35,12 +44,14 @@
 </div>
 
 <script>
-    function handleSignup(event) {
+    async function handleSignup(event) {
         event.preventDefault();
 
         const email = document.getElementById("signup-email").value.trim();
         const password = document.getElementById("signup-password").value;
         const confirmPassword = document.getElementById("signup-confirm-password").value;
+        const firstName = document.getElementById("signup-first-name").value.trim();
+        const lastName = document.getElementById("signup-last-name").value.trim();
 
         const existingError = document.getElementById("signup-error");
         if (existingError) existingError.remove();
@@ -55,10 +66,40 @@
             return;
         }
 
-        if (email && password && confirmPassword) {
-            window.location.href = "giriş.html";
+        const userData = {
+            first_name: firstName,
+            last_name: lastName,
+            email: email,
+            password: password,
+            role: "user"
+        };
+
+        try {
+            const response = await fetch("http://localhost:8000/auth/create_user", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(userData)
+            });
+
+            if (response.ok) {
+                alert("✅ Kayıt başarılı! Giriş sayfasına yönlendiriliyorsunuz...");
+                window.location.href = "giriş.html";
+            } else {
+                const errorData = await response.json();
+                throw new Error(errorData.detail || "Kayıt başarısız");
+            }
+        } catch (error) {
+            const errorMsg = document.createElement("p");
+            errorMsg.id = "signup-error";
+            errorMsg.textContent = `❌ ${error.message}`;
+            errorMsg.style.color = "#e53e3e";
+            errorMsg.style.marginTop = "1rem";
+            document.querySelector("form").appendChild(errorMsg);
         }
     }
 </script>
+
 </body>
 </html>

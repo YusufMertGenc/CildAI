@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>CildAI - Yapay Zeka ile Cilt Analizi</title>
-    <link rel="stylesheet" href="style.css">
-
+    <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
 <!-- Navigation -->
@@ -17,9 +16,11 @@
             <li><a href="#footer" class="nav-link">Hakkımızda</a></li>
             <li><a href="#features" class="nav-link">Özellikler</a></li>
             <li><a href="#footer" class="nav-link">İletişim</a></li>
-            <li><a href="#" class="nav-btn" onclick="openLoginModal()">Giriş Yap</a></li>
+            <!-- Giriş Yap butonuna id verdik ki JS ile değiştirelim -->
+            <li><a href="#" class="nav-btn" id="navLoginBtn" onclick="openLoginModal()">Giriş Yap</a></li>
+            <li><a href="#" class="nav-btn" id="navLogoutBtn" onclick="openLoginModal()" style="display: none">Çıkış
+                Yap</a></li>
         </ul>
-
     </div>
 </nav>
 
@@ -27,26 +28,19 @@
 <section class="hero">
     <div class="hero-container">
         <div class="hero-content">
-            <div class="hero-badge">
-                ✨ AI Destekli Cilt Analizi
-            </div>
-
+            <div class="hero-badge">✨ AI Destekli Cilt Analizi</div>
             <h1 class="hero-title">
-                Cildinizin <span class="highlight">Geleceğini</span><br>
+                Cildinizin <span class="highlight">Geleceğini</span><br/>
                 Keşfedin
             </h1>
-
             <p class="hero-subtitle">
                 Yapay zeka teknolojisi ile cildinizi analiz edin, kişiselleştirilmiş
                 bakım önerileri alın ve sağlıklı bir cilde kavuşun.
             </p>
-
-            <a href="#" class="hero-button" onclick="openLoginModal()">
+            <a href="#" class="hero-button" id="startAnalysisBtn" onclick="handleStartAnalysis(event)">
                 🚀 Ücretsiz Analiz Başlat
             </a>
-
         </div>
-
         <div class="hero-visual">
             <div class="hero-image-container">
                 <div class="hero-visual-element element-1"></div>
@@ -60,7 +54,6 @@
 
 <!-- Features Section -->
 <section class="features" id="features">
-
     <div class="features-container">
         <div class="section-header">
             <div class="section-badge">Neden CildAI?</div>
@@ -70,7 +63,6 @@
                 kişiselleştirilmiş çözümler keşfedin
             </p>
         </div>
-
         <div class="features-grid">
             <div class="feature-card">
                 <div class="feature-icon">🧬</div>
@@ -80,7 +72,6 @@
                     moleküler seviyede analiz eder ve en doğru sonuçları sunar.
                 </p>
             </div>
-
             <div class="feature-card">
                 <div class="feature-icon">⚡</div>
                 <h3 class="feature-title">Anında Sonuç</h3>
@@ -89,7 +80,6 @@
                     raporu anında sunar. Zaman kaybı yok!
                 </p>
             </div>
-
             <div class="feature-card">
                 <div class="feature-icon">🎯</div>
                 <h3 class="feature-title">Kişisel Öneriler</h3>
@@ -98,7 +88,6 @@
                     ve yaşam tarzı tavsiyeleri alın.
                 </p>
             </div>
-
             <div class="feature-card">
                 <div class="feature-icon">🔒</div>
                 <h3 class="feature-title">Güvenli & Gizli</h3>
@@ -107,7 +96,6 @@
                     Gizliliğiniz bizim en büyük önceliğimizdir.
                 </p>
             </div>
-
             <div class="feature-card">
                 <div class="feature-icon">👨‍⚕️</div>
                 <h3 class="feature-title">Uzman Onaylı</h3>
@@ -116,7 +104,6 @@
                     bilimsel araştırmalara dayanmaktadır.
                 </p>
             </div>
-
             <div class="feature-card">
                 <div class="feature-icon">📊</div>
                 <h3 class="feature-title">İlerleme Takibi</h3>
@@ -139,20 +126,19 @@
         <a href="#" class="hero-button" onclick="openLoginModal()">
             🚀 Hemen Başlayın - Ücretsiz
         </a>
-
     </div>
 </section>
 
 <!-- Footer -->
 <footer class="footer" id="footer">
-
     <div class="footer-container">
         <div class="footer-section">
             <h3>CildAI</h3>
-            <p>Yapay zeka teknolojisiyle cildinizin geleceğini keşfedin. Sağlıklı cilde giden yolculuğunuzda
-                yanınızdayız.</p>
+            <p>
+                Yapay zeka teknolojisiyle cildinizin geleceğini keşfedin. Sağlıklı cilde
+                giden yolculuğunuzda yanınızdayız.
+            </p>
         </div>
-
         <div class="footer-section">
             <h3>Hızlı Linkler</h3>
             <ul>
@@ -163,7 +149,6 @@
                 <li><a href="#">Blog</a></li>
             </ul>
         </div>
-
         <div class="footer-section">
             <h3>Destek</h3>
             <ul>
@@ -174,7 +159,6 @@
                 <li><a href="#">Geri Bildirim</a></li>
             </ul>
         </div>
-
         <div class="footer-section">
             <h3>İletişim</h3>
             <ul>
@@ -185,9 +169,9 @@
             </ul>
         </div>
     </div>
-
     <div class="footer-bottom">
-        <p>&copy; 2025 CildAI. Tüm hakları saklıdır. |
+        <p>
+            &copy; 2025 CildAI. Tüm hakları saklıdır. |
             <a href="#">Gizlilik Politikası</a> |
             <a href="#">Kullanım Şartları</a> |
             <a href="#">Çerez Politikası</a>
@@ -200,16 +184,32 @@
     <div class="modal-content">
         <span class="close" onclick="closeLoginModal()">&times;</span>
         <h2>Hesabınıza Giriş Yapın</h2>
-        <form onsubmit="event.preventDefault(); window.location.href='index.html';">
+        <form onsubmit="handleLogin(event)">
             <div class="form-group">
                 <label for="email">E-posta Adresiniz</label>
-                <input type="email" id="email" name="email" placeholder="ornek@email.com" required>
+                <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="ornek@email.com"
+                        required
+                />
             </div>
             <div class="form-group">
                 <label for="password">Şifreniz</label>
-                <input type="password" id="password" name="password" placeholder="••••••••" required>
+                <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="••••••••"
+                        required
+                />
             </div>
-            <button type="submit" class="hero-button" style="width: 100%; margin-top: 1rem; justify-content: center;">
+            <button
+                    type="submit"
+                    class="hero-button"
+                    style="width: 100%; margin-top: 1rem; justify-content: center;"
+            >
                 🚀 Giriş Yap
             </button>
         </form>
@@ -218,7 +218,6 @@
                 Hesabınız yok mu?
                 <a href="auth.html">Ücretsiz Kayıt Olun</a>
             </p>
-
             <p style="color: #718096; font-size: 0.85rem;">
                 <a href="#">Şifremi Unuttum</a>
             </p>
@@ -227,36 +226,142 @@
 </div>
 
 <script>
-    // Login Modal Functions
+    // Modal Açma/Kapama Fonksiyonları
     function openLoginModal() {
-        document.getElementById('loginModal').style.display = 'block';
+        document.getElementById("loginModal").style.display = "block";
     }
 
     function closeLoginModal() {
-        document.getElementById('loginModal').style.display = 'none';
+        document.getElementById("loginModal").style.display = "none";
     }
 
     function startAnalysis() {
-        alert('Cilt analizi özelliği yakında aktif olacak!');
+        window.location.href = "index.html";
     }
 
-    // Close modal when clicking outside
-    window.onclick = function (event) {
-        const modal = document.getElementById('loginModal');
-        if (event.target === modal) {
-            modal.style.display = 'none';
+    function handleStartAnalysis(event) {
+        event.preventDefault();
+        const token = localStorage.getItem("access_token");
+        if (!token) {
+            openLoginModal();
+        } else {
+            startAnalysis();
         }
     }
 
-    // Navbar scroll effect
-    window.addEventListener('scroll', function () {
-        const navbar = document.getElementById('navbar');
+    // Login işlemi
+    async function handleLogin(event) {
+        event.preventDefault();
+
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+
+        const formData = new FormData();
+        formData.append("username", email); // FastAPI token endpoint username olarak bekliyor
+        formData.append("password", password);
+
+        try {
+            const response = await fetch("http://localhost:8000/auth/token", {
+                method: "POST",
+                body: formData,
+            });
+
+            if (!response.ok) {
+                alert("❌ Giriş başarısız. Bilgilerinizi kontrol edin.");
+                return;
+            }
+
+            const data = await response.json();
+            localStorage.setItem("access_token", data.access_token);
+            closeLoginModal();
+            window.location.reload(); // Sayfayı yenile ki giriş durumu güncellensin
+        } catch (error) {
+            console.error("Hata:", error);
+            alert("Sunucuya bağlanılamadı.");
+        }
+    }
+
+    // Navbar'daki "Giriş Yap" butonunu kullanıcı e-postasıyla değiştir
+    async function showUserGreeting() {
+        const token = localStorage.getItem("access_token");
+        if (!token) return;
+
+        try {
+            const response = await fetch("http://localhost:8000/auth/me", {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            if (response.ok) {
+                const user = await response.json();
+                const navBtn = document.getElementById("navLoginBtn");
+                navBtn.textContent = `${user.first_name}`;
+                navBtn.href = "#";
+                navBtn.onclick = null;
+            } else {
+                localStorage.removeItem("access_token"); // Token geçersiz ise sil
+            }
+        } catch (error) {
+            console.error("Token doğrulama hatası:", error);
+        }
+    }
+
+    // Sayfa yüklendiğinde kullanıcıyı göster
+    document.addEventListener("DOMContentLoaded", showUserGreeting);
+
+    // Navbar scroll efekti (orijinal koddan)
+    window.addEventListener("scroll", function () {
+        const navbar = document.querySelector(".navbar");
         if (window.scrollY > 50) {
-            navbar.classList.add('scrolled');
+            navbar.classList.add("scrolled");
         } else {
-            navbar.classList.remove('scrolled');
+            navbar.classList.remove("scrolled");
         }
     });
+
+    // Modal dışına tıklayınca kapat
+    window.onclick = function (event) {
+        const modal = document.getElementById("loginModal");
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    };
+
+    function updateAuthButtons() {
+        const token = localStorage.getItem('access_token');
+        const logoutButton = document.getElementById('navLogoutBtn');
+        const loginButton = document.getElementById('loginButton'); // varsa login butonun
+
+        if (token) {
+            // Giriş yapılmışsa çıkış butonunu göster, giriş butonunu gizle
+            if (logoutButton) logoutButton.style.display = 'inline-block';
+            if (loginButton) loginButton.style.display = 'none';
+        } else {
+            // Giriş yoksa çıkış butonunu gizle, giriş butonunu göster
+            if (logoutButton) logoutButton.style.display = 'none';
+            if (loginButton) loginButton.style.display = 'inline-block';
+        }
+    }
+
+    // Sayfa yüklendiğinde çağır
+    document.addEventListener('DOMContentLoaded', () => {
+        updateAuthButtons();
+
+        // Çıkış butonuna tıklandığında token sil ve butonları güncelle
+        const logoutButton = document.getElementById('navLogoutBtn');
+        if (logoutButton) {
+            logoutButton.addEventListener('click', () => {
+                localStorage.removeItem('access_token');
+                alert('Başarıyla çıkış yaptınız.');
+                updateAuthButtons();
+                // İstersen yönlendirme yap:
+                window.location.href = 'giriş.html';
+            });
+        }
+    });
+
+
 </script>
 </body>
 </html>

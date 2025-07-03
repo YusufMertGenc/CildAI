@@ -19,11 +19,11 @@ https://trello.com/invite/b/685bc83a4f7c773d4bd4486c/ATTI8f82cf1744507d75dcd0ac5
 
 ## Ürün Açıklaması
 
-Günümüzde dermatoloji (cildiye) bölümlerinden randevu almak her geçen gün daha da zorlaşıyor. Ancak birçok cilt problemi basit çözümlerle giderilebileceği gibi, bazıları da göz ardı edildiğinde ciddi sağlık sorunlarına yol açabiliyor. İşte tam bu noktada CildAI devreye giriyor.
-CildAI, kullanıcıların cilt problemlerini hızlıca analiz edebilmesini sağlayan yapay zekâ destekli bir dijital dermatoloji asistanıdır. Kullanıcılar ciltlerindeki problemi gösteren bir fotoğraf yükler; CildAI bu görüntüyü analiz ederek olası cilt rahatsızlıklarını tanımlar ve uygun çözüm önerileri sunar.
-Gereksiz hastane ziyaretlerini azaltmak, erken teşhis imkânı sağlamak ve kullanıcıları bilinçlendirmek için tasarlanan CildAI, cilt sağlığını herkes için erişilebilir ve anlaşılır hâle getiriyor
+Günümüzde dermatoloji (cildiye) bölümlerinden randevu almak her geçen gün daha zor hale geliyor. Ancak birçok cilt problemi, basit ve zamanında müdahalelerle çözülebilirken, bazıları ihmal edildiğinde daha ciddi sağlık sorunlarına yol açabiliyor. Bu noktada CildAI, kullanıcılara kolay ve hızlı bir çözüm sunmak amacıyla geliştirilmiştir.
 
+CildAI, yapay zekâ destekli dijital bir dermatoloji asistanıdır. Kullanıcılar, ciltlerindeki problemi gösteren bir fotoğrafı sisteme yükleyerek kısa sürede analiz sonucuna ulaşabilir. Uygulama, yüklenen görseli değerlendirerek cilt tipi hakkında tahminlerde bulunur, gözle görülebilir cilt problemlerini tespit eder ve bakım önerileri sunar. Eğer görselde riskli bir durum tespit edilirse, kullanıcıyı bir dermatoloğa başvurması konusunda bilgilendirir.
 
+CildAI’nin amacı, gereksiz hastane ziyaretlerini azaltmak, erken müdahale imkânı sağlamak ve kullanıcıları cilt sağlığı konusunda bilinçlendirmektir. Böylece cilt problemleri için ilk adımın daha kolay, erişilebilir ve anlaşılır bir şekilde atılması sağlanır.
 
 
 <section style="font-family: Arial, sans-serif; padding: 2rem; background-color: #fdf6f9; color: #333;">

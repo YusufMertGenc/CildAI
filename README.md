@@ -86,6 +86,7 @@ CildAI’nin amacı, gereksiz hastane ziyaretlerini azaltmak, erken müdahale im
 ## Sprint 1
 
 Daily Scrum WhatsApp üzerinden yapılması kararlaştırılmıştır. Ayrıca haftada 2 kez Google Meet üzerinden toplantı yapılmaktadır.
+İlk sprint için tamamlanması gereken puan 150 olarak belirlenmiştir.
 
 ## Sprint Notları
 

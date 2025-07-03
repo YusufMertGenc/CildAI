@@ -30,7 +30,7 @@ CildAI’nin amacı, gereksiz hastane ziyaretlerini azaltmak, erken müdahale im
   <h2 style="color: #b23a48; border-bottom: 2px solid #ffc0cb; padding-bottom: 0.5rem;">Ürün Özellikleri – CildAI</h2>
 
   <h3> Cilt Fotoğrafı ile Yapay Zekâ Tabanlı Analiz</h3>
-  <p>Kullanıcılar ciltlerindeki problemi gösteren bir fotoğraf yükleyerek analiz başlatabilir. Yüklenen görsel Gemini API kullanılarak analiz edilir; kullanıcıya olası cilt rahatsızlıkları, ürün önerileri ve risk durumu hakkında net bir çıktı sunulur.</p>
+  <p>Kullanıcılar sisteme kayıt olup giriş yaptıktan sonra ciltlerindeki problemi gösteren bir fotoğraf yükleyerek analiz başlatabilir. Yüklenen görsel Gemini API kullanılarak analiz edilir; kullanıcıya olası cilt rahatsızlıkları, ürün önerileri ve risk durumu hakkında net bir çıktı sunulur.</p>
 
   <h3> Açıklama Ekleyerek Daha İyi Tahmin</h3>
   <p>Fotoğraf yüklenirken kullanıcı, belirtilerini veya dikkat edilmesini istediği noktaları açıklama olarak iletebilir. Bu bilgiler Gemini modeline dahil edilerek daha doğru ve kişiselleştirilmiş analizler sağlanır.</p>
@@ -38,13 +38,13 @@ CildAI’nin amacı, gereksiz hastane ziyaretlerini azaltmak, erken müdahale im
   <h3> Ürün ve Doğal Çözüm Önerileri</h3>
   <p>Model, analiz sonucunda hem eczaneden alınabilecek hem de doğal yollarla uygulanabilecek öneriler sunar. Kullanıcıya uygun içerikler ve örnek ürün tipleri madde madde listelenir.</p>
 
-  <h3>⚠ Ciddi Risk Uyarı Sistemi</h3>
+  <h3> Ciddi Risk Uyarı Sistemi</h3>
   <p>Model, görselde ciddi veya şüpheli bir durum tespit ederse kullanıcıyı <strong>“Mutlaka bir dermatoloğa danışın”</strong> gibi uyarılarla yönlendirir. Risk yoksa gereksiz panik yaratmadan durumu açıklığa kavuşturur.</p>
 
   <h3> Türkçe ve Açıklayıcı Yanıtlar</h3>
   <p>CildAI, karmaşık tıbbi terimleri sadeleştirerek anlaşılır ve motive edici bir dille kullanıcıya Türkçe çıktı sunar. Yanıtlar bölümlere ayrılmış, anlaşılır ve sade bir yapıda iletilir.</p>
 
-  <h3>🖥 Web Arayüzü Üzerinden Hızlı ve Basit Kullanım</h3>
+  <h3> Web Arayüzü Üzerinden Hızlı ve Basit Kullanım</h3>
   <p>Kullanıcılar tarayıcı üzerinden fotoğraf seçebilir ya da anlık olarak kamera ile çekim yapabilir. Sistem kullanıcı dostu bir arayüz ile analiz sürecini adım adım yönetir.</p>
 
   <h3> Kullanıcı Kayıt ve Giriş Sistemi</h3>

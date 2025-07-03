@@ -120,7 +120,7 @@ Kayıt, giriş, görsel yükleme ve analiz ekranlarından örnekler:
 
 ![Ekran görüntüsü 2025-07-03 124754](https://github.com/user-attachments/assets/80a95146-071d-42a2-b4e6-eb6bf80077fb)
 
-![image](https://github.com/user-attachments/assets/30713973-ebfa-47c1-aece-079bed4d1ee9)
+![CildAI_Sprint1_BuyukGorsel](https://github.com/user-attachments/assets/ba7be1ad-d510-4a84-8dad-a7d1f7f99170)
 
 
 ## Sprint 1 Review 

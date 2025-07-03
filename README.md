@@ -113,7 +113,8 @@ Kayıt, giriş, görsel yükleme ve analiz ekranlarından örnekler:
 ![Görsel 2](https://github.com/user-attachments/assets/3f9d08a1-243f-40c6-8bcb-a5db5547b80f)
 ![Görsel 3](https://github.com/user-attachments/assets/339f324b-3d9c-444c-a475-98f126496e95)
 ![Görsel 4](https://github.com/user-attachments/assets/af00c56b-fdb5-474d-919f-1eb19bf3ed02)
-![Görsel 5](https://github.com/user-attachments/assets/f927c541-e730-4596-ba6b-85aac7a9030c)
+![image](https://github.com/user-attachments/assets/14e6a4c6-7e89-485a-9da9-efdbedb1e07a)
+
 
 
 

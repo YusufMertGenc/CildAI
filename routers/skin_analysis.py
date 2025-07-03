@@ -10,6 +10,9 @@ from typing import Annotated
 from sqlalchemy.orm import Session
 from routers.auth import get_current_user
 from starlette import status
+import markdown2 as markdown
+from bs4 import BeautifulSoup
+
 
 load_dotenv()
 API_KEY = os.getenv("GEMINI_API_KEY")
@@ -124,13 +127,32 @@ async def analyze_skin(file: UploadFile = File(...), notes: str = Form("")):
             "data": image_bytes
         }, prompt])
 
-        return {"advice": response.text}
+        # Yanıtı debug et
+        print("API Yanıtı:", response)
+
+        # Markdown'dan düz metne dönüştür
+        advice_text = response.text
+        print("Dönüştürülmüş metin:", advice_text)
+        clean_advice = markdown_to_text(advice_text)
+
+        return {"advice": clean_advice}
 
     except Exception as e:
         import traceback
         traceback.print_exc()
         raise HTTPException(status_code=500, detail=f"Bir hata oluştu: {str(e)}")
 
+
+
+
+
+
+
+def markdown_to_text(markdown_string):
+    html = markdown.markdown(markdown_string)
+    soup = BeautifulSoup(html, "html.parser")
+    text = soup.get_text()
+    return text
 
 # Fotoğraf Yükleme End Point'i
 @router.post("/upload-photo/")

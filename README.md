@@ -109,7 +109,12 @@ Trello üzerinden planlanan görevlerin durumu aşağıda gösterilmiştir:
 
 Kayıt, giriş, görsel yükleme ve analiz ekranlarından örnekler:
 
-![image](https://github.com/user-attachments/assets/ddff1acd-33f1-4187-89b3-96f1b8beb1f7)
+
+![Ekran görüntüsü 2025-07-03 124754](https://github.com/user-attachments/assets/80a95146-071d-42a2-b4e6-eb6bf80077fb)
+
+
+![image](https://github.com/user-attachments/assets/78f2b70f-1b6a-4db9-a83f-76b4076e0a3d)
+
 
 
 

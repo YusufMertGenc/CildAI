@@ -129,6 +129,14 @@ Kayıt, giriş, görsel yükleme ve analiz ekranlarından örnekler:
 -  Kullanıcı arayüzü tasarlandı ve temel stil uygulamaları tamamlandı.  
 -  Veritabanı bağlantısı için planlar yapıldı ve kullanıcıya özel analiz geçmişi gibi özelliklerin 2. sprintte eklenmesine karar verildi.
 
+## Sprint 1 Retrospective 
+
+- Kamera ve görsel yükleme modülleri sorunsuz şekilde çalıştı.  
+- Gemini API ile temel analiz başarıyla entegre edildi.  
+- Veritabanı entegrasyonu planlandı ve geliştirilmesine karar verildi.  
+- Bir sonraki sprintte analiz geçmişi geliştirilecek.
+
+
 
 
 

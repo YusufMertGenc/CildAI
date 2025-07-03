@@ -94,3 +94,5 @@ Sprint notları:
 3-
 4-
 
+![image](https://github.com/user-attachments/assets/c93b12a1-2e31-4116-b00d-acca41f33f83)
+

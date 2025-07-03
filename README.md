@@ -85,24 +85,23 @@ CildAI’nin amacı, gereksiz hastane ziyaretlerini azaltmak, erken müdahale im
    
 ## Sprint 1
 
-## 🔖 Sprint Notları
+## Sprint Notları
 
 1. Sprint'in Backlog Items kısmının **Trello** üzerinden yapılmasına karar verilmiştir.  
-2. Kullanıcı girişi ve kayıt sistemi temel seviyede tamamlanmıştır.  
-3. Görsel yükleme ve kamera ile analiz başlatma fonksiyonu çalışmaktadır.  
-4. Gemini API ile temel analiz senaryosu başarıyla entegre edilmiştir.  
+2. Kullanıcı girişi ve kayıt sistemi temel seviyede tamamlanmıştır.
+3. Veritabanı bağlantısının başlangıcı yapılmıştır  
+4. Görsel yükleme ve kamera ile analiz başlatma fonksiyonu çalışmaktadır.  
+5. Gemini API ile temel analiz senaryosu başarıyla entegre edilmiştir.  
 
----
 
-## 📌 Sprint Board Görüntüsü
+## Sprint Board Görüntüsü
 
 Trello üzerinden planlanan görevlerin durumu aşağıda gösterilmiştir:
 
 ![Sprint Board](https://github.com/user-attachments/assets/c93b12a1-2e31-4116-b00d-acca41f33f83)
 
----
 
-## 🖼️ Ürünün 1. Sprint Sonu Görüntüleri
+## Ürünün 1. Sprint Sonu Görüntüleri
 
 Kayıt, giriş, görsel yükleme ve analiz ekranlarından örnekler:
 

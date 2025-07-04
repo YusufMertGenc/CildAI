@@ -127,13 +127,13 @@ Kayıt, giriş, görsel yükleme ve analiz ekranlarından örnekler:
 -  Gemini API bağlantısı kurularak temel cilt analiz senaryosu çalıştırıldı.  
 -  Yapay zekâ tarafından analiz edilen görselden yola çıkarak cilt tipi tespiti , bakım önerileri ve var olan cilt sorunun çözümleri hakkında tüyolar kullanıcıya sunuldu.  
 -  Kullanıcı arayüzü tasarlandı ve temel stil uygulamaları tamamlandı.  
--  Veritabanı bağlantısı için planlar yapıldı ve kullanıcıya özel analiz geçmişi gibi özelliklerin 2. sprintte eklenmesine karar verildi.
+-  Veritabanı bağlantısı tamamlandı ve kullanıcıya özel analiz geçmişi gibi özelliklerin 2. sprintte eklenmesine karar verildi.
 
 ## Sprint 1 Retrospective 
 
 - Kamera ve görsel yükleme modülleri sorunsuz şekilde çalıştı.  
 - Gemini API ile temel analiz başarıyla entegre edildi.  
-- Veritabanı entegrasyonu planlandı ve geliştirilmesine karar verildi.  
+- Veritabanı entegrasyonu gerçekleştirildi.  
 - Bir sonraki sprintte analiz geçmişi geliştirilecek.
 
 

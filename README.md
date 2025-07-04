@@ -99,8 +99,8 @@ Daily Scrum WhatsApp üzerinden yapılması kararlaştırılmıştır. Ayrıca h
 ## Sprint Notları
 
 1. Sprint'in Backlog Items kısmının **Trello** üzerinden yapılmasına karar verilmiştir.  
-2. Kullanıcı girişi ve kayıt sistemi temel seviyede tamamlanmıştır.
-3. Veritabanı bağlantısının başlangıcı yapılmıştır  
+2. Kullanıcı girişi ve kayıt sistemi tamamlanmıştır.
+3. Veritabanı bağlantısı lokalde çalışacak şekilde yapılmıştır  
 4. Görsel yükleme ve kamera ile analiz başlatma fonksiyonu çalışmaktadır.  
 5. Gemini API ile temel analiz senaryosu başarıyla entegre edilmiştir.  
 

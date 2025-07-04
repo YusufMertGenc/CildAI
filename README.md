@@ -26,8 +26,7 @@ CildAI, yapay zekâ destekli dijital bir dermatoloji asistanıdır. Kullanıcıl
 CildAI’nin amacı, gereksiz hastane ziyaretlerini azaltmak, erken müdahale imkânı sağlamak ve kullanıcıları cilt sağlığı konusunda bilinçlendirmektir. Böylece cilt problemleri için ilk adımın daha kolay, erişilebilir ve anlaşılır bir şekilde atılması sağlanır.
 
 
-<section style="font-family: Arial, sans-serif; padding: 2rem; background-color: #fdf6f9; color: #333;">
-  <h2 style="color: #b23a48; border-bottom: 2px solid #ffc0cb; padding-bottom: 0.5rem;">Ürün Özellikleri – CildAI</h2>
+  ## Ürün Özellikleri 
 
   <h3> Cilt Fotoğrafı ile Yapay Zekâ Tabanlı Analiz</h3>
   <p>Kullanıcılar sisteme kayıt olup giriş yaptıktan sonra ciltlerindeki problemi gösteren bir fotoğraf yükleyerek analiz başlatabilir. Yüklenen görsel Gemini API kullanılarak analiz edilir; kullanıcıya olası cilt rahatsızlıkları, ürün önerileri ve risk durumu hakkında net bir çıktı sunulur.</p>

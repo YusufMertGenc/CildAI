@@ -96,6 +96,8 @@ Daily Scrum WhatsApp üzerinden yapılması kararlaştırılmıştır. Ayrıca h
 
 İlk sprint için tamamlanması gereken puan 150 olarak belirlenmiştir.
 
+**Puan Tamamlama Mantığı:** Toplamda proje boyunca tamamlanması gereken puan 500 puan olarak belirlenmiştir. 3 sprint'e bölündüğünde ilk sprint'in en azından 150 ile başlaması gerektiğine karar verildi.
+
 ## Sprint Notları
 
 1. Sprint'in Backlog Items kısmının **Trello** üzerinden yapılmasına karar verilmiştir.  

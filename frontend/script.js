@@ -56,3 +56,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
+// Şifre değiştirme sayfasına git
+function goToChangePassword() {
+    window.location.href = 'change-password.html';
+}

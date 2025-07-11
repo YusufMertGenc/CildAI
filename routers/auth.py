@@ -1,7 +1,6 @@
 from datetime import timedelta, datetime, timezone
 from fastapi import APIRouter, Depends, HTTPException
 from zmq.backend import first
-
 from database import SessionLocal
 from typing import Annotated
 from models import User
@@ -14,12 +13,11 @@ from jose import JWTError, jwt
 
 router = APIRouter(
     prefix="/auth",
-    tags=["Authentication"]
+    tags=["Kimlik Doğrulama"]
 )
 
 SECRET_KEY = "x4s7vhci6qv6vm3n42xqjodn30dth9q9r8ewo0wthjihb2q5v81m3hkotof29yib"
 ALGORITHM = "HS256"
-
 
 def get_db():
     db = SessionLocal()
@@ -28,12 +26,10 @@ def get_db():
     finally:
         db.close()
 
-
 db_dependency = Annotated[Session, Depends(get_db)]
 
 bcrypt_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_bearer = OAuth2PasswordBearer(tokenUrl="auth/token")
-
 
 class CreateUserRequest(BaseModel):
     first_name: str
@@ -42,18 +38,20 @@ class CreateUserRequest(BaseModel):
     password: str
     role: str
 
-
 class Token(BaseModel):
     access_token: str
     token_type: str
 
+class ChangePasswordRequest(BaseModel):
+    current_password: str
+    new_password: str
+    confirm_password: str
 
 def create_access_token(email: str, user_id: int, role: str, expires_delta: timedelta):
     payload = {'sub': email, 'id': user_id, 'role': role}
     expires_delta = datetime.now(timezone.utc) + expires_delta
     payload.update({'exp': expires_delta})
     return jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
-
 
 def authenticate_user(db: db_dependency, email: str, password: str):
     user = db.query(User).filter(User.email == email).first()
@@ -63,16 +61,15 @@ def authenticate_user(db: db_dependency, email: str, password: str):
         return False
     return user
 
-
 async def get_current_user(token: Annotated[str, Depends(oauth2_bearer)], db: db_dependency):
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         user_id: int = payload.get('id')
         if user_id is None:
-            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="ID is invalid")
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="ID geçersiz")
         user = db.query(User).filter(User.id == user_id).first()
         if not user:
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Kullanıcı bulunamadı")
         return {
             "email": user.email,
             "first_name": user.first_name,
@@ -80,8 +77,7 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_bearer)], db: db
             "role": user.role
         }
     except JWTError:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token is invalid")
-
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token geçersiz")
 
 @router.post("/create_user", status_code=status.HTTP_201_CREATED)
 async def create_user(db: db_dependency, create_user_request: CreateUserRequest):
@@ -96,22 +92,76 @@ async def create_user(db: db_dependency, create_user_request: CreateUserRequest)
     db.add(user)
     db.commit()
 
-
 @router.post("/token", response_model=Token)
-async def login_for_access_token(from_data: Annotated[OAuth2PasswordRequestForm, Depends()], db: db_dependency):
-    email = from_data.username
-    user = authenticate_user(db, email, from_data.password)
+async def login_for_access_token(form_data: Annotated[OAuth2PasswordRequestForm, Depends()], db: db_dependency):
+    email = form_data.username
+    user = authenticate_user(db, email, form_data.password)
     if not user:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Incorrect email or password")
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Yanlış e-posta veya şifre")
     token = create_access_token(user.email, user.id, user.role, timedelta(minutes=60))
     return {"access_token": token, "token_type": "bearer"}
 
+@router.post("/change-password", status_code=status.HTTP_200_OK)
+async def change_password(
+    password_request: ChangePasswordRequest,
+    db: db_dependency,
+    current_user: dict = Depends(get_current_user)
+):
+    try:
+        # Yeni şifre ve tekrarının aynı olduğunu kontrol et
+        if password_request.new_password != password_request.confirm_password:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Yeni şifre ve tekrarı uyuşmuyor"
+            )
+
+        # Kullanıcıyı veritabanından al
+        user = db.query(User).filter(User.email == current_user["email"]).first()
+        if not user:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Kullanıcı bulunamadı"
+            )
+
+        # Mevcut şifreyi doğrula
+        if not bcrypt_context.verify(password_request.current_password, user.hashed_password):
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Mevcut şifre hatalı"
+            )
+
+        # Yeni şifrenin gereksinimlerini kontrol et
+        if len(password_request.new_password) < 8:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Yeni şifre en az 8 karakter olmalıdır"
+            )
+
+        # Yeni şifreyi hash'le ve güncelle
+        new_hashed_password = bcrypt_context.hash(password_request.new_password)
+        user.hashed_password = new_hashed_password
+
+        # Değişiklikleri kaydet
+        db.commit()
+
+        return {
+            "message": "Şifre başarıyla değiştirildi",
+            "success": True
+        }
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Şifre değiştirme işlemi başarısız: {str(e)}"
+        )
 
 @router.get("/get_all", status_code=status.HTTP_200_OK)
 async def get_all_users(db: db_dependency):
     users = db.query(User).all()
     return users
-
 
 @router.get("/me", status_code=status.HTTP_200_OK)
 async def get_me(current_user: dict = Depends(get_current_user)):

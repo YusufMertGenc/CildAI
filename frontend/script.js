@@ -56,8 +56,88 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
-
 // Şifre değiştirme sayfasına git
 function goToChangePassword() {
     window.location.href = 'change-password.html';
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+  const dropdownBtn = document.getElementById("userDropdownBtn");
+  const dropdown = dropdownBtn?.closest(".dropdown");
+
+  // username varsa göster
+  const storedUsername = localStorage.getItem("username");
+  if (storedUsername && dropdownBtn) {
+    dropdownBtn.innerText = storedUsername + " ⌄";
+  }
+
+  // tıklayınca menü aç-kapa
+  dropdownBtn?.addEventListener("click", function (event) {
+    event.stopPropagation();
+    dropdown?.classList.toggle("show");
+  });
+
+  // başka yere tıklayınca menü kapanır
+  window.addEventListener("click", function () {
+    dropdown?.classList.remove("show");
+  });
+});
+
+function logout() {
+  localStorage.clear();
+  window.location.href = "auth.html";
+}
+
+async function showUserGreeting() {
+  const token = localStorage.getItem("access_token");
+  if (!token) return;
+
+  try {
+    const response = await fetch("http://localhost:8000/auth/me", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (response.ok) {
+      const user = await response.json();
+      const dropdownBtn = document.getElementById("userDropdownBtn");
+      const dropdown = document.querySelector(".dropdown");
+      const navBtn = document.getElementById("navLoginBtn");
+
+      if (user.first_name && dropdownBtn && dropdown) {
+        dropdownBtn.textContent = `${user.first_name} ⌄`;
+        dropdown.style.display = "block";
+      }
+
+      if (navBtn) {
+        navBtn.style.display = "none";
+      }
+
+    } else {
+      localStorage.removeItem("access_token");
+    }
+  } catch (error) {
+    console.error("Kullanıcı bilgisi alınamadı:", error);
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  showUserGreeting();
+
+  const token = localStorage.getItem("access_token");
+  const loginBtn = document.getElementById("navLoginBtn");
+  const logoutBtn = document.getElementById("navLogoutBtn");
+  const dropdown = document.querySelector(".dropdown");
+
+  if (token) {
+    if (loginBtn) loginBtn.style.display = "none";
+    if (logoutBtn) logoutBtn.style.display = "none";
+    if (dropdown) dropdown.style.display = "block";
+  } else {
+    if (loginBtn) loginBtn.style.display = "inline-block";
+    if (logoutBtn) logoutBtn.style.display = "none";
+    if (dropdown) dropdown.style.display = "none";
+  }
+});
+

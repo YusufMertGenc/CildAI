@@ -274,7 +274,7 @@
         const password = document.getElementById("password").value;
 
         const formData = new FormData();
-        formData.append("username", email); // FastAPI token endpoint username olarak bekliyor
+        formData.append("username", email);
         formData.append("password", password);
 
         try {
@@ -283,24 +283,36 @@
                 body: formData,
             });
 
-            const user = await response.json();
+            const text = await response.text();
+            let data;
 
-            if (!user.is_verified) {
-                alert("Lütfen önce e-posta adresinizi doğrulayın.");
+            try {
+                data = JSON.parse(text);
+            } catch {
+                console.error("JSON parse hatası:", text);
+                alert("Sunucudan beklenmeyen bir yanıt alındı.");
                 return;
             }
 
             if (!response.ok) {
-                alert("❌ Giriş başarısız. Bilgilerinizi kontrol edin.");
+                // Backend hata döndürdüyse, özel hata mesajına göre ayrım yap
+                if (response.status === 403 && data.detail.includes("doğrulayın")) {
+                    alert("📧 Lütfen önce e-posta adresinizi doğrulayın.");
+                } else if (response.status === 401) {
+                    alert("❌ Hatalı e-posta veya şifre.");
+                } else {
+                    alert("🚫 Giriş yapılamadı: " + (data.detail || "Bilinmeyen hata"));
+                }
                 return;
             }
 
-            const data = await response.json();
+            // Başarılı giriş
             localStorage.setItem("access_token", data.access_token);
             closeLoginModal();
-            window.location.reload(); // Sayfayı yenile ki giriş durumu güncellensin
+            window.location.reload();
+
         } catch (error) {
-            console.error("Hata:", error);
+            console.error("Sunucu hatası:", error);
             alert("Sunucuya bağlanılamadı.");
         }
     }

@@ -1,6 +1,6 @@
 from datetime import date, datetime
 from database import Base
-from sqlalchemy import Column, Integer, String, Boolean, Date, ForeignKey, DateTime
+from sqlalchemy import Column, Integer, String, Boolean, Date, ForeignKey, DateTime, Text, JSON
 
 
 class User(Base):
@@ -13,3 +13,16 @@ class User(Base):
     hashed_password = Column(String)
     is_active = Column(Boolean, default=True)
     role = Column(String)
+
+
+class Chat(Base):
+    __tablename__ = 'chats'
+
+    id = Column(String, primary_key=True, index=True)
+    user_email = Column(String, ForeignKey('users.email'), index=True)  # User ile ilişki
+    title = Column(String)
+    category = Column(String, default="analysis")
+    status = Column(String, default="completed")
+    messages = Column(Text)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)

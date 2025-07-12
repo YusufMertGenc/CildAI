@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CildAI - Geçmiş Konuşmalar</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">CildAI</div>
+            <ul class="nav-menu">
+                <li><a href="#" class="nav-link">Ana Sayfa</a></li>
+                <li><a href="#" class="nav-link">Hakkımızda</a></li>
+                <li><a href="#" class="nav-link">Özellikler</a></li>
+                <li><a href="#" class="nav-link">İletişim</a></li>
+                <li><a href="#" class="nav-btn">Ahmet K.</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Header -->
+        <div class="page-header">
+            <div class="page-badge">💬 Konuşma Geçmişi</div>
+            <h1 class="page-title">Geçmiş <span class="highlight">Analizleriniz</span></h1>
+            <p class="page-subtitle">
+                Daha önceki cilt analizi konuşmalarınızı inceleyin ve devam ettirin.
+            </p>
+        </div>
+
+        <!-- Filter Section -->
+        <div class="filter-section">
+            <div class="filter-group">
+                <label class="filter-label">Tarih:</label>
+                <select class="filter-select" id="dateFilter">
+                    <option value="7">Son 7 gün</option>
+                    <option value="30">Son 30 gün</option>
+                    <option value="90">Son 3 ay</option>
+                    <option value="all">Tüm zamanlar</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label class="filter-label">Konu:</label>
+                <select class="filter-select" id="topicFilter">
+                    <option value="all">Tüm konular</option>
+                    <option value="analysis">Cilt analizi</option>
+                    <option value="products">Ürün önerileri</option>
+                    <option value="routine">Bakım rutini</option>
+                    <option value="problems">Sorun giderme</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label class="filter-label">Ara:</label>
+                <input type="text" class="filter-input" id="searchInput" placeholder="Konuşmalarda ara...">
+            </div>
+            <button class="search-btn" id="filterBtn">🔍 Filtrele</button>
+        </div>
+
+        <!-- Loading State -->
+        <div class="loading-state" id="loadingState">
+            <div class="loading-spinner"></div>
+            <p>Konuşmalar yükleniyor...</p>
+        </div>
+
+        <!-- Chat History -->
+        <div class="chat-history" id="chatHistory">
+            <!-- Konuşmalar JavaScript ile buraya yüklenecek -->
+        </div>
+
+        <!-- Empty State -->
+        <div class="empty-state" id="emptyState" style="display: none;">
+            <div class="empty-icon">💬</div>
+            <h3 class="empty-title">Konuşma Bulunamadı</h3>
+            <p class="empty-text">
+                Seçilen kriterlere uygun konuşma bulunamadı. Filtreleri değiştirmeyi deneyin.
+            </p>
+            <a href="#" class="start-new-btn">🚀 Yeni Analiz Başlat</a>
+        </div>
+
+        <!-- Error State -->
+        <div class="error-state" id="errorState" style="display: none;">
+            <div class="error-icon">⚠️</div>
+            <h3 class="error-title">Hata Oluştu</h3>
+            <p class="error-text">
+                Konuşmalar yüklenirken bir hata oluştu. Lütfen sayfayı yenileyin.
+            </p>
+            <button class="retry-btn" id="retryBtn">🔄 Tekrar Dene</button>
+        </div>
+    </div>
+
+    <!-- JavaScript dosyası -->
+    <script src="history.js"></script>
+</body>
+</html>

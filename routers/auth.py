@@ -10,14 +10,20 @@ from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
 from passlib.context import CryptContext
 from pydantic import BaseModel
 from jose import JWTError, jwt
+import os
+from dotenv import load_dotenv
 
 router = APIRouter(
     prefix="/auth",
     tags=["Kimlik Doğrulama"]
 )
 
-SECRET_KEY = "x4s7vhci6qv6vm3n42xqjodn30dth9q9r8ewo0wthjihb2q5v81m3hkotof29yib"
-ALGORITHM = "HS256"
+
+
+load_dotenv()
+
+SECRET_KEY = os.getenv("SECRET_KEY")
+ALGORITHM = os.getenv("ALGORITHM")
 
 def get_db():
     db = SessionLocal()

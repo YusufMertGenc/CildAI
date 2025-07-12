@@ -84,8 +84,8 @@
             });
 
             if (response.ok) {
-                alert("✅ Kayıt başarılı! Giriş sayfasına yönlendiriliyorsunuz...");
-                window.location.href = "giriş.html";
+                alert("✅ Kayıt başarılı! Lütfen e-posta adresinizi kontrol edin ve doğrulama bağlantısına tıklayın.");
+                // Yönlendirme yapma!
             } else {
                 const errorData = await response.json();
                 throw new Error(errorData.detail || "Kayıt başarısız");

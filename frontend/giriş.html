@@ -21,21 +21,22 @@
             <li><a href="#" class="nav-btn" id="navLogoutBtn" onclick="openLoginModal()" style="display: none">Çıkış
                 Yap</a></li>
 
-         <li class="dropdown" id="userDropdownContainer" style="display: none; margin-left: auto;">
-    <button class="dropbtn" id="userDropdownBtn" style="background-color: #f3e3f9; color: black; border-radius: 8px; padding: 0.5rem 1rem;">
-      Kullanıcı 
-    </button>
-    <div class="dropdown-content">
-      <a href="index.html">Cilt Analizi Yap</a>
-      <a href="#">Analiz Geçmişi</a>
-      <a href="password.html">Şifreyi Değiştir</a>
-      <a href="#" id="dropdownLogoutBtn">Çıkış Yap</a>
-    </div>
-  </li>
+            <li class="dropdown" id="userDropdownContainer" style="display: none; margin-left: auto;">
+                <button class="dropbtn" id="userDropdownBtn"
+                        style="background-color: #f3e3f9; color: black; border-radius: 8px; padding: 0.5rem 1rem;">
+                    Kullanıcı
+                </button>
+                <div class="dropdown-content">
+                    <a href="index.html">Cilt Analizi Yap</a>
+                    <a href="#">Analiz Geçmişi</a>
+                    <a href="password.html">Şifreyi Değiştir</a>
+                    <a href="#" id="dropdownLogoutBtn">Çıkış Yap</a>
+                </div>
+            </li>
 
         </ul>
     </div>
-    
+
 
 </nav>
 
@@ -282,6 +283,13 @@
                 body: formData,
             });
 
+            const user = await response.json();
+
+            if (!user.is_verified) {
+                alert("Lütfen önce e-posta adresinizi doğrulayın.");
+                return;
+            }
+
             if (!response.ok) {
                 alert("❌ Giriş başarısız. Bilgilerinizi kontrol edin.");
                 return;
@@ -313,13 +321,13 @@
                 const user = await response.json();
                 const navBtn = document.getElementById("navLoginBtn");
                 const dropdownBtn = document.getElementById("userDropdownBtn");
-                 if (dropdownBtn) {
-                 dropdownBtn.textContent = `${user.first_name} ⌄`;
-}
+                if (dropdownBtn) {
+                    dropdownBtn.textContent = `${user.first_name} ⌄`;
+                }
                 if (navBtn) {
-                navBtn.style.display = "none";
-}
-document.querySelector(".dropdown").style.display = "block";
+                    navBtn.style.display = "none";
+                }
+                document.querySelector(".dropdown").style.display = "block";
 
                 navBtn.href = "#";
                 navBtn.onclick = null;
@@ -384,59 +392,59 @@ document.querySelector(".dropdown").style.display = "block";
             });
         }
     });
-// Kullanıcı adıyla birlikte dropdown'ı göster
-async function showUserGreeting() {
-    const token = localStorage.getItem("access_token");
-    if (!token) return;
 
-    try {
-        const response = await fetch("http://localhost:8000/auth/me", {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        });
+    // Kullanıcı adıyla birlikte dropdown'ı göster
+    async function showUserGreeting() {
+        const token = localStorage.getItem("access_token");
+        if (!token) return;
 
-        if (response.ok) {
-            const user = await response.json();
-            const dropdownBtn = document.getElementById("userDropdownBtn");
-            dropdownBtn.textContent = `${user.first_name} ⌄`;
-            document.querySelector(".dropdown").style.display = "block";
-        } else {
-            localStorage.removeItem("access_token");
+        try {
+            const response = await fetch("http://localhost:8000/auth/me", {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            if (response.ok) {
+                const user = await response.json();
+                const dropdownBtn = document.getElementById("userDropdownBtn");
+                dropdownBtn.textContent = `${user.first_name} ⌄`;
+                document.querySelector(".dropdown").style.display = "block";
+            } else {
+                localStorage.removeItem("access_token");
+            }
+        } catch (error) {
+            console.error("Kullanıcı verisi alınamadı:", error);
         }
-    } catch (error) {
-        console.error("Kullanıcı verisi alınamadı:", error);
     }
-}
 
-// Çıkış işlevi
-function logout() {
-    localStorage.removeItem("access_token");
-    alert("Çıkış yapıldı.");
-    window.location.href = "giriş.html";
-}
-
-// Sayfa yüklenince çalıştır
-document.addEventListener("DOMContentLoaded", () => {
-    showUserGreeting();
-
-    const logoutLink = document.getElementById("dropdownLogoutBtn");
-    if (logoutLink) {
-        logoutLink.addEventListener("click", function (e) {
-            e.preventDefault();
-            logout();
-        });
+    // Çıkış işlevi
+    function logout() {
+        localStorage.removeItem("access_token");
+        alert("Çıkış yapıldı.");
+        window.location.href = "giriş.html";
     }
-});
 
-document.addEventListener("DOMContentLoaded", () => {
-    const token = localStorage.getItem("access_token");
-    if (token) {
-        const loginBtn = document.getElementById("navLoginBtn");
-        if (loginBtn) loginBtn.style.display = "none";
-    }
-});
+    // Sayfa yüklenince çalıştır
+    document.addEventListener("DOMContentLoaded", () => {
+        showUserGreeting();
 
+        const logoutLink = document.getElementById("dropdownLogoutBtn");
+        if (logoutLink) {
+            logoutLink.addEventListener("click", function (e) {
+                e.preventDefault();
+                logout();
+            });
+        }
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const token = localStorage.getItem("access_token");
+        if (token) {
+            const loginBtn = document.getElementById("navLoginBtn");
+            if (loginBtn) loginBtn.style.display = "none";
+        }
+    });
 
 
 </script>

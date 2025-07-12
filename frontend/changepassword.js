@@ -1,6 +1,6 @@
 let passwordStrength = 0;
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // Token kontrolü
     const token = localStorage.getItem('access_token');
     if (!token) {
@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('passwordForm');
 
     // Event listeners
-    newPasswordInput.addEventListener('input', function() {
+    newPasswordInput.addEventListener('input', function () {
         const password = this.value;
 
         if (password.length > 0) {
@@ -88,11 +88,11 @@ function updateStrengthMeter(strength) {
 
 function validateRequirements(password) {
     const requirements = [
-        { id: 'lengthReq', test: password.length >= 8 },
-        { id: 'upperReq', test: /[A-Z]/.test(password) },
-        { id: 'lowerReq', test: /[a-z]/.test(password) },
-        { id: 'numberReq', test: /[0-9]/.test(password) },
-        { id: 'specialReq', test: /[^A-Za-z0-9]/.test(password) }
+        {id: 'lengthReq', test: password.length >= 8},
+        {id: 'upperReq', test: /[A-Z]/.test(password)},
+        {id: 'lowerReq', test: /[a-z]/.test(password)},
+        {id: 'numberReq', test: /[0-9]/.test(password)},
+        {id: 'specialReq', test: /[^A-Za-z0-9]/.test(password)}
     ];
 
     requirements.forEach(req => {
@@ -141,9 +141,9 @@ function validateForm() {
 
     // Submit button durumu
     const isValid = currentPassword.length > 0 &&
-                   newPassword.length >= 8 &&
-                   passwordStrength >= 3 &&
-                   newPassword === confirmPassword;
+        newPassword.length >= 8 &&
+        passwordStrength >= 3 &&
+        newPassword === confirmPassword;
 
     submitBtn.disabled = !isValid;
 }

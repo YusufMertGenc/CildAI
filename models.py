@@ -13,6 +13,7 @@ class User(Base):
     hashed_password = Column(String)
     is_active = Column(Boolean, default=True)
     role = Column(String)
+    is_verified = Column(Boolean, default=False)
 
 
 class Chat(Base):

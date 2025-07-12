@@ -10,6 +10,8 @@ from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
 from passlib.context import CryptContext
 from pydantic import BaseModel
 from jose import JWTError, jwt
+from utils import generate_confirmation_token
+from mail_utils import send_verification_email
 import os
 from dotenv import load_dotenv
 
@@ -18,12 +20,11 @@ router = APIRouter(
     tags=["Kimlik Doğrulama"]
 )
 
-
-
 load_dotenv()
 
 SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM = os.getenv("ALGORITHM")
+
 
 def get_db():
     db = SessionLocal()
@@ -32,10 +33,12 @@ def get_db():
     finally:
         db.close()
 
+
 db_dependency = Annotated[Session, Depends(get_db)]
 
 bcrypt_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_bearer = OAuth2PasswordBearer(tokenUrl="auth/token")
+
 
 class CreateUserRequest(BaseModel):
     first_name: str
@@ -44,20 +47,24 @@ class CreateUserRequest(BaseModel):
     password: str
     role: str
 
+
 class Token(BaseModel):
     access_token: str
     token_type: str
+
 
 class ChangePasswordRequest(BaseModel):
     current_password: str
     new_password: str
     confirm_password: str
 
+
 def create_access_token(email: str, user_id: int, role: str, expires_delta: timedelta):
     payload = {'sub': email, 'id': user_id, 'role': role}
     expires_delta = datetime.now(timezone.utc) + expires_delta
     payload.update({'exp': expires_delta})
     return jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
+
 
 def authenticate_user(db: db_dependency, email: str, password: str):
     user = db.query(User).filter(User.email == email).first()
@@ -66,6 +73,7 @@ def authenticate_user(db: db_dependency, email: str, password: str):
     if not bcrypt_context.verify(password, user.hashed_password):
         return False
     return user
+
 
 async def get_current_user(token: Annotated[str, Depends(oauth2_bearer)], db: db_dependency):
     try:
@@ -85,6 +93,7 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_bearer)], db: db
     except JWTError:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token geçersiz")
 
+
 @router.post("/create_user", status_code=status.HTTP_201_CREATED)
 async def create_user(db: db_dependency, create_user_request: CreateUserRequest):
     user = User(
@@ -95,8 +104,12 @@ async def create_user(db: db_dependency, create_user_request: CreateUserRequest)
         is_active=True,
         hashed_password=bcrypt_context.hash(create_user_request.password),
     )
+    token = generate_confirmation_token(create_user_request.email)
+    await send_verification_email(email=create_user_request.email, token=token)
+
     db.add(user)
     db.commit()
+
 
 @router.post("/token", response_model=Token)
 async def login_for_access_token(form_data: Annotated[OAuth2PasswordRequestForm, Depends()], db: db_dependency):
@@ -104,14 +117,17 @@ async def login_for_access_token(form_data: Annotated[OAuth2PasswordRequestForm,
     user = authenticate_user(db, email, form_data.password)
     if not user:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Yanlış e-posta veya şifre")
+    if not user.is_verified:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Lütfen önce e-posta adresinizi doğrulayın.")
     token = create_access_token(user.email, user.id, user.role, timedelta(minutes=60))
     return {"access_token": token, "token_type": "bearer"}
 
+
 @router.post("/change-password", status_code=status.HTTP_200_OK)
 async def change_password(
-    password_request: ChangePasswordRequest,
-    db: db_dependency,
-    current_user: dict = Depends(get_current_user)
+        password_request: ChangePasswordRequest,
+        db: db_dependency,
+        current_user: dict = Depends(get_current_user)
 ):
     try:
         # Yeni şifre ve tekrarının aynı olduğunu kontrol et
@@ -164,10 +180,12 @@ async def change_password(
             detail=f"Şifre değiştirme işlemi başarısız: {str(e)}"
         )
 
+
 @router.get("/get_all", status_code=status.HTTP_200_OK)
 async def get_all_users(db: db_dependency):
     users = db.query(User).all()
     return users
+
 
 @router.get("/me", status_code=status.HTTP_200_OK)
 async def get_me(current_user: dict = Depends(get_current_user)):

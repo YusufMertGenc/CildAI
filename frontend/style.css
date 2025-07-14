@@ -2302,3 +2302,28 @@ body {
     border-radius: 50%;
     animation: spin 1s linear infinite;
 }
+.hero-visual {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.hero-image-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.hero-woman-img {
+    object-fit: cover; /* Görselin oranını koruyarak, alanı tamamen kaplar */
+    width: 100%; /* Görselin genişliği tam ekran genişliğine uyar */
+    height: 100%; /* Görselin yüksekliği tam ekran yüksekliğine uyar */
+    border-radius: 20px; /* Yuvarlatılmış köşeler */
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1); /* Hafif gölge efekti */
+    position: relative;
+}

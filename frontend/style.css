@@ -2320,10 +2320,10 @@ body {
 }
 
 .hero-woman-img {
-    object-fit: cover; /* Görselin oranını koruyarak, alanı tamamen kaplar */
-    width: 100%; /* Görselin genişliği tam ekran genişliğine uyar */
-    height: 100%; /* Görselin yüksekliği tam ekran yüksekliğine uyar */
-    border-radius: 20px; /* Yuvarlatılmış köşeler */
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1); /* Hafif gölge efekti */
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
     position: relative;
 }

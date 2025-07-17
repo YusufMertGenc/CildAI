@@ -159,7 +159,10 @@ Daily Scrum WhatsApp üzerinden yapılması kararlaştırılmıştır. Ayrıca h
 5. Geçmiş analizleri görüntüleme fonksiyonu sorunsuz çalışmaktadır.
 
 
-## Ürünün 2. Sprint Sonu Görüntüleri
+## Sprint Board Görüntüleri
+
+![WhatsApp Görsel 2025-07-18 saat 00 39 03_86718acd](https://github.com/user-attachments/assets/af62ce3e-80ac-4a07-9b23-0e52b3186876)
+
 
 
 

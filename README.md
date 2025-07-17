@@ -140,6 +140,26 @@ Kayıt, giriş, görsel yükleme ve analiz ekranlarından örnekler:
 
 
 
+## Sprint 2
+
+
+Daily Scrum WhatsApp üzerinden yapılması kararlaştırılmıştır. Ayrıca haftada 2 kez Google Meet üzerinden toplantı yapılmaktadır.
+(wp link)
+
+İkinci sprint için tamamlanması gereken puan 200 olarak belirlenmiştir.
+
+**Puan Tamamlama Mantığı:** Toplamda proje boyunca tamamlanması gereken puan 500 puan olarak belirlenmiştir. 3 sprint'e bölündüğünde ikinci sprint 200 puan hedeflenmiş ve hedefe ulaşılmıştır.
+
+## Sprint Notları
+
+1. Sprint sorunsuz ilerlemiştir.
+2. Trello'da sprint 2 için belirlenen tüm backlog hedeflerine ulaşılmıştır.
+3. Veritabanı bağlantıları başarıyla sağlanmıştır.
+4. Kayıt olurken Mail ile doğrulama fonksiyonu başarıyla eklenmiştir.
+5. Geçmiş analizleri görüntüleme fonksiyonu sorunsuz çalışmaktadır.
+
+
+## Ürünün 2. Sprint Sonu Görüntüleri
 
 
 

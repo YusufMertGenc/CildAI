@@ -1,4 +1,7 @@
 from datetime import date, datetime
+
+from sqlalchemy.orm import relationship
+
 from database import Base
 from sqlalchemy import Column, Integer, String, Boolean, Date, ForeignKey, DateTime, Text, JSON
 
@@ -14,16 +17,15 @@ class User(Base):
     is_active = Column(Boolean, default=True)
     role = Column(String)
     is_verified = Column(Boolean, default=False)
+    prompts = relationship("Chat", back_populates="user")
 
 
 class Chat(Base):
     __tablename__ = 'chats'
 
     id = Column(String, primary_key=True, index=True)
-    user_email = Column(String, ForeignKey('users.email'), index=True)  # User ile ilişki
-    title = Column(String)
-    category = Column(String, default="analysis")
-    status = Column(String, default="completed")
-    messages = Column(Text)
-    created_at = Column(DateTime, default=datetime.utcnow)
-    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    input_text = Column(Text)
+    output_text = Column(Text)
+    created_at = Column(DateTime, default=datetime.now())
+    owner_id = Column(Integer, ForeignKey('users.id'))
+    user = relationship("User", back_populates="prompts")

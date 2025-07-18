@@ -153,9 +153,9 @@ Daily Scrum WhatsApp üzerinden yapılması kararlaştırılmıştır. Ayrıca h
 ## Sprint Notları
 
 1. Sprint sorunsuz ilerlemiştir.
-2. Trello'da sprint 2 için belirlenen tüm backlog hedeflerine ulaşılmıştır.
+2. Trello üzerinden takip edilen Sprint 2 backlog öğelerinin tamamı başarıyla tamamlandı.
 3. Veritabanı bağlantıları başarıyla sağlanmıştır.
-4. Kayıt olurken Mail ile doğrulama fonksiyonu başarıyla eklenmiştir.
+4. Kayıt sürecine mail doğrulama özelliği eklendi, kullanıcı güvenliği artırıldı.
 5. Geçmiş analizleri görüntüleme fonksiyonu sorunsuz çalışmaktadır.
 
 
@@ -165,9 +165,24 @@ Daily Scrum WhatsApp üzerinden yapılması kararlaştırılmıştır. Ayrıca h
 
 ## Ürünün 2. Sprint Sonu Görüntüleri
 
+Maild doğrulama, Şifreyi değiştirme, geçmiş analizleri görüntüleme ekranlarından örnekler:
+
 <img width="3983" height="2418" alt="Untitled (2)" src="https://github.com/user-attachments/assets/c9dc95ce-c1b7-4f9c-9346-14217cd0a994" />
 
 
+## Sprint 2 Review 
 
+1. Kullanıcı kayıt sürecine mail doğrulama adımı başarıyla entegre edildi.
+2. Kullanıcıların geçmiş analiz sonuçlarını görüntüleyebileceği arayüz geliştirildi ve veritabanı bağlantısı başarıyla kuruldu.
+3. Kullanıcı arayüzüne şifre değiştirme arayüzü eklendi.
+4. Arayüz tasarımları daha da iyileştirildi kullanıcı deneyimini iyileştirme üzerine çalışıldı.
+5. Bu sprint için belirlenen backlog maddeleri başarıyla tamamlandı ve hedeflenen 200 puana ulaşıldı.
+
+## Sprint 2 Retrospective
+
+1. Mail doğrulama sistemi stabil çalıştı.
+2. Geçmiş analiz görüntüleme özelliği veritabanı ile entegre bir şekilde sorunsuz tamamlandı.
+3. Daily Scrum düzenli yapıldı, takım içi iletişim verimliydi.
+4. Bir sonraki sprintte analiz sonucunun zenginleştirilmesine ve sonucun pdf ile indirilebilmesine odaklanmasına kararlaştırıldı.
 
 

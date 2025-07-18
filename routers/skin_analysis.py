@@ -9,10 +9,10 @@ from dotenv import load_dotenv
 from typing import Annotated
 from sqlalchemy.orm import Session
 from routers.auth import get_current_user
-from starlette import status
 import markdown2 as markdown
 from bs4 import BeautifulSoup
-
+from models import Chat
+import uuid
 
 load_dotenv()
 API_KEY = os.getenv("GEMINI_API_KEY")
@@ -37,12 +37,12 @@ db_dependency = Annotated[Session, Depends(get_db)]
 user_dependency = Annotated[dict, Depends(get_current_user)]
 
 
-# Cilt Analiz End Point'i
 @router.post("/analyze-skin")
-async def analyze_skin(file: UploadFile = File(...), notes: str = Form("")):
+async def analyze_skin(db: db_dependency, current_user: user_dependency, file: UploadFile = File(...),
+                       notes: str = Form("")):
+    print("Kullanıcı kimliği:", current_user)
     try:
         image_bytes = await file.read()
-        # Fotoğrafı kontrol et
         if not image_bytes:
             raise HTTPException(status_code=400, detail="Boş bir dosya gönderildi.")
 
@@ -121,19 +121,27 @@ async def analyze_skin(file: UploadFile = File(...), notes: str = Form("")):
 
         """
 
-        # Gemini API'ye fotoğrafı ve promptu gönder
         response = model.generate_content([{
             "mime_type": "image/png",
             "data": image_bytes
         }, prompt])
 
-        # Yanıtı debug et
         print("API Yanıtı:", response)
 
-        # Markdown'dan düz metne dönüştür
         advice_text = response.text
         print("Dönüştürülmüş metin:", advice_text)
         clean_advice = markdown_to_text(advice_text)
+
+        chat = Chat(
+            id=str(uuid.uuid4()),
+            input_text=notes,
+            output_text=clean_advice,
+            owner_id=current_user["id"]
+        )
+
+        db.add(chat)
+        db.commit()
+        db.refresh(chat)
 
         return {"advice": clean_advice}
 
@@ -143,31 +151,23 @@ async def analyze_skin(file: UploadFile = File(...), notes: str = Form("")):
         raise HTTPException(status_code=500, detail=f"Bir hata oluştu: {str(e)}")
 
 
-
-
-
-
-
 def markdown_to_text(markdown_string):
     html = markdown.markdown(markdown_string)
     soup = BeautifulSoup(html, "html.parser")
     text = soup.get_text()
     return text
 
-# Fotoğraf Yükleme End Point'i
+
 @router.post("/upload-photo/")
 async def upload_photo(file: UploadFile = File(...)):
     try:
-        # Fotoğrafı al
         image_data = await file.read()
 
         if not image_data:
             raise HTTPException(status_code=400, detail="Boş bir dosya gönderildi.")
 
-        # Fotoğrafı açma
         image = Image.open(io.BytesIO(image_data))
 
-        # Fotoğrafı kaydetme
         image.save("uploaded_image.png")
 
         return JSONResponse(content={"message": "Fotoğraf başarıyla alındı ve kaydedildi!"})

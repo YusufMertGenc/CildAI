@@ -136,7 +136,7 @@ async def analyze_skin(db: db_dependency, current_user: user_dependency, file: U
             id=str(uuid.uuid4()),
             input_text=notes,
             output_text=clean_advice,
-            owner_id=current_user["id"]
+            owner_id=current_user['id']
         )
 
         db.add(chat)

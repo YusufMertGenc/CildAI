@@ -76,6 +76,7 @@ def authenticate_user(db: db_dependency, email: str, password: str):
 
 
 async def get_current_user(token: Annotated[str, Depends(oauth2_bearer)], db: db_dependency):
+    print("Token geldi:", token)
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         user_id: int = payload.get('id')
@@ -85,6 +86,7 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_bearer)], db: db
         if not user:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Kullanıcı bulunamadı")
         return {
+            "id": user.id,
             "email": user.email,
             "first_name": user.first_name,
             "last_name": user.last_name,
@@ -130,7 +132,6 @@ async def change_password(
         current_user: dict = Depends(get_current_user)
 ):
     try:
-        # Yeni şifre ve tekrarının aynı olduğunu kontrol et
         if password_request.new_password != password_request.confirm_password:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,

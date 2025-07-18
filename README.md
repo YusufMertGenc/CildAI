@@ -171,9 +171,7 @@ Mail ile doğrulama, Şifreyi değiştirme, geçmiş analizleri görüntüleme e
 <img width="3983" height="2418" alt="Untitled (2)" src="https://github.com/user-attachments/assets/c9dc95ce-c1b7-4f9c-9346-14217cd0a994" />
 
 
-![İsimsiz video ‐ Clipchamp ile yapıldı](https://github.com/user-attachments/assets/66f4c2db-8435-4790-b591-e84d4a900a5f)
-
-![İsimsiz video ‐ Clipchamp ile yapıldı (1)](https://github.com/user-attachments/assets/e846565a-cc10-4d37-ac7c-b1ae81c0b7a1)
+![İsimsiz video ‐ Clipchamp ile yapıldı](https://github.com/user-attachments/assets/66f4c2db-8435-4790-b591-e84d4a900a5f)   ![İsimsiz video ‐ Clipchamp ile yapıldı (1)](https://github.com/user-attachments/assets/e846565a-cc10-4d37-ac7c-b1ae81c0b7a1)
 
 
 

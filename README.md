@@ -141,9 +141,8 @@ Kayıt, giriş, görsel yükleme ve analiz ekranlarından örnekler:
 
 </details>
 
-## Sprint 2
-
-<details>
+<details open>
+<summary><h1>Sprint 2</h1></summary>
 
 Daily Scrum WhatsApp üzerinden yapılması kararlaştırılmıştır. Ayrıca haftada 2 kez Google Meet üzerinden toplantı yapılmaktadır.
 [WhatsApp](https://docs.google.com/document/d/1DqaNYERf67wZJCIukt82bfNLmlmdU3RIkjStB5OfpzM/edit?usp=sharing)

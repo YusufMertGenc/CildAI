@@ -213,6 +213,11 @@
             alert("Lütfen analiz için geçerli bir fotoğraf çekin veya yükleyin.");
             return;
         }
+        const token = localStorage.getItem("access_token");
+        if (!token) {
+            alert("Lütfen giriş yapınız.");
+            return;
+        }
 
         snapshotCanvas.toBlob(async function (blob) {
             console.log("🧪 toBlob sonucu:", blob);
@@ -231,6 +236,9 @@
             try {
                 const response = await fetch("http://127.0.0.1:8000/skin-analysis/analyze-skin", {
                     method: "POST",
+                    headers: {
+                        "Authorization": "Bearer " + token
+                    },
                     body: formData,
                 });
 

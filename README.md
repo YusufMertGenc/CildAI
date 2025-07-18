@@ -165,7 +165,7 @@ Daily Scrum WhatsApp üzerinden yapılması kararlaştırılmıştır. Ayrıca h
 
 ## Ürünün 2. Sprint Sonu Görüntüleri
 
-Maild doğrulama, Şifreyi değiştirme, geçmiş analizleri görüntüleme ekranlarından örnekler:
+Mail ile doğrulama, Şifreyi değiştirme, geçmiş analizleri görüntüleme ekranlarından örnekler:
 
 <img width="3983" height="2418" alt="Untitled (2)" src="https://github.com/user-attachments/assets/c9dc95ce-c1b7-4f9c-9346-14217cd0a994" />
 

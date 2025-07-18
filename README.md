@@ -89,8 +89,9 @@ CildAI’nin amacı, gereksiz hastane ziyaretlerini azaltmak, erken müdahale im
   </li>
 </ol>
    
-## Sprint 1
-<details>
+<details open>
+<summary><strong>Sprint 1</strong></summary>
+
 Daily Scrum WhatsApp üzerinden yapılması kararlaştırılmıştır. Ayrıca haftada 2 kez Google Meet üzerinden toplantı yapılmaktadır.
 [WhatsApp](https://docs.google.com/document/d/1FLoClnP6Rm0HkNO5hTPNYlvJD8l6ZGhptwZLcr0uJsw/edit?usp=sharing) 
 

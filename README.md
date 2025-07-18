@@ -165,7 +165,8 @@ Daily Scrum WhatsApp üzerinden yapılması kararlaştırılmıştır. Ayrıca h
 
 ## Ürünün 2. Sprint Sonu Görüntüleri
 
-<img width="3983" height="2418" alt="Untitled (2)" src="https://github.com/user-attachments/assets/b29bd460-a1da-4cde-ad62-891d8a98d8d7" />
+<img width="3983" height="2418" alt="Untitled (2)" src="https://github.com/user-attachments/assets/c9dc95ce-c1b7-4f9c-9346-14217cd0a994" />
+
 
 
 

@@ -5,13 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>CildAI - Yapay Zeka ile Cilt Analizi</title>
     <link rel="stylesheet" href="style.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 </head>
 <body>
 <!-- Navigation -->
 <nav class="navbar">
     <div class="nav-container">
         <div class="logo">
-         <img src="logoooo.jpg" alt="CildAI Logo" style="height: 120px; vertical-align: middle;" /></div>
+            <img src="logoooo.jpg" alt="CildAI Logo" style="height: 120px; vertical-align: middle;"/></div>
         <ul class="nav-menu">
             <li><a href="#" class="nav-link">Ana Sayfa</a></li>
             <li><a href="#footer" class="nav-link">Hakkımızda</a></li>
@@ -62,7 +63,7 @@
         <div class="hero-visual">
             <div class="hero-image-container">
                 <!-- Yeni eklenen görsel -->
-                <img src="kadın.jpg" alt="Cilt Analizi Kadın Görseli" class="hero-woman-img" />
+                <img src="kadın.jpg" alt="Cilt Analizi Kadın Görseli" class="hero-woman-img"/>
             </div>
         </div>
     </div>
@@ -155,7 +156,7 @@
                 giden yolculuğunuzda yanınızdayız.
             </p>
         </div>
-        
+
         <div class="footer-section">
             <h3>Destek</h3>
             <ul>
@@ -228,7 +229,6 @@
 </div>
 
 <script>
-    // Modal Açma/Kapama Fonksiyonları
     function openLoginModal() {
         document.getElementById("loginModal").style.display = "block";
     }
@@ -251,7 +251,6 @@
         }
     }
 
-    // Login işlemi
     async function handleLogin(event) {
         event.preventDefault();
 
@@ -280,18 +279,16 @@
             }
 
             if (!response.ok) {
-                // Backend hata döndürdüyse, özel hata mesajına göre ayrım yap
                 if (response.status === 403 && data.detail.includes("doğrulayın")) {
-                    alert("📧 Lütfen önce e-posta adresinizi doğrulayın.");
+                    toastr.warning('Lütfen önce e-posta adresinizi doğrulayın.');
                 } else if (response.status === 401) {
-                    alert("❌ Hatalı e-posta veya şifre.");
+                    toastr.error('Hatalı e-posta veya şifre');
                 } else {
-                    alert("🚫 Giriş yapılamadı: " + (data.detail || "Bilinmeyen hata"));
+                    toastr.error("Giriş yapılamadı: " + (data.detail || "Bilinmeyen hata"));
                 }
                 return;
             }
 
-            // Başarılı giriş
             localStorage.setItem("access_token", data.access_token);
             closeLoginModal();
             window.location.reload();
@@ -302,7 +299,6 @@
         }
     }
 
-    // Navbar'daki "Giriş Yap" butonunu kullanıcı e-postasıyla değiştir
     async function showUserGreeting() {
         const token = localStorage.getItem("access_token");
         if (!token) return;
@@ -329,17 +325,15 @@
                 navBtn.href = "#";
                 navBtn.onclick = null;
             } else {
-                localStorage.removeItem("access_token"); // Token geçersiz ise sil
+                localStorage.removeItem("access_token");
             }
         } catch (error) {
             console.error("Token doğrulama hatası:", error);
         }
     }
 
-    // Sayfa yüklendiğinde kullanıcıyı göster
     document.addEventListener("DOMContentLoaded", showUserGreeting);
 
-    // Navbar scroll efekti (orijinal koddan)
     window.addEventListener("scroll", function () {
         const navbar = document.querySelector(".navbar");
         if (window.scrollY > 50) {
@@ -349,7 +343,6 @@
         }
     });
 
-    // Modal dışına tıklayınca kapat
     window.onclick = function (event) {
         const modal = document.getElementById("loginModal");
         if (event.target === modal) {
@@ -357,40 +350,7 @@
         }
     };
 
-    function updateAuthButtons() {
-        const token = localStorage.getItem('access_token');
-        const logoutButton = document.getElementById('navLogoutBtn');
-        const loginButton = document.getElementById('loginButton'); // varsa login butonun
 
-        if (token) {
-            // Giriş yapılmışsa çıkış butonunu göster, giriş butonunu gizle
-            if (logoutButton) logoutButton.style.display = 'inline-block';
-            if (loginButton) loginButton.style.display = 'none';
-        } else {
-            // Giriş yoksa çıkış butonunu gizle, giriş butonunu göster
-            if (logoutButton) logoutButton.style.display = 'none';
-            if (loginButton) loginButton.style.display = 'inline-block';
-        }
-    }
-
-    // Sayfa yüklendiğinde çağır
-    document.addEventListener('DOMContentLoaded', () => {
-        updateAuthButtons();
-
-        // Çıkış butonuna tıklandığında token sil ve butonları güncelle
-        const logoutButton = document.getElementById('navLogoutBtn');
-        if (logoutButton) {
-            logoutButton.addEventListener('click', () => {
-                localStorage.removeItem('access_token');
-                alert('Başarıyla çıkış yaptınız.');
-                updateAuthButtons();
-                // İstersen yönlendirme yap:
-                window.location.href = 'giriş.html';
-            });
-        }
-    });
-
-    // Kullanıcı adıyla birlikte dropdown'ı göster
     async function showUserGreeting() {
         const token = localStorage.getItem("access_token");
         if (!token) return;
@@ -415,14 +375,12 @@
         }
     }
 
-    // Çıkış işlevi
     function logout() {
         localStorage.removeItem("access_token");
-        alert("Çıkış yapıldı.");
+        toastr.success('Başarıyla çıkış yaptınız.');
         window.location.href = "giriş.html";
     }
 
-    // Sayfa yüklenince çalıştır
     document.addEventListener("DOMContentLoaded", () => {
         showUserGreeting();
 
@@ -443,7 +401,8 @@
         }
     });
 
-
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 </body>
 </html>

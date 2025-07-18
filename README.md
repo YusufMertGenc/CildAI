@@ -161,7 +161,7 @@ Daily Scrum WhatsApp üzerinden yapılması kararlaştırılmıştır. Ayrıca h
 
 ## Sprint Board Görüntüleri
 
-![WhatsApp Görsel 2025-07-18 saat 00 39 03_86718acd](https://github.com/user-attachments/assets/af62ce3e-80ac-4a07-9b23-0e52b3186876)
+![WhatsApp Görsel 2025-07-18 saat 00 39 03_86718acd]([https://github.com/user-attachments/assets/af62ce3e-80ac-4a07-9b23-0e52b3186876](https://docs.google.com/document/d/1DqaNYERf67wZJCIukt82bfNLmlmdU3RIkjStB5OfpzM/edit?usp=sharing))
 
 ## Ürünün 2. Sprint Sonu Görüntüleri
 

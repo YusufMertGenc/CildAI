@@ -173,6 +173,7 @@ Mail ile doğrulama, Şifreyi değiştirme, geçmiş analizleri görüntüleme e
 
 ![İsimsiz video ‐ Clipchamp ile yapıldı](https://github.com/user-attachments/assets/66f4c2db-8435-4790-b591-e84d4a900a5f)
 
+![İsimsiz video ‐ Clipchamp ile yapıldı (1)](https://github.com/user-attachments/assets/e846565a-cc10-4d37-ac7c-b1ae81c0b7a1)
 
 
 

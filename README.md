@@ -147,6 +147,8 @@ Kayıt, giriş, görsel yükleme ve analiz ekranlarından örnekler:
 Daily Scrum WhatsApp üzerinden yapılması kararlaştırılmıştır. Ayrıca haftada 2 kez Google Meet üzerinden toplantı yapılmaktadır.
 [WhatsApp](https://docs.google.com/document/d/1DqaNYERf67wZJCIukt82bfNLmlmdU3RIkjStB5OfpzM/edit?usp=sharing)
 
+<img width="1311" height="603" alt="image" src="https://github.com/user-attachments/assets/323725c0-3c76-464b-80e1-37ddee6b26fc" />
+
 İkinci sprint için tamamlanması gereken puan 200 olarak belirlenmiştir.
 
 **Puan Tamamlama Mantığı:** Toplamda proje boyunca tamamlanması gereken puan 500 puan olarak belirlenmiştir. 3 sprint'e bölündüğünde ikinci sprint 200 puan hedeflenmiş ve hedefe ulaşılmıştır.

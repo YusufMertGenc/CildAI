@@ -190,6 +190,6 @@ Mail ile doğrulama, Şifreyi değiştirme, geçmiş analizleri görüntüleme e
 1. Mail doğrulama sistemi stabil çalıştı.
 2. Geçmiş analiz görüntüleme özelliği veritabanı ile entegre bir şekilde sorunsuz tamamlandı.
 3. Daily Scrum düzenli yapıldı, takım içi iletişim verimliydi.
-4. Bir sonraki sprintte analiz sonucunun zenginleştirilmesine ve sonucun pdf ile indirilebilmesine odaklanmasına kararlaştırıldı.
+4. Bir sonraki sprintte analiz sonucunun zenginleştirilmesine ,sonucun pdf ile indirilebilmesine ve ürünün canlıya alınması konularına odaklanılmasına kararlaştırıldı.
 
 </details>

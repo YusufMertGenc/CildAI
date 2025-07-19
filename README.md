@@ -181,8 +181,9 @@ Mail ile doğrulama, Şifreyi değiştirme, geçmiş analizleri görüntüleme e
 1. Kullanıcı kayıt sürecine mail doğrulama adımı başarıyla entegre edildi.
 2. Kullanıcıların geçmiş analiz sonuçlarını görüntüleyebileceği arayüz geliştirildi ve veritabanı bağlantısı başarıyla kuruldu.
 3. Kullanıcı arayüzüne şifre değiştirme arayüzü eklendi.
-4. Arayüz tasarımları daha da iyileştirildi kullanıcı deneyimini iyileştirme üzerine çalışıldı.
-5. Bu sprint için belirlenen backlog maddeleri başarıyla tamamlandı ve hedeflenen 200 puana ulaşıldı.
+4. Arayüz tasarımları daha da iyileştirildi.
+5. Kullanıcı deneyimini iyileştirmek için testler yapıldı ve notlar alındı.
+6. Bu sprint için belirlenen backlog maddeleri başarıyla tamamlandı ve hedeflenen 200 puana ulaşıldı.
 
 ## Sprint 2 Retrospective
 

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>CildAI - Kayıt Ol</title>
+    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+</head>
+<body>
+<div class="auth-container">
+    <a href="analysis.html" class="auth-logo">CildAI</a>
+
+    <div id="signup" class="tab-content active">
+        <form onsubmit="handleSignup(event)">
+            <div class="form-group">
+                <label for="signup-first-name">Adınız</label>
+                <input type="text" id="signup-first-name" name="first_name" placeholder="Adınız" required/>
+            </div>
+
+            <div class="form-group">
+                <label for="signup-last-name">Soyadınız</label>
+                <input type="text" id="signup-last-name" name="last_name" placeholder="Soyadınız" required/>
+            </div>
+            <div class="form-group">
+                <label for="signup-email">E-posta Adresiniz</label>
+                <input type="email" id="signup-email" name="email" placeholder="ornek@email.com" required/>
+            </div>
+            <div class="form-group">
+                <label for="signup-password">Şifre Oluşturun</label>
+                <input type="password" id="signup-password" name="password" placeholder="••••••••" required/>
+            </div>
+            <div class="form-group">
+                <label for="signup-confirm-password">Şifreyi Tekrar Girin</label>
+                <input type="password" id="signup-confirm-password" name="confirm-password" placeholder="••••••••"
+                       required/>
+            </div>
+            <button type="submit" class="auth-button">Kayıt Ol</button>
+        </form>
+
+        <div class="auth-links">
+            <p>Zaten bir hesabınız var mı? <a href="index.html">Giriş Yapın</a></p>
+        </div>
+    </div>
+</div>
+
+<script src="js/register.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+</body>
+</html>

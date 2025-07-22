@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Token kontrolü
     const token = localStorage.getItem('access_token');
     if (!token) {
-        window.location.href = 'giriş.html';
+        window.location.href = 'index.html';
         return;
     }
 
@@ -186,7 +186,7 @@ async function handleSubmit(e) {
 
             setTimeout(() => {
                 localStorage.removeItem('access_token');
-                window.location.href = 'giriş.html';
+                window.location.href = 'index.html';
             }, 3000);
 
         } else {

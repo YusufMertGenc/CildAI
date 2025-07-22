@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>CildAI – Dijital Cilt Analiz Asistanı</title>
+    <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+            rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css"/>
+</head>
+
+<body>
+<div class="container">
+    <div class="header">
+        <img src="images/logo.jpg" alt="CildAI Logo" class="logo"/>
+        <h1>CildAI</h1>
+        <p class="subtitle">
+            Cilt sağlığınız için yapay zekâ destekli analiz asistanı
+        </p>
+    </div>
+
+    <section class="intro-box">
+        <p>
+            📷 Cilt problemini gösteren bir fotoğraf yükleyin veya çekin. Açıklama
+            eklerseniz daha doğru sonuçlar alırsınız. Gemini modeli saniyeler
+            içinde analiz eder.
+        </p>
+    </section>
+
+    <form id="uploadForm" class="upload-section">
+        <div class="upload-card">
+            <h2>🔬 Analize Başla</h2>
+            <p>
+                Görsel yükleyin, belirtmek istediğiniz notları girin ve analiz
+                butonuna tıklayın.
+            </p>
+
+            <div class="button-group">
+                <label for="imageInput" class="action-button primary">+ Fotoğraf Seç</label>
+                <input type="file" id="imageInput" name="file" accept="image/*" style="display: none;"/>
+
+                <button type="button" id="start-camera" class="action-button primary">
+                    📸 Fotoğraf Çek
+                </button>
+            </div>
+
+            <div id="camera" style="display: none">
+                <video id="video" width="320" height="240" autoplay></video>
+                <button type="button" id="snap" class="action-button secondary">
+                    Fotoğraf Çek
+                </button>
+            </div>
+
+            <div id="photo-preview" style="display: none">
+                <canvas id="snapshot" width="320" height="240"></canvas>
+                <button type="button" id="remove-photo" class="action-button danger">
+                    ❌ Fotoğrafı Kaldır
+                </button>
+            </div>
+
+            <textarea
+                    id="userNotes"
+                    placeholder="Varsa belirtmek istediğiniz belirtiler veya notlar..."
+                    rows="4"
+            ></textarea>
+
+            <button type="submit" class="action-button primary">
+                🔍 Analizi Başlat
+            </button>
+        </div>
+    </form>
+
+    <div style="text-align: center; margin-top: 1.5rem;">
+        <button onclick="window.location.href='index.html'"
+                style="padding: 0.7rem 1.5rem; background: #4A5568; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">
+            🏠 Ana Sayfaya Dön
+        </button>
+    </div>
+
+    <div id="result" class="result-box">Analiz sonuçları burada görünecek...</div>
+
+    <footer class="footer">
+        <p>© 2025 CildAI | Geliştirici Bootcamp Projesi</p>
+    </footer>
+</div>
+
+<script src="js/analysis.js"></script>
+</body>
+</html>

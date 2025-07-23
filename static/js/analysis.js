@@ -166,6 +166,9 @@ uploadForm.addEventListener("submit", function (e) {
       <button onclick="window.location.reload()" style="padding: 0.7rem 1.5rem; background:#b23a48; color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">
         🔁 Yeni Analiz Yap
       </button>
+      <button id="downloadPdfBtn" class="action-button primary">
+        📄 PDF Olarak İndir
+     </button>
     </div>
   </div>
 `;
@@ -175,4 +178,29 @@ uploadForm.addEventListener("submit", function (e) {
             resultBox.innerHTML = `<p>❌ Hata oluştu: ${error.message}</p>`;
         }
     }, "image/png");
+});
+
+document.addEventListener("click", function (e) {
+    if (e.target && e.target.id === "downloadPdfBtn") {
+        const adviceText = resultBox.innerText;
+
+        const formData = new FormData();
+        formData.append("advice", adviceText);
+
+        fetch("http://127.0.0.1:8000/skin-analysis/generate-pdf/", {
+            method: "POST",
+            body: formData
+        })
+        .then(response => response.blob())
+        .then(blob => {
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "analiz_raporu.pdf";
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+        })
+        .catch(err => alert("PDF oluşturulamadı: " + err.message));
+    }
 });

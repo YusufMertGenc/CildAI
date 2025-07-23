@@ -40,6 +40,13 @@ document.addEventListener("DOMContentLoaded", () => {
         chats.forEach(chat => {
             const chatItem = document.createElement("div");
             chatItem.className = "chat-item";
+
+            const escapedResponse = chat.response
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+
             chatItem.innerHTML = `
                 <div class="chat-meta">
                     <div class="chat-date">${chat.timestamp}</div>
@@ -47,6 +54,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 <div class="chat-content">
                     <div class="chat-prompt"><strong>Prompt:</strong><br>${truncateText(chat.prompt, 1000)}</div>
                     <div class="chat-response"><strong>Cevap:</strong><br>${truncateText(chat.response, 1000)}</div>
+                    <form method="POST" action="http://127.0.0.1:8000/skin-analysis/generate-pdf/" target="_blank">
+                    <input type="hidden" name="advice" value="${escapedResponse}">
+                    <button type="submit" class="download-pdf-btn">📄 PDF İndir</button>
+                </form>
                 </div>
             `;
             chatHistoryContainer.appendChild(chatItem);

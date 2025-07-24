@@ -10,16 +10,38 @@ import re
 import unicodedata
 import os
 
+
+current_file_dir = os.path.dirname(os.path.abspath(__file__))
+
+project_root_dir = os.path.join(current_file_dir, '..')
+
+fonts_dir = os.path.join(project_root_dir, 'fonts')
+
+
+images_dir = os.path.join(project_root_dir, 'static')
+logo_path = os.path.join(images_dir, "images")
+last_path = os.path.join(logo_path, "logo.jpg")
+
+try:
+    pdfmetrics.registerFont(TTFont("DejaVuSans", os.path.join(fonts_dir, "DejaVuSans.ttf")))
+    pdfmetrics.registerFont(TTFont("DejaVuSans-Bold", os.path.join(fonts_dir, "DejaVuSans-Bold.ttf")))
+except Exception as e:
+    print(f"Font kaydı sırasında hata oluştu: {e}")
+    print(f"Fontların arandığı dizin: {fonts_dir}")
+
 def generate_analysis_pdf(advice: str):
     try:
         def clean_text_for_pdf(text):
-            emoji_pattern = re.compile("["                                  
-                                       u"\U0001F600-\U0001F64F"
-                                       u"\U0001F300-\U0001F5FF"
-                                       u"\U0001F680-\U0001F6FF"
-                                       u"\U0001F1E0-\U0001F1FF"
-                                       u"\u200b\u200c\u200d\uFEFF\u00a0"
-                                       "]+", flags=re.UNICODE)
+            emoji_pattern = re.compile(
+                "["                                  
+                u"\U0001F600-\U0001F64F" # emoticons
+                u"\U0001F300-\U0001F5FF" # symbols & pictographs
+                u"\U0001F680-\U0001F6FF" # transport & map symbols
+                u"\U0001F1E0-\U0001F1FF" # flags (iOS)
+                u"\u200b\u200c\u200d\uFEFF\u00a0" # Zero width spaces, etc.
+                "]+",
+                flags=re.UNICODE
+            )
             return unicodedata.normalize("NFKC", emoji_pattern.sub('', text))
 
         cleaned_text = clean_text_for_pdf(advice)
@@ -30,16 +52,12 @@ def generate_analysis_pdf(advice: str):
         width, height = letter
         margin = 1 * inch
 
-
-        pdfmetrics.registerFont(TTFont("DejaVuSans", "fonts/DejaVuSans.ttf"))
-        pdfmetrics.registerFont(TTFont("DejaVuSans-Bold", "fonts/DejaVuSans-Bold.ttf"))
-
-
-        logo_path = os.path.abspath("logo.jpg")
-        if os.path.exists(logo_path):
-            logo_width = 120
-            logo_height = 40
-            p.drawImage(logo_path, (width - logo_width) / 2, height - inch + 10, width=logo_width, height=logo_height, mask='auto')
+        if os.path.exists(last_path):
+            logo_width = 80
+            logo_height = 80
+            p.drawImage(last_path, (width - logo_width) / 2, height - inch - 20, width=logo_width, height=logo_height, mask='auto')
+        else:
+            print(f"Logo dosyası bulunamadı: {last_path}")
 
 
         x = margin
@@ -75,15 +93,17 @@ def generate_analysis_pdf(advice: str):
                 if y < margin:
                     p.showPage()
                     y = height - margin
-                    p.setFont(font_name, font_size)  # yeniden set et!
+                    p.setFont(font_name, font_size)
 
-            p.save()
-            buffer.seek(0)
+        p.save()
+        buffer.seek(0)
 
-            return StreamingResponse(buffer, media_type="application/pdf", headers={
-                "Content-Disposition": "attachment; filename=analiz_raporu.pdf"
-            })
+        return StreamingResponse(buffer, media_type="application/pdf", headers={
+            "Content-Disposition": "attachment; filename=analiz_raporu.pdf"
+        })
 
     except Exception as e:
+        print(f"PDF oluşturulurken genel bir hata oluştu: {e}")
+        import traceback
+        traceback.print_exc()
         return JSONResponse(content={"error": str(e)}, status_code=500)
-

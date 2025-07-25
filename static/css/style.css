@@ -2341,3 +2341,40 @@ body {
 .download-pdf-btn:hover {
   background-color: #e055a1;
 }
+
+
+/* Logo stilleri - daha dikey ve köşeler daha az kesik */
+.logo {
+    font-size: 1.8rem;
+    font-weight: 800;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    display: flex;
+    align-items: center;
+}
+
+.logo-img {
+    height: 93px; /* Daha yüksek */
+    width: 120px; /* Genişlik korundu */
+    object-fit: cover;
+    border-radius: 3px; /* Köşeler daha az kesik */
+}
+
+/* Responsive için */
+@media (max-width: 768px) {
+    .logo-img {
+        height: 60px;
+        width: 100px;
+        border-radius: 3px;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo-img {
+        height: 50px;
+        width: 85px;
+        border-radius: 3px;
+    }
+}

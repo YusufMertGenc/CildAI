@@ -59,6 +59,12 @@ class ChangePasswordRequest(BaseModel):
     confirm_password: str
 
 
+class ChangeEmailRequest(BaseModel):
+    current_password: str
+    new_email: str
+    confirm_email: str
+
+
 def create_access_token(email: str, user_id: int, role: str, expires_delta: timedelta):
     payload = {'sub': email, 'id': user_id, 'role': role}
     expires_delta = datetime.now(timezone.utc) + expires_delta
@@ -179,6 +185,78 @@ async def change_password(
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Şifre değiştirme işlemi başarısız: {str(e)}"
+        )
+
+
+@router.post("/change-email", status_code=status.HTTP_200_OK)
+async def change_email(
+        email_request: ChangeEmailRequest,
+        db: db_dependency,
+        current_user: dict = Depends(get_current_user)
+):
+    try:
+        print(f"📧 Mail değiştirme isteği - Kullanıcı: {current_user['email']}")
+        print(f"📧 Yeni mail: {email_request.new_email}")
+
+        # Email'lerin eşleştiğini kontrol et
+        if email_request.new_email != email_request.confirm_email:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Yeni mail adresleri eşleşmiyor"
+            )
+
+        # Yeni email'in mevcut email'den farklı olduğunu kontrol et
+        if email_request.new_email == current_user['email']:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Yeni mail adresi mevcut mail adresinizle aynı olamaz"
+            )
+
+        # Kullanıcıyı veritabanından getir
+        user = db.query(User).filter(User.id == current_user['id']).first()
+        if not user:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Kullanıcı bulunamadı"
+            )
+
+        # Mevcut şifreyi doğrula
+        if not bcrypt_context.verify(email_request.current_password, user.hashed_password):
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Mevcut şifre yanlış"
+            )
+
+        # Yeni email'in başka bir kullanıcı tarafından kullanılıp kullanılmadığını kontrol et
+        existing_user = db.query(User).filter(User.email == email_request.new_email).first()
+        if existing_user:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Bu mail adresi başka bir kullanıcı tarafından kullanılıyor"
+            )
+
+        # Mail adresini güncelle
+        old_email = user.email
+        user.email = email_request.new_email
+        db.commit()
+
+        print(f"✅ Mail başarıyla değiştirildi: {old_email} -> {email_request.new_email}")
+
+        return {
+            "message": "Mail adresi başarıyla değiştirildi",
+            "old_email": old_email,
+            "new_email": email_request.new_email,
+            "success": True
+        }
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        print(f"❌ Mail değiştirme hatası: {e}")
+        db.rollback()
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Mail değiştirme sırasında bir hata oluştu: {str(e)}"
         )
 
 

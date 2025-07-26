@@ -2343,8 +2343,7 @@ body {
 }
 
 
-/* Logo stilleri - daha dikey ve köşeler daha az kesik */
-.logo {
+.navbar .logo {
     font-size: 1.8rem;
     font-weight: 800;
     background: var(--gradient-primary);
@@ -2355,16 +2354,16 @@ body {
     align-items: center;
 }
 
-.logo-img {
+.navbar .logo-img {
     height: 93px; /* Daha yüksek */
     width: 120px; /* Genişlik korundu */
     object-fit: cover;
     border-radius: 3px; /* Köşeler daha az kesik */
 }
 
-/* Responsive için */
+/* Responsive - SADECE navbar için */
 @media (max-width: 768px) {
-    .logo-img {
+    .navbar .logo-img {
         height: 60px;
         width: 100px;
         border-radius: 3px;
@@ -2372,7 +2371,7 @@ body {
 }
 
 @media (max-width: 480px) {
-    .logo-img {
+    .navbar .logo-img {
         height: 50px;
         width: 85px;
         border-radius: 3px;

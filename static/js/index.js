@@ -7,7 +7,7 @@ function closeLoginModal() {
 }
 
 function startAnalysis() {
-    window.location.href = "index.html";
+    window.location.href = "analysis.html";
 }
 
 function handleStartAnalysis(event) {

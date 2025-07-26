@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const token = localStorage.getItem("access_token");
 
     if (!token) {
-        showError("Giriş yapmadığınız için konuşmalar görüntülenemiyor.");
+        window.location.replace("index.html")
         return;
     }
 
@@ -42,10 +42,10 @@ document.addEventListener("DOMContentLoaded", () => {
             chatItem.className = "chat-item";
 
             const escapedResponse = chat.response
-            .replace(/"/g, '&quot;')
-            .replace(/'/g, '&#39;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;');
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;');
 
             chatItem.innerHTML = `
                 <div class="chat-meta">

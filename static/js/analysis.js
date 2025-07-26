@@ -9,12 +9,17 @@ const removePhotoButton = document.getElementById("remove-photo");
 const imageInput = document.getElementById("imageInput");
 const uploadForm = document.getElementById("uploadForm");
 const resultBox = document.getElementById("result");
+const token = localStorage.getItem("access_token");
 
 let stream = null;
 let userLocation = null; // EKLENEN: Konum bilgisi için
 
 // EKLENEN: Sayfa yüklendiğinde konum izni iste
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
+    if (!token) {
+        window.location.replace("index.html")
+        return;
+    }
     requestLocationPermission();
 });
 
@@ -32,10 +37,10 @@ function showLocationStatus(message, type) {
         max-width: 300px;
         z-index: 1000;
         box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        ${type === 'success' ? 
-            'background: #e6fffa; color: #234e52; border: 1px solid #4fd1c7;' : 
-            'background: #fff5f5; color: #c53030; border: 1px solid #feb2b2;'
-        }
+        ${type === 'success' ?
+        'background: #e6fffa; color: #234e52; border: 1px solid #4fd1c7;' :
+        'background: #fff5f5; color: #c53030; border: 1px solid #feb2b2;'
+    }
     `;
 
     document.body.appendChild(statusDiv);
@@ -58,7 +63,7 @@ function requestLocationPermission() {
 
     if ("geolocation" in navigator) {
         navigator.geolocation.getCurrentPosition(
-            function(position) {
+            function (position) {
                 userLocation = {
                     latitude: position.coords.latitude,
                     longitude: position.coords.longitude
@@ -66,12 +71,12 @@ function requestLocationPermission() {
                 console.log("✅ Konum başarıyla alındı:", userLocation);
                 showLocationStatus("📍 Konum bilginiz alındı (acil durumlarda hastane önerisi için)", "success");
             },
-            function(error) {
+            function (error) {
                 console.log("❌ Konum alınamadı:", error.message);
                 console.log("❌ Hata kodu:", error.code);
 
                 let errorMsg = "";
-                switch(error.code) {
+                switch (error.code) {
                     case error.PERMISSION_DENIED:
                         errorMsg = "Konum izni reddedildi";
                         break;
@@ -200,6 +205,7 @@ uploadForm.addEventListener("submit", function (e) {
 
     const userNotes = document.getElementById("userNotes").value;
 
+
     const isCanvasEmpty = (() => {
         const blank = document.createElement("canvas");
         blank.width = snapshotCanvas.width;
@@ -211,11 +217,7 @@ uploadForm.addEventListener("submit", function (e) {
         alert("Lütfen analiz için geçerli bir fotoğraf çekin veya yükleyin.");
         return;
     }
-    const token = localStorage.getItem("access_token");
-    if (!token) {
-        alert("Lütfen giriş yapınız.");
-        return;
-    }
+
 
     snapshotCanvas.toBlob(async function (blob) {
         console.log("🧪 toBlob sonucu:", blob);
@@ -292,7 +294,7 @@ uploadForm.addEventListener("submit", function (e) {
 
             // EKLENEN: Risk durumunda sayfayı yukarı kaydır
             if (hasRisk) {
-                resultBox.scrollIntoView({ behavior: 'smooth' });
+                resultBox.scrollIntoView({behavior: 'smooth'});
             }
 
         } catch (error) {
@@ -313,16 +315,16 @@ document.addEventListener("click", function (e) {
             method: "POST",
             body: formData
         })
-        .then(response => response.blob())
-        .then(blob => {
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = "analiz_raporu.pdf";
-            document.body.appendChild(a);
-            a.click();
-            a.remove();
-        })
-        .catch(err => alert("PDF oluşturulamadı: " + err.message));
+            .then(response => response.blob())
+            .then(blob => {
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement("a");
+                a.href = url;
+                a.download = "analiz_raporu.pdf";
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+            })
+            .catch(err => alert("PDF oluşturulamadı: " + err.message));
     }
 });

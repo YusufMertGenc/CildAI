@@ -11,6 +11,93 @@ const uploadForm = document.getElementById("uploadForm");
 const resultBox = document.getElementById("result");
 
 let stream = null;
+let userLocation = null; // EKLENEN: Konum bilgisi için
+
+// EKLENEN: Sayfa yüklendiğinde konum izni iste
+document.addEventListener('DOMContentLoaded', function() {
+    requestLocationPermission();
+});
+
+// EKLENEN: Konum bildirimi gösterme fonksiyonu (sağ üst köşe)
+function showLocationStatus(message, type) {
+    const statusDiv = document.createElement('div');
+    statusDiv.innerHTML = message;
+    statusDiv.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 8px 12px; 
+        border-radius: 6px; 
+        font-size: 12px; 
+        max-width: 300px;
+        z-index: 1000;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        ${type === 'success' ? 
+            'background: #e6fffa; color: #234e52; border: 1px solid #4fd1c7;' : 
+            'background: #fff5f5; color: #c53030; border: 1px solid #feb2b2;'
+        }
+    `;
+
+    document.body.appendChild(statusDiv);
+
+    // 5 saniye sonra fade out ile kaldır
+    setTimeout(() => {
+        statusDiv.style.transition = 'opacity 0.5s ease-out';
+        statusDiv.style.opacity = '0';
+        setTimeout(() => {
+            if (statusDiv.parentNode) {
+                statusDiv.parentNode.removeChild(statusDiv);
+            }
+        }, 500);
+    }, 5000);
+}
+
+// GÜNCELLENDİ: Konum izni alma fonksiyonu (bildirim eklendi)
+function requestLocationPermission() {
+    console.log("🔍 Konum izni isteniyor...");
+
+    if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(
+            function(position) {
+                userLocation = {
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude
+                };
+                console.log("✅ Konum başarıyla alındı:", userLocation);
+                showLocationStatus("📍 Konum bilginiz alındı (acil durumlarda hastane önerisi için)", "success");
+            },
+            function(error) {
+                console.log("❌ Konum alınamadı:", error.message);
+                console.log("❌ Hata kodu:", error.code);
+
+                let errorMsg = "";
+                switch(error.code) {
+                    case error.PERMISSION_DENIED:
+                        errorMsg = "Konum izni reddedildi";
+                        break;
+                    case error.POSITION_UNAVAILABLE:
+                        errorMsg = "Konum bilgisi mevcut değil";
+                        break;
+                    case error.TIMEOUT:
+                        errorMsg = "Konum alma zaman aşımı";
+                        break;
+                    default:
+                        errorMsg = "Bilinmeyen konum hatası";
+                }
+
+                showLocationStatus(`⚠️ ${errorMsg}. Acil durumlarda hastane önerisi yapılamayacak.`, "warning");
+            },
+            {
+                enableHighAccuracy: true,
+                timeout: 10000,
+                maximumAge: 300000
+            }
+        );
+    } else {
+        console.log("❌ Geolocation desteklenmiyor");
+        showLocationStatus("⚠️ Tarayıcınız konum özelliğini desteklemiyor", "warning");
+    }
+}
 
 startCameraButton.addEventListener("click", function () {
     cameraDiv.style.display = "flex";
@@ -142,6 +229,15 @@ uploadForm.addEventListener("submit", function (e) {
         formData.append("file", blob, "photo.png");
         formData.append("notes", userNotes);
 
+        // EKLENEN: Konum bilgisini form data'ya ekle (debug ile)
+        if (userLocation) {
+            console.log("📍 Konum bilgisi gönderiliyor:", userLocation);
+            formData.append("latitude", userLocation.latitude);
+            formData.append("longitude", userLocation.longitude);
+        } else {
+            console.log("❌ Konum bilgisi yok! Hastane önerisi yapılamayacak.");
+        }
+
         resultBox.innerHTML = `⏳ Analiz ediliyor...`;
 
         try {
@@ -154,24 +250,50 @@ uploadForm.addEventListener("submit", function (e) {
             });
 
             const data = await response.json();
-            const lines = (data.advice || "").split(/1\.|2\.|3\./);
+
+            // GÜNCELLENEN: Yeni format için sonuç gösterimi (risk durumuna göre)
+            const hasRisk = data.has_risk || false;
+            const advice = data.advice || "";
+
+            // Risk durumuna göre stil belirleme - sadece risk varsa kırmızı
+            const riskStyle = hasRisk ?
+                'background: linear-gradient(135deg, #fed7d7 0%, #feb2b2 100%); border: 3px solid #e53e3e;' :
+                'background: white; border: 2px solid #e2e8f0;';
 
             resultBox.innerHTML = `
-      <div class="result-box">
-    <h2>🩺 Analiz Sonucu</h2>
-    <h3>1. Tespit</h3><p>${lines[1]?.trim()}</p>
-    <h3>2. Çözüm</h3><p>${lines[2]?.trim()}</p>
-    <h3>3. Risk Durumu</h3><p>${lines[3]?.trim()}</p>
-    <div style="text-align:center; margin-top: 2rem;">
-      <button onclick="window.location.reload()" style="padding: 0.7rem 1.5rem; background:#b23a48; color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">
-        🔁 Yeni Analiz Yap
-      </button>
-      <button id="downloadPdfBtn" class="action-button primary">
-        📄 PDF Olarak İndir
-     </button>
-    </div>
-  </div>
-`;
+                <div class="result-box" style="${riskStyle} padding: 1.5rem; border-radius: 12px; margin: 1rem 0;">
+                    <h2 style="text-align: center; color: ${hasRisk ? '#c53030' : '#2d3748'}; margin-bottom: 1rem;">
+                        ${hasRisk ? '🚨 ACİL DİKKAT GEREKTİREN DURUM!' : '🩺 Analiz Sonucu'}
+                    </h2>
+                    
+                    <div style="background: ${hasRisk ? 'white' : '#f7fafc'}; padding: 1.5rem; border-radius: 8px; margin: 1rem 0; white-space: pre-wrap; line-height: 1.6;">
+                        ${advice}
+                    </div>
+                    
+                    ${hasRisk ? `
+                        <div style="background: #fff5f5; border: 2px solid #fed7d7; border-radius: 8px; padding: 1rem; margin: 1rem 0; text-align: center;">
+                            <h4 style="color: #c53030; margin-bottom: 0.5rem;">🚨 ACİL DURUM REHBERİ</h4>
+                            <p style="color: #742a2a; margin: 0.3rem 0;">• Derhal bir dermatoloji uzmanına başvurun</p>
+                            <p style="color: #742a2a; margin: 0.3rem 0;">• Acil durumda 112'yi arayın</p>
+                            <a href="tel:112" style="display: inline-block; background: #e53e3e; color: white; padding: 0.5rem 1rem; border-radius: 6px; text-decoration: none; font-weight: bold; margin-top: 0.5rem;">📞 112'yi Ara</a>
+                        </div>
+                    ` : ''}
+                    
+                    <div style="text-align:center; margin-top: 2rem;">
+                        <button onclick="window.location.reload()" style="padding: 0.7rem 1.5rem; background:#b23a48; color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer; margin: 0 0.5rem;">
+                            🔁 Yeni Analiz Yap
+                        </button>
+                        <button id="downloadPdfBtn" class="action-button primary" style="padding: 0.7rem 1.5rem; background:#4299e1; color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer; margin: 0 0.5rem;">
+                            📄 PDF Olarak İndir
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            // EKLENEN: Risk durumunda sayfayı yukarı kaydır
+            if (hasRisk) {
+                resultBox.scrollIntoView({ behavior: 'smooth' });
+            }
 
         } catch (error) {
             console.log("❌ Hata:", error);

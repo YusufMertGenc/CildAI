@@ -3,12 +3,12 @@
 
 ## 👥 Takım Üyeleri
 
-| Name               | Title                        | GitHub                                                                 | LinkedIn                                                                 |
-|--------------------|------------------------------|------------------------------------------------------------------------|--------------------------------------------------------------------------|
-| Yusuf Mert Genç    | Scrum Master – Developer     | [GitHub Profile](https://github.com/YusufMertGenc)                     | [LinkedIn Profile](https://www.linkedin.com/in/yusufmertgenc/)           |
-| Feyza İnal         | Product Owner – Developer    | [GitHub Profile](https://github.com/feyza-inl)                        | [LinkedIn Profile](https://www.linkedin.com/in/feyzainalcse1/)            |
-| Muhammed İkbal Laç | Developer                    | [GitHub Profile](https://github.com/m-ikbal)                           | [LinkedIn Profile](https://www.linkedin.com/in/m-ikb4l/)                 |
-| Muzaffer Türkoğlu  | Developer                    | [GitHub Profile](https://github.com/muzafferturkoglu).                  | [LinkedIn Profile](https://www.linkedin.com/in/muzaffert%C3%BCrko%C4%9Flu/)                                                     |
+| Name               | Title                        | GitHub                                                                 | LinkedIn                                                                                                                                                                                                                    |
+|--------------------|------------------------------|------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Yusuf Mert Genç    | Scrum Master – Developer     | [![GitHub](https://img.shields.io/badge/GitHub-000?logo=github&logoColor=white)](https://github.com/YusufMertGenc)                     | [<img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png" alt="LinkedIn" width="20"/>](https://www.linkedin.com/in/yusufmertgenc/)|
+| Feyza İnal         | Product Owner – Developer    | [![GitHub](https://img.shields.io/badge/GitHub-000?logo=github&logoColor=white)](https://github.com/feyza-inl)                        | [<img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png" alt="LinkedIn" width="20"/>](https://www.linkedin.com/in/feyzainalcse1/)|                                                                                                                                                             |
+| Muhammed İkbal Laç | Developer                    | [![GitHub](https://img.shields.io/badge/GitHub-000?logo=github&logoColor=white)](https://github.com/m-ikbal)                           | [<img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png" alt="LinkedIn" width="20"/>](https://www.linkedin.com/in/m-ikb4l/)|                                                                                                                                                                    |
+| Muzaffer Türkoğlu  | Developer                    | [![GitHub](https://img.shields.io/badge/GitHub-000?logo=github&logoColor=white)](https://github.com/muzafferturkoglu).                  | [<img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png" alt="LinkedIn" width="20"/>](https://www.linkedin.com/in/muzaffert%C3%BCrko%C4%9Flu/)|                                                                                                                                            |
 
 ## Ürün İsmi
 CildAI
@@ -54,9 +54,6 @@ CildAI’nin amacı, gereksiz hastane ziyaretlerini azaltmak, erken müdahale im
 
   <h3> Gizlilik ve Veri Güvenliği</h3>
   <p>Yüklenen görseller ve kullanıcı açıklamaları yalnızca analiz sürecinde kullanılır ve işlem sonrasında sistemde tutulmaz. Kullanıcı verisi hiçbir şekilde üçüncü taraflarla paylaşılmaz.</p>
-</section>
-
-
 
 
 

@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from routers.auth import router as auth_router
 from routers.skin_analysis import router as skin_analysis_router
 from routers.history import router as history_router
-from routers.verify_email import router as verify_email_router
+from routers.email import router as verify_email_router
 from models import Base
 from database import engine
 

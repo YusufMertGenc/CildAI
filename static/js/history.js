@@ -1,79 +1,46 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const chatHistoryContainer = document.getElementById("chatHistory");
-    const loadingState = document.getElementById("loadingState");
-    const emptyState = document.getElementById("emptyState");
-    const errorState = document.getElementById("errorState");
+const chatHistoryContainer = document.getElementById("chatHistory");
+const loadingState = document.getElementById("loadingState");
+const emptyState = document.getElementById("emptyState");
+const errorState = document.getElementById("errorState");
 
+document.addEventListener("DOMContentLoaded", () => {
     const token = localStorage.getItem("access_token");
 
     if (!token) {
-        window.location.replace("index.html")
+        window.location.replace("index.html");
         return;
     }
 
-    fetch("http://127.0.0.1:8000/chat/history", {
+    fetchChatHistory("http://127.0.0.1:8000/chat/history", token);
+});
+
+function fetchChatHistory(url, token) {
+    loadingState.style.display = "block";
+    emptyState.style.display = "none";
+    errorState.style.display = "none";
+    chatHistoryContainer.innerHTML = "";
+
+    fetch(url, {
+        method: "GET",
         headers: {
-            "Authorization": "Bearer " + token
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json"
         }
     })
         .then(response => {
-            if (!response.ok) {
-                throw new Error("Sunucu hatası");
-            }
+            if (!response.ok) throw new Error("Veri alınamadı");
             return response.json();
         })
         .then(data => {
-            loadingState.style.display = "none";
-            if (data.length === 0) {
-                emptyState.style.display = "block";
-            } else {
-                renderChatHistory(data);
-            }
+            displayResults(data);
         })
         .catch(error => {
-            console.error("Hata:", error);
+            console.error("Veri alınırken hata oluştu:", error);
             loadingState.style.display = "none";
             errorState.style.display = "block";
         });
+}
 
-    function renderChatHistory(chats) {
-        chats.forEach(chat => {
-            const chatItem = document.createElement("div");
-            chatItem.className = "chat-item";
-
-            const escapedResponse = chat.response
-                .replace(/"/g, '&quot;')
-                .replace(/'/g, '&#39;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;');
-
-            chatItem.innerHTML = `
-                <div class="chat-meta">
-                    <div class="chat-date">${chat.timestamp}</div>
-                </div>
-                <div class="chat-content">
-                    <div class="chat-prompt"><strong>Prompt:</strong><br>${truncateText(chat.prompt, 1000)}</div>
-                    <div class="chat-response"><strong>Cevap:</strong><br>${truncateText(chat.response, 1000)}</div>
-                    <form method="POST" action="http://127.0.0.1:8000/skin-analysis/generate-pdf/" target="_blank">
-                    <input type="hidden" name="advice" value="${escapedResponse}">
-                    <button type="submit" class="download-pdf-btn">📄 PDF İndir</button>
-                </form>
-                </div>
-            `;
-            chatHistoryContainer.appendChild(chatItem);
-        });
-    }
-
-    function truncateText(text, maxLength) {
-        return text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
-    }
-
-    function showError(message) {
-        loadingState.style.display = "none";
-        errorState.style.display = "block";
-        errorState.querySelector(".error-text").textContent = message;
-    }
-});
 
 document.getElementById("send-history-mail").addEventListener("click", async () => {
     try {
@@ -99,3 +66,95 @@ document.getElementById("send-history-mail").addEventListener("click", async () 
         toastr.error("Bir hata oluştu. Lütfen tekrar deneyin.");
     }
 });
+
+document.getElementById("filterBtn").addEventListener("click", async () => {
+    const dateFilter = document.getElementById("dateFilter").value;
+    const searchQuery = document.getElementById("searchInput").value.trim().toLowerCase();
+    const token = localStorage.getItem("access_token");
+
+    if (!token) {
+        alert("Giriş yapmanız gerekiyor.");
+        window.location.href = "index.html";
+        return;
+    }
+
+    let url = "http://127.0.0.1:8000/chat/history";
+    if (dateFilter === "7") url = "http://127.0.0.1:8000/chat/history/last_seven_day";
+    else if (dateFilter === "30") url = "http://127.0.0.1:8000/chat/history/last_month";
+    else if (dateFilter === "90") url = "http://127.0.0.1:8000/chat/history/last_tree_month";
+
+    try {
+        const response = await fetch(url, {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
+            }
+        });
+
+
+        const data = await response.json();
+
+        let filteredResults = data;
+        if (searchQuery) {
+            filteredResults = data.filter(entry =>
+                entry.message.toLowerCase().includes(searchQuery) ||
+                (entry.date && entry.date.toLowerCase().includes(searchQuery))
+            );
+        }
+
+        displayResults(filteredResults);
+
+    } catch (error) {
+        console.error("Veri alınırken hata oluştu:", error);
+    }
+});
+
+function displayResults(results) {
+    chatHistoryContainer.innerHTML = "";
+    loadingState.style.display = "none";
+    emptyState.style.display = "none";
+    errorState.style.display = "none";
+
+    if (results.length === 0) {
+        emptyState.style.display = "block";
+        return;
+    }
+
+    results.forEach(item => {
+        const chatItem = document.createElement("div");
+        chatItem.className = "chat-item";
+
+        const prompt = item.prompt ?? item.message ?? "";
+        const response = item.response ?? "";
+        const date = item.timestamp ?? item.date ?? "";
+
+        const escapedResponse = response
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+
+        chatItem.innerHTML = `
+            <div class="chat-meta">
+                <div class="chat-date">${date}</div>
+            </div>
+            <div class="chat-content">
+                <div class="chat-prompt"><strong>Prompt:</strong><br>${truncateText(prompt, 3000)}</div>
+                <div class="chat-response"><strong>Cevap:</strong><br>${truncateText(response, 3000)}</div>
+                <form method="POST" action="http://127.0.0.1:8000/skin-analysis/generate-pdf/" target="_blank">
+                    <input type="hidden" name="advice" value="${escapedResponse}">
+                    <button type="submit" class="download-pdf-btn">📄 PDF İndir</button>
+                </form>
+            </div>
+        `;
+        chatHistoryContainer.appendChild(chatItem);
+    });
+}
+
+
+function truncateText(text, maxLength) {
+    if (!text || typeof text !== "string") return "";
+    return text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
+}
+

@@ -91,3 +91,33 @@ async def send_history_mail(
         return {"message": "Seçilen geçmiş başarıyla e-posta ile gönderildi."}
     except Exception as e:
         raise HTTPException(status_code=500, detail="Mail gönderilemedi.")
+
+
+@router.post("/chat/send_all_history_mail")
+async def send_all_history_mail(
+        db: db_dependency,
+        current_user: user_dependency,
+):
+    all_history = db.query(Chat).filter(Chat.owner_id == current_user["id"]).all()
+
+    if not all_history:
+        raise HTTPException(status_code=404, detail="Geçmiş bulunamadı.")
+
+    history_list = [
+        {
+            "prompt": h.input_text,
+            "response": h.output_text,
+            "timestamp": h.created_at.isoformat() if hasattr(h.created_at, "isoformat") else str(h.created_at)
+        }
+        for h in all_history
+    ]
+
+    try:
+        await send_history_email(
+            to_email=current_user["email"],
+            history_data=history_list
+        )
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Mail gönderilemedi: {str(e)}")
+
+    return {"message": "Tüm geçmiş başarıyla e-posta ile gönderildi."}

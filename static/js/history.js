@@ -1,9 +1,58 @@
+async function showUserGreeting() {
+    const token = localStorage.getItem("access_token");
+    if (!token) {
+        window.location.href = "index.html";
+        return;
+    }
+
+    try {
+        const response = await fetch("http://localhost:8000/auth/me", {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        if (response.ok) {
+            const user = await response.json();
+            const dropdownBtn = document.getElementById("userDropdownBtn");
+            if (dropdownBtn) {
+                dropdownBtn.textContent = `${user.first_name} ⌄`;
+            }
+            document.querySelector(".dropdown").style.display = "block";
+        } else {
+            localStorage.removeItem("access_token");
+            window.location.href = "index.html";
+        }
+    } catch (error) {
+        console.error("Kullanıcı verisi alınamadı:", error);
+        window.location.href = "index.html";
+    }
+}
+
+function logout() {
+    localStorage.removeItem("access_token");
+    toastr.success('Başarıyla çıkış yaptınız.');
+    window.location.href = "index.html";
+}
+
 const chatHistoryContainer = document.getElementById("chatHistory");
 const loadingState = document.getElementById("loadingState");
 const emptyState = document.getElementById("emptyState");
 const errorState = document.getElementById("errorState");
 
 document.addEventListener("DOMContentLoaded", () => {
+    // Kullanıcı dropdown'ını başlat
+    showUserGreeting();
+
+    // Logout butonuna event listener ekle
+    const logoutLink = document.getElementById("dropdownLogoutBtn");
+    if (logoutLink) {
+        logoutLink.addEventListener("click", function (e) {
+            e.preventDefault();
+            logout();
+        });
+    }
+
     const token = localStorage.getItem("access_token");
 
     if (!token) {
@@ -119,7 +168,7 @@ function displayResults(results) {
             <div class="chat-content">
                 <div class="chat-prompt"><strong>Prompt:</strong><br>${truncateText(prompt, 3000)}</div>
                 <div class="chat-response"><strong>Cevap:</strong><br>${truncateText(response, 3000)}</div>
-                
+
                 <form method="POST" action="http://127.0.0.1:8000/skin-analysis/generate-pdf/" target="_blank">
                     <input type="hidden" name="advice" value="${escapedResponse}">
                     <button type="submit" class="download-pdf-btn">📄 PDF İndir</button>
@@ -198,4 +247,3 @@ function truncateText(text, maxLength) {
     if (!text || typeof text !== "string") return "";
     return text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
 }
-

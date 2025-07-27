@@ -42,31 +42,6 @@ function fetchChatHistory(url, token) {
 }
 
 
-document.getElementById("send-history-mail").addEventListener("click", async () => {
-    try {
-        const token = localStorage.getItem("access_token");
-
-        const response = await fetch("http://127.0.0.1:8000/chat/send_history_mail", {
-            method: "POST",
-            headers: {
-                "Authorization": `Bearer ${token}`,
-                "Content-Type": "application/json"
-            }
-        });
-
-        const result = await response.json();
-
-        if (response.ok) {
-            toastr.success(result.message || "Geçmiş başarıyla e-posta ile gönderildi.");
-        } else {
-            toastr.error(result.message || "E-posta gönderilirken bir hata oluştu.");
-        }
-    } catch (error) {
-        console.error("E-posta gönderme hatası:", error);
-        toastr.error("Bir hata oluştu. Lütfen tekrar deneyin.");
-    }
-});
-
 document.getElementById("filterBtn").addEventListener("click", async () => {
     const dateFilter = document.getElementById("dateFilter").value;
     const searchQuery = document.getElementById("searchInput").value.trim().toLowerCase();
@@ -188,6 +163,35 @@ function displayResults(results) {
         });
     });
 }
+
+document.getElementById("send-all-history-mail").addEventListener("click", async () => {
+    const token = localStorage.getItem("access_token");
+    if (!token) {
+        alert("Lütfen giriş yapınız.");
+        return;
+    }
+
+    try {
+        const response = await fetch("http://127.0.0.1:8000/chat/send_all_history_mail", {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify({})
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+            toastr.success(result.message || "Tüm geçmiş başarıyla gönderildi.");
+        } else {
+            toastr.error(result.detail || "E-posta gönderilirken hata oluştu.");
+        }
+    } catch (error) {
+        console.error("E-posta gönderme hatası:", error);
+        toastr.error("Bir hata oluştu. Lütfen tekrar deneyin.");
+    }
+});
 
 
 function truncateText(text, maxLength) {

@@ -81,7 +81,7 @@ document.getElementById("filterBtn").addEventListener("click", async () => {
     let url = "http://127.0.0.1:8000/chat/history";
     if (dateFilter === "7") url = "http://127.0.0.1:8000/chat/history/last_seven_day";
     else if (dateFilter === "30") url = "http://127.0.0.1:8000/chat/history/last_month";
-    else if (dateFilter === "90") url = "http://127.0.0.1:8000/chat/history/last_tree_month";
+    else if (dateFilter === "90") url = "http://127.0.0.1:8000/chat/history/last_three_month";
 
     try {
         const response = await fetch(url, {

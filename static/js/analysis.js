@@ -10,20 +10,20 @@ const imageInput = document.getElementById("imageInput");
 const uploadForm = document.getElementById("uploadForm");
 const resultBox = document.getElementById("result");
 const token = localStorage.getItem("access_token");
+const sendHistoryMailBtn = document.getElementById("send-history-mail"); // Mail buton referansı
+sendHistoryMailBtn.style.display = "none"; // Başlangıçta gizle
 
 let stream = null;
-let userLocation = null; // EKLENEN: Konum bilgisi için
+let userLocation = null;
 
-// EKLENEN: Sayfa yüklendiğinde konum izni iste
 document.addEventListener('DOMContentLoaded', function () {
     if (!token) {
-        window.location.replace("index.html")
+        window.location.replace("index.html");
         return;
     }
     requestLocationPermission();
 });
 
-// EKLENEN: Konum bildirimi gösterme fonksiyonu (sağ üst köşe)
 function showLocationStatus(message, type) {
     const statusDiv = document.createElement('div');
     statusDiv.innerHTML = message;
@@ -31,21 +31,17 @@ function showLocationStatus(message, type) {
         position: fixed;
         top: 20px;
         right: 20px;
-        padding: 8px 12px; 
-        border-radius: 6px; 
-        font-size: 12px; 
+        padding: 8px 12px;
+        border-radius: 6px;
+        font-size: 12px;
         max-width: 300px;
         z-index: 1000;
         box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         ${type === 'success' ?
         'background: #e6fffa; color: #234e52; border: 1px solid #4fd1c7;' :
-        'background: #fff5f5; color: #c53030; border: 1px solid #feb2b2;'
-    }
+        'background: #fff5f5; color: #c53030; border: 1px solid #feb2b2;'}
     `;
-
     document.body.appendChild(statusDiv);
-
-    // 5 saniye sonra fade out ile kaldır
     setTimeout(() => {
         statusDiv.style.transition = 'opacity 0.5s ease-out';
         statusDiv.style.opacity = '0';
@@ -57,10 +53,8 @@ function showLocationStatus(message, type) {
     }, 5000);
 }
 
-// GÜNCELLENDİ: Konum izni alma fonksiyonu (bildirim eklendi)
 function requestLocationPermission() {
     console.log("🔍 Konum izni isteniyor...");
-
     if ("geolocation" in navigator) {
         navigator.geolocation.getCurrentPosition(
             function (position) {
@@ -72,9 +66,6 @@ function requestLocationPermission() {
                 showLocationStatus("📍 Konum bilginiz alındı (acil durumlarda hastane önerisi için)", "success");
             },
             function (error) {
-                console.log("❌ Konum alınamadı:", error.message);
-                console.log("❌ Hata kodu:", error.code);
-
                 let errorMsg = "";
                 switch (error.code) {
                     case error.PERMISSION_DENIED:
@@ -89,7 +80,6 @@ function requestLocationPermission() {
                     default:
                         errorMsg = "Bilinmeyen konum hatası";
                 }
-
                 showLocationStatus(`⚠️ ${errorMsg}. Acil durumlarda hastane önerisi yapılamayacak.`, "warning");
             },
             {
@@ -168,7 +158,6 @@ imageInput.addEventListener("change", function (event) {
         stopCamera();
         cameraDiv.style.display = "none";
         startCameraButton.style.display = "none";
-
         const reader = new FileReader();
         reader.onload = function (e) {
             const img = new Image();
@@ -177,16 +166,13 @@ imageInput.addEventListener("change", function (event) {
                 const aspectRatio = img.width / img.height;
                 let drawWidth = snapshotCanvas.width;
                 let drawHeight = snapshotCanvas.height;
-
                 if (snapshotCanvas.width / snapshotCanvas.height > aspectRatio) {
                     drawWidth = snapshotCanvas.height * aspectRatio;
                 } else {
                     drawHeight = snapshotCanvas.width / aspectRatio;
                 }
-
                 const offsetX = (snapshotCanvas.width - drawWidth) / 2;
                 const offsetY = (snapshotCanvas.height - drawHeight) / 2;
-
                 context.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
                 snapshotCanvas.style.display = "block";
                 photoPreview.style.display = "flex";
@@ -205,7 +191,6 @@ uploadForm.addEventListener("submit", function (e) {
 
     const userNotes = document.getElementById("userNotes").value;
 
-
     const isCanvasEmpty = (() => {
         const blank = document.createElement("canvas");
         blank.width = snapshotCanvas.width;
@@ -218,10 +203,7 @@ uploadForm.addEventListener("submit", function (e) {
         return;
     }
 
-
     snapshotCanvas.toBlob(async function (blob) {
-        console.log("🧪 toBlob sonucu:", blob);
-
         if (!blob || blob.size === 0) {
             alert("Görsel işlenemedi. Lütfen tekrar deneyin.");
             return;
@@ -231,7 +213,6 @@ uploadForm.addEventListener("submit", function (e) {
         formData.append("file", blob, "photo.png");
         formData.append("notes", userNotes);
 
-        // EKLENEN: Konum bilgisini form data'ya ekle (debug ile)
         if (userLocation) {
             console.log("📍 Konum bilgisi gönderiliyor:", userLocation);
             formData.append("latitude", userLocation.latitude);
@@ -252,12 +233,9 @@ uploadForm.addEventListener("submit", function (e) {
             });
 
             const data = await response.json();
-
-            // GÜNCELLENEN: Yeni format için sonuç gösterimi (risk durumuna göre)
             const hasRisk = data.has_risk || false;
             const advice = data.advice || "";
 
-            // Risk durumuna göre stil belirleme - sadece risk varsa kırmızı
             const riskStyle = hasRisk ?
                 'background: linear-gradient(135deg, #fed7d7 0%, #feb2b2 100%); border: 3px solid #e53e3e;' :
                 'background: white; border: 2px solid #e2e8f0;';
@@ -267,11 +245,11 @@ uploadForm.addEventListener("submit", function (e) {
                     <h2 style="text-align: center; color: ${hasRisk ? '#c53030' : '#2d3748'}; margin-bottom: 1rem;">
                         ${hasRisk ? '🚨 ACİL DİKKAT GEREKTİREN DURUM!' : '🩺 Analiz Sonucu'}
                     </h2>
-                    
+
                     <div style="background: ${hasRisk ? 'white' : '#f7fafc'}; padding: 1.5rem; border-radius: 8px; margin: 1rem 0; white-space: pre-wrap; line-height: 1.6;">
                         ${advice}
                     </div>
-                    
+
                     ${hasRisk ? `
                         <div style="background: #fff5f5; border: 2px solid #fed7d7; border-radius: 8px; padding: 1rem; margin: 1rem 0; text-align: center;">
                             <h4 style="color: #c53030; margin-bottom: 0.5rem;">🚨 ACİL DURUM REHBERİ</h4>
@@ -280,7 +258,7 @@ uploadForm.addEventListener("submit", function (e) {
                             <a href="tel:112" style="display: inline-block; background: #e53e3e; color: white; padding: 0.5rem 1rem; border-radius: 6px; text-decoration: none; font-weight: bold; margin-top: 0.5rem;">📞 112'yi Ara</a>
                         </div>
                     ` : ''}
-                    
+
                     <div style="text-align:center; margin-top: 2rem;">
                         <button onclick="window.location.reload()" style="padding: 0.7rem 1.5rem; background:#b23a48; color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer; margin: 0 0.5rem;">
                             🔁 Yeni Analiz Yap
@@ -288,13 +266,21 @@ uploadForm.addEventListener("submit", function (e) {
                         <button id="downloadPdfBtn" class="action-button primary" style="padding: 0.7rem 1.5rem; background:#4299e1; color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer; margin: 0 0.5rem;">
                             📄 PDF Olarak İndir
                         </button>
+                        <button id="send-history-mail" class="action-button secondary" style="padding: 0.7rem 1.5rem; background:#805ad5; color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer; margin: 0 0.5rem;">
+                            ✉️ Geçmişi Mail Gönder
+                        </button>
                     </div>
                 </div>
             `;
 
-            // EKLENEN: Risk durumunda sayfayı yukarı kaydır
             if (hasRisk) {
                 resultBox.scrollIntoView({behavior: 'smooth'});
+            }
+
+            // ✅ Mail butonunu görünür yap (DOM yeniden yüklendiği için tekrar alınmalı)
+            const mailBtnNow = document.getElementById("send-history-mail");
+            if (mailBtnNow) {
+                mailBtnNow.style.display = "inline-flex";
             }
 
         } catch (error) {
@@ -307,7 +293,6 @@ uploadForm.addEventListener("submit", function (e) {
 document.addEventListener("click", function (e) {
     if (e.target && e.target.id === "downloadPdfBtn") {
         const adviceText = resultBox.innerText;
-
         const formData = new FormData();
         formData.append("advice", adviceText);
 
@@ -329,27 +314,54 @@ document.addEventListener("click", function (e) {
     }
 });
 
-document.getElementById("send-history-mail").addEventListener("click", async () => {
-    try {
-        const token = localStorage.getItem("access_token");
+function getHistoryDataForSend() {
+    const adviceText = resultBox.innerText.trim();
+    const promptText = document.getElementById("userNotes").value.trim() || "Cilt Analizi";
 
-        const response = await fetch("http://127.0.0.1:8000/chat/send_history_mail", {
-            method: "POST",
-            headers: {
-                "Authorization": `Bearer ${token}`,
-                "Content-Type": "application/json"
+    if (!adviceText) return [];
+
+    return [{
+        prompt: promptText,
+        response: adviceText,
+        timestamp: new Date().toISOString()
+    }];
+}
+
+
+document.addEventListener("click", async function (e) {
+    if (e.target && e.target.id === "send-history-mail") {
+        try {
+            const token = localStorage.getItem("access_token");
+
+            const historyData = getHistoryDataForSend();
+
+            if (!historyData.length) {
+                alert("Gönderilecek geçmiş bulunamadı.");
+                return;
             }
-        });
 
-        const result = await response.json();
+            const response = await fetch("http://127.0.0.1:8000/chat/send_history_mail", {
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(historyData)
+            });
 
-        if (response.ok) {
-            toastr.success(result.message || "Geçmiş başarıyla e-posta ile gönderildi.");
-        } else {
-            toastr.error(result.message || "E-posta gönderilirken bir hata oluştu.");
+            const result = await response.json();
+
+            if (response.ok) {
+                toastr.success(result.message || "Analiz sonucunuz başarıyla e-posta ile gönderildi.");
+            } else {
+                toastr.error(result.detail || "E-posta gönderilirken bir hata oluştu.");
+            }
+        } catch (error) {
+            console.error("E-posta gönderme hatası:", error);
+            toastr.error("Bir hata oluştu. Lütfen tekrar deneyin.");
         }
-    } catch (error) {
-        console.error("E-posta gönderme hatası:", error);
-        toastr.error("Bir hata oluştu. Lütfen tekrar deneyin.");
     }
 });
+
+
+

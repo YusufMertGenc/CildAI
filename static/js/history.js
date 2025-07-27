@@ -111,7 +111,7 @@ document.getElementById("filterBtn").addEventListener("click", async () => {
 });
 
 function displayResults(results) {
-    chatHistoryContainer.innerHTML = "";
+    chatHistoryContainer.innerHTML = ""; // Önceki içeriği temizle
     loadingState.style.display = "none";
     emptyState.style.display = "none";
     errorState.style.display = "none";
@@ -135,6 +135,8 @@ function displayResults(results) {
             .replace(/</g, '&lt;')
             .replace(/>/g, '&gt;');
 
+        const sendButtonId = `send-btn-${Math.random().toString(36).substring(2, 10)}`;
+
         chatItem.innerHTML = `
             <div class="chat-meta">
                 <div class="chat-date">${date}</div>
@@ -142,13 +144,48 @@ function displayResults(results) {
             <div class="chat-content">
                 <div class="chat-prompt"><strong>Prompt:</strong><br>${truncateText(prompt, 3000)}</div>
                 <div class="chat-response"><strong>Cevap:</strong><br>${truncateText(response, 3000)}</div>
+                
                 <form method="POST" action="http://127.0.0.1:8000/skin-analysis/generate-pdf/" target="_blank">
                     <input type="hidden" name="advice" value="${escapedResponse}">
                     <button type="submit" class="download-pdf-btn">📄 PDF İndir</button>
                 </form>
+                <button id="${sendButtonId}" class="gmail-send-btn">📧 Mail Gönder</button>
             </div>
         `;
+
         chatHistoryContainer.appendChild(chatItem);
+
+        document.getElementById(sendButtonId).addEventListener("click", async () => {
+            const token = localStorage.getItem("access_token");
+
+            try {
+                const res = await fetch("http://127.0.0.1:8000/chat/send_history_mail", {
+                    method: "POST",
+                    headers: {
+                        "Authorization": `Bearer ${token}`,
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify([
+                        {
+                            prompt: prompt,
+                            response: response,
+                            timestamp: date
+                        }
+                    ])
+                });
+
+                const result = await res.json();
+
+                if (res.ok) {
+                    toastr.success(result.message || "E-posta başarıyla gönderildi.");
+                } else {
+                    toastr.error(result.detail || "E-posta gönderilirken hata oluştu.");
+                }
+            } catch (err) {
+                console.error("E-posta gönderme hatası:", err);
+                toastr.error("E-posta gönderilirken bir hata oluştu.");
+            }
+        });
     });
 }
 

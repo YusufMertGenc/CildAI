@@ -9,6 +9,7 @@
             rel="stylesheet"
     />
     <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 </head>
 
 <body>
@@ -80,7 +81,12 @@
     </div>
 
     <div id="result" class="result-box">Analiz sonuçları burada görünecek...</div>
-    <button id="send-history-mail">Geçmişi Mail Olarak Gönder</button>
+    <button id="send-history-mail"
+            class="action-button secondary"
+            style="padding: 0.7rem 1.5rem; background:#805ad5; color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer; margin: 0 0.5rem;">
+        ✉️ Geçmişi Mail Gönder
+    </button>
+
 
     <footer class="footer">
         <p>© 2025 CildAI | Geliştirici Bootcamp Projesi</p>
@@ -88,5 +94,7 @@
 </div>
 
 <script src="js/analysis.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 </body>
 </html>

@@ -84,7 +84,7 @@ def get_last_month_chat_history(
         for chat in chat_records
     ]
 
-@router.get("/chat/history/last_tree_month")
+@router.get("/chat/history/last_three_month")
 def get_last_three_months_chat_history(
         db: db_dependency,
         current_user: user_dependency):

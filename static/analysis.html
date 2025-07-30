@@ -10,6 +10,8 @@
     />
     <link rel="stylesheet" href="css/style.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+
 </head>
 
 <body>
@@ -73,12 +75,17 @@
         </div>
     </form>
 
-    <div style="text-align: center; margin-top: 1.5rem;">
-        <button onclick="window.location.href='index.html'"
-                style="padding: 0.7rem 1.5rem; background: #4A5568; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">
-            🏠 Ana Sayfaya Dön
-        </button>
-    </div>
+<div style="text-align: center; margin-top: 1.5rem;">
+    <button onclick="window.location.href='index.html'"
+            style="padding: 0.8rem 2rem; background: #E2E8F0; color: #2D3748; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 1rem; transition: background 0.3s ease, transform 0.2s ease;"
+            onmouseover="this.style.background='#CBD5E0';"
+            onmouseout="this.style.background='#E2E8F0';"
+            onmousedown="this.style.transform='scale(0.98)';"
+            onmouseup="this.style.transform='scale(1)';">
+        🏠 Ana Sayfaya Dön
+    </button>
+</div>
+
 
     <div id="result" class="result-box">Analiz sonuçları burada görünecek...</div>
     <button id="send-history-mail"

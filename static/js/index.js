@@ -1,4 +1,4 @@
-function openLoginModal() {
+    function openLoginModal() {
     document.getElementById("loginModal").style.display = "block";
 }
 
@@ -168,4 +168,28 @@ document.addEventListener("DOMContentLoaded", () => {
         const loginBtn = document.getElementById("navLoginBtn");
         if (loginBtn) loginBtn.style.display = "none";
     }
+});
+
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault(); // Varsayılan atlama davranışını engelle
+
+        const targetId = this.getAttribute('href'); // Hedef ID'yi al (örn: #features veya #)
+
+        if (targetId === '#') {
+            // Eğer hedef sadece '#' ise, sayfanın en başına yumuşakça kaydır
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        } else {
+            // Belirli bir ID'ye sahip hedefe yumuşakça kaydır
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                targetElement.scrollIntoView({
+                    behavior: 'smooth'
+                });
+            }
+        }
+    });
 });

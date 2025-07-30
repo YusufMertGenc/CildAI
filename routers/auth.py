@@ -1,5 +1,6 @@
 from datetime import timedelta, datetime, timezone
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Request
+from fastapi.responses import HTMLResponse, RedirectResponse
 from zmq.backend import first
 from database import SessionLocal
 from typing import Annotated
@@ -14,6 +15,8 @@ from utils import generate_confirmation_token
 from mail_utils import send_verification_email
 import os
 from dotenv import load_dotenv
+import httpx
+import secrets
 
 router = APIRouter(
     prefix="/auth",
@@ -24,6 +27,16 @@ load_dotenv()
 
 SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM = os.getenv("ALGORITHM")
+
+# OAuth ayarları
+GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
+GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET")
+GITHUB_CLIENT_ID = os.getenv("GITHUB_CLIENT_ID")
+GITHUB_CLIENT_SECRET = os.getenv("GITHUB_CLIENT_SECRET")
+
+# OAuth redirect URL'leri
+GOOGLE_REDIRECT_URI = "http://localhost:8000/auth/google/callback"
+GITHUB_REDIRECT_URI = "http://localhost:8000/auth/github/callback"
 
 
 def get_db():
@@ -101,6 +114,265 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_bearer)], db: db
     except JWTError:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token geçersiz")
 
+
+def get_or_create_oauth_user(db: Session, email: str, first_name: str, last_name: str, provider: str):
+    """OAuth ile gelen kullanıcıyı kontrol et veya oluştur"""
+    user = db.query(User).filter(User.email == email).first()
+
+    if not user:
+        # Yeni kullanıcı oluştur
+        user = User(
+            email=email,
+            first_name=first_name,
+            last_name=last_name or "",
+            role="user",
+            is_active=True,
+            is_verified=True,  # OAuth kullanıcıları otomatik doğrulanmış sayılır
+            hashed_password=bcrypt_context.hash(secrets.token_urlsafe(32))  # Random password
+        )
+        db.add(user)
+        db.commit()
+        db.refresh(user)
+
+    return user
+
+
+# GOOGLE OAuth Endpoints
+@router.get("/google")
+async def google_login():
+    """Google OAuth giriş sayfasına yönlendir"""
+    google_auth_url = (
+        f"https://accounts.google.com/o/oauth2/auth?"
+        f"client_id={GOOGLE_CLIENT_ID}&"
+        f"redirect_uri={GOOGLE_REDIRECT_URI}&"
+        f"scope=openid email profile&"
+        f"response_type=code&"
+        f"access_type=offline"
+    )
+    return RedirectResponse(url=google_auth_url)
+
+
+@router.get("/google/callback")
+async def google_callback(code: str, db: db_dependency):
+    """Google OAuth callback"""
+    try:
+        print(f"🔵 Google callback başladı, code: {code[:10]}...")
+
+        # Access token al
+        async with httpx.AsyncClient() as client:
+            token_response = await client.post(
+                "https://oauth2.googleapis.com/token",
+                data={
+                    "client_id": GOOGLE_CLIENT_ID,
+                    "client_secret": GOOGLE_CLIENT_SECRET,
+                    "code": code,
+                    "grant_type": "authorization_code",
+                    "redirect_uri": GOOGLE_REDIRECT_URI,
+                }
+            )
+
+            print(f"🔵 Google token response: {token_response.status_code}")
+
+            if token_response.status_code != 200:
+                print(f"❌ Google token hatası: {token_response.text}")
+                raise HTTPException(status_code=400, detail="Google token alınamadı")
+
+            token_data = token_response.json()
+            access_token = token_data.get("access_token")
+
+            # Kullanıcı bilgilerini al
+            user_response = await client.get(
+                "https://www.googleapis.com/oauth2/v2/userinfo",
+                headers={"Authorization": f"Bearer {access_token}"}
+            )
+
+            if user_response.status_code != 200:
+                print(f"❌ Google user info hatası: {user_response.text}")
+                raise HTTPException(status_code=400, detail="Google kullanıcı bilgileri alınamadı")
+
+            user_data = user_response.json()
+            print(f"🔵 Google user data: {user_data}")
+
+            # Kullanıcıyı bul veya oluştur
+            user = get_or_create_oauth_user(
+                db=db,
+                email=user_data["email"],
+                first_name=user_data.get("given_name", ""),
+                last_name=user_data.get("family_name", ""),
+                provider="google"
+            )
+
+            # JWT token oluştur
+            jwt_token = create_access_token(
+                user.email,
+                user.id,
+                user.role,
+                timedelta(minutes=60)
+            )
+
+            print(f"✅ Google JWT token oluşturuldu: {jwt_token[:20]}...")
+
+            # Frontend'e başarılı giriş mesajı gönder - Origin '*' ile
+            return HTMLResponse(content=f"""
+            <html>
+                <script>
+                    console.log('Google callback başarılı, token gönderiliyor...');
+                    window.opener.postMessage({{
+                        type: 'GOOGLE_AUTH_SUCCESS',
+                        token: '{jwt_token}'
+                    }}, '*');
+                    window.close();
+                </script>
+            </html>
+            """)
+
+    except Exception as e:
+        print(f"❌ Google OAuth hatası: {e}")
+        # Hata durumunda frontend'e hata mesajı gönder
+        return HTMLResponse(content=f"""
+        <html>
+            <script>
+                console.log('Google callback hatası:', '{str(e)}');
+                window.opener.postMessage({{
+                    type: 'GOOGLE_AUTH_ERROR',
+                    error: '{str(e)}'
+                }}, '*');
+                window.close();
+            </script>
+        </html>
+        """)
+
+
+# GITHUB OAuth Endpoints
+@router.get("/github")
+async def github_login():
+    """GitHub OAuth giriş sayfasına yönlendir"""
+    github_auth_url = (
+        f"https://github.com/login/oauth/authorize?"
+        f"client_id={GITHUB_CLIENT_ID}&"
+        f"redirect_uri={GITHUB_REDIRECT_URI}&"
+        f"scope=user:email"
+    )
+    return RedirectResponse(url=github_auth_url)
+
+
+@router.get("/github/callback")
+async def github_callback(code: str, db: db_dependency):
+    """GitHub OAuth callback"""
+    try:
+        print(f"🟣 GitHub callback başladı, code: {code[:10]}...")
+
+        # Access token al
+        async with httpx.AsyncClient() as client:
+            token_response = await client.post(
+                "https://github.com/login/oauth/access_token",
+                data={
+                    "client_id": GITHUB_CLIENT_ID,
+                    "client_secret": GITHUB_CLIENT_SECRET,
+                    "code": code,
+                },
+                headers={"Accept": "application/json"}
+            )
+
+            print(f"🟣 GitHub token response: {token_response.status_code}")
+            print(f"🟣 GitHub token data: {token_response.text}")
+
+            if token_response.status_code != 200:
+                print(f"❌ GitHub token hatası: {token_response.text}")
+                raise HTTPException(status_code=400, detail="GitHub token alınamadı")
+
+            token_data = token_response.json()
+            access_token = token_data.get("access_token")
+
+            if not access_token:
+                print(f"❌ GitHub access token alınamadı: {token_data}")
+                raise HTTPException(status_code=400, detail="GitHub access token alınamadı")
+
+            # Kullanıcı bilgilerini al
+            user_response = await client.get(
+                "https://api.github.com/user",
+                headers={"Authorization": f"Bearer {access_token}"}
+            )
+
+            print(f"🟣 GitHub user response: {user_response.status_code}")
+
+            if user_response.status_code != 200:
+                print(f"❌ GitHub user info hatası: {user_response.text}")
+                raise HTTPException(status_code=400, detail="GitHub kullanıcı bilgileri alınamadı")
+
+            user_data = user_response.json()
+            print(f"🟣 GitHub user data: {user_data}")
+
+            # Email bilgisini al (GitHub'da email private olabilir)
+            email_response = await client.get(
+                "https://api.github.com/user/emails",
+                headers={"Authorization": f"Bearer {access_token}"}
+            )
+
+            emails = email_response.json()
+            primary_email = next((email["email"] for email in emails if email["primary"]), None)
+
+            if not primary_email:
+                print(f"❌ GitHub email alınamadı: {emails}")
+                raise HTTPException(status_code=400, detail="GitHub email adresi alınamadı")
+
+            print(f"🟣 GitHub primary email: {primary_email}")
+
+            # Kullanıcıyı bul veya oluştur
+            name_parts = (user_data.get("name") or "").split(" ", 1)
+            first_name = name_parts[0] if name_parts else user_data.get("login", "")
+            last_name = name_parts[1] if len(name_parts) > 1 else ""
+
+            user = get_or_create_oauth_user(
+                db=db,
+                email=primary_email,
+                first_name=first_name,
+                last_name=last_name,
+                provider="github"
+            )
+
+            # JWT token oluştur
+            jwt_token = create_access_token(
+                user.email,
+                user.id,
+                user.role,
+                timedelta(minutes=60)
+            )
+
+            print(f"✅ GitHub JWT token oluşturuldu: {jwt_token[:20]}...")
+
+            # Frontend'e başarılı giriş mesajı gönder - Origin '*' ile
+            return HTMLResponse(content=f"""
+            <html>
+                <script>
+                    console.log('GitHub callback başarılı, token gönderiliyor...');
+                    window.opener.postMessage({{
+                        type: 'GITHUB_AUTH_SUCCESS',
+                        token: '{jwt_token}'
+                    }}, '*');
+                    window.close();
+                </script>
+            </html>
+            """)
+
+    except Exception as e:
+        print(f"❌ GitHub OAuth hatası: {e}")
+        # Hata durumunda frontend'e hata mesajı gönder
+        return HTMLResponse(content=f"""
+        <html>
+            <script>
+                console.log('GitHub callback hatası:', '{str(e)}');
+                window.opener.postMessage({{
+                    type: 'GITHUB_AUTH_ERROR',
+                    error: '{str(e)}'
+                }}, '*');
+                window.close();
+            </script>
+        </html>
+        """)
+
+
+# Mevcut endpoint'leriniz aynen kalıyor...
 
 @router.post("/create_user", status_code=status.HTTP_201_CREATED)
 async def create_user(db: db_dependency, create_user_request: CreateUserRequest):

@@ -1,4 +1,4 @@
-    function openLoginModal() {
+function openLoginModal() {
     document.getElementById("loginModal").style.display = "block";
 }
 
@@ -18,6 +18,67 @@ function handleStartAnalysis(event) {
     } else {
         startAnalysis();
     }
+}
+
+// OAuth Giriş Fonksiyonları - GÜNCELLENMIŞ
+function loginWithGoogle(event) {
+    event.preventDefault();
+    const googleAuthUrl = 'http://localhost:8000/auth/google';
+    const popup = window.open(googleAuthUrl, 'googleLogin', 'width=500,height=600,scrollbars=yes,resizable=yes');
+
+    // Popup mesaj dinleyicisini bir kez ekle
+    const messageHandler = function(event) {
+        // Origin kontrolünü kaldırdık - tüm mesajları dinle
+        console.log('Google mesaj geldi:', event.data, 'Origin:', event.origin);
+
+        if (event.data.type === 'GOOGLE_AUTH_SUCCESS') {
+            localStorage.setItem('access_token', event.data.token);
+            popup.close();
+            closeLoginModal();
+            toastr.success('Google ile başarıyla giriş yaptınız!');
+            window.location.reload();
+            // Event listener'ı kaldır
+            window.removeEventListener('message', messageHandler);
+        } else if (event.data.type === 'GOOGLE_AUTH_ERROR') {
+            console.error('Google giriş hatası:', event.data.error);
+            toastr.error('Google ile giriş yapılamadı: ' + event.data.error);
+            popup.close();
+            // Event listener'ı kaldır
+            window.removeEventListener('message', messageHandler);
+        }
+    };
+
+    window.addEventListener('message', messageHandler);
+}
+
+function loginWithGitHub(event) {
+    event.preventDefault();
+    const githubAuthUrl = 'http://localhost:8000/auth/github';
+    const popup = window.open(githubAuthUrl, 'githubLogin', 'width=500,height=600,scrollbars=yes,resizable=yes');
+
+    // Popup mesaj dinleyicisini bir kez ekle
+    const messageHandler = function(event) {
+        // Origin kontrolünü kaldırdık - tüm mesajları dinle
+        console.log('GitHub mesaj geldi:', event.data, 'Origin:', event.origin);
+
+        if (event.data.type === 'GITHUB_AUTH_SUCCESS') {
+            localStorage.setItem('access_token', event.data.token);
+            popup.close();
+            closeLoginModal();
+            toastr.success('GitHub ile başarıyla giriş yaptınız!');
+            window.location.reload();
+            // Event listener'ı kaldır
+            window.removeEventListener('message', messageHandler);
+        } else if (event.data.type === 'GITHUB_AUTH_ERROR') {
+            console.error('GitHub giriş hatası:', event.data.error);
+            toastr.error('GitHub ile giriş yapılamadı: ' + event.data.error);
+            popup.close();
+            // Event listener'ı kaldır
+            window.removeEventListener('message', messageHandler);
+        }
+    };
+
+    window.addEventListener('message', messageHandler);
 }
 
 async function handleLogin(event) {
@@ -43,7 +104,7 @@ async function handleLogin(event) {
             data = JSON.parse(text);
         } catch {
             console.error("JSON parse hatası:", text);
-            alert("Sunucudan beklenmeyen bir yanıt alındı.");
+            toastr.error("Sunucudan beklenmeyen bir yanıt alındı.");
             return;
         }
 
@@ -60,6 +121,7 @@ async function handleLogin(event) {
 
         localStorage.setItem("access_token", data.access_token);
         closeLoginModal();
+        toastr.success('Başarıyla giriş yaptınız!');
         window.location.reload();
 
     } catch (error) {
@@ -83,64 +145,22 @@ async function showUserGreeting() {
             const user = await response.json();
             const navBtn = document.getElementById("navLoginBtn");
             const dropdownBtn = document.getElementById("userDropdownBtn");
+            const dropdownContainer = document.querySelector(".dropdown");
+
             if (dropdownBtn) {
                 dropdownBtn.textContent = `${user.first_name} ⌄`;
             }
             if (navBtn) {
                 navBtn.style.display = "none";
             }
-            document.querySelector(".dropdown").style.display = "block";
-
-            navBtn.href = "#";
-            navBtn.onclick = null;
+            if (dropdownContainer) {
+                dropdownContainer.style.display = "block";
+            }
         } else {
             localStorage.removeItem("access_token");
         }
     } catch (error) {
         console.error("Token doğrulama hatası:", error);
-    }
-}
-
-document.addEventListener("DOMContentLoaded", showUserGreeting);
-
-window.addEventListener("scroll", function () {
-    const navbar = document.querySelector(".navbar");
-    if (window.scrollY > 50) {
-        navbar.classList.add("scrolled");
-    } else {
-        navbar.classList.remove("scrolled");
-    }
-});
-
-window.onclick = function (event) {
-    const modal = document.getElementById("loginModal");
-    if (event.target === modal) {
-        modal.style.display = "none";
-    }
-};
-
-
-async function showUserGreeting() {
-    const token = localStorage.getItem("access_token");
-    if (!token) return;
-
-    try {
-        const response = await fetch("http://localhost:8000/auth/me", {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        });
-
-        if (response.ok) {
-            const user = await response.json();
-            const dropdownBtn = document.getElementById("userDropdownBtn");
-            dropdownBtn.textContent = `${user.first_name} ⌄`;
-            document.querySelector(".dropdown").style.display = "block";
-        } else {
-            localStorage.removeItem("access_token");
-        }
-    } catch (error) {
-        console.error("Kullanıcı verisi alınamadı:", error);
     }
 }
 
@@ -150,9 +170,30 @@ function logout() {
     window.location.href = "index.html";
 }
 
+// Navbar scroll efekti
+window.addEventListener("scroll", function () {
+    const navbar = document.querySelector(".navbar");
+    if (window.scrollY > 50) {
+        navbar.classList.add("scrolled");
+    } else {
+        navbar.classList.remove("scrolled");
+    }
+});
+
+// Modal dışına tıklayınca kapatma
+window.onclick = function (event) {
+    const modal = document.getElementById("loginModal");
+    if (event.target === modal) {
+        modal.style.display = "none";
+    }
+};
+
+// Sayfa yüklendiğinde çalışacak fonksiyonlar
 document.addEventListener("DOMContentLoaded", () => {
+    // Kullanıcı greeting göster
     showUserGreeting();
 
+    // Logout butonuna event listener ekle
     const logoutLink = document.getElementById("dropdownLogoutBtn");
     if (logoutLink) {
         logoutLink.addEventListener("click", function (e) {
@@ -160,9 +201,8 @@ document.addEventListener("DOMContentLoaded", () => {
             logout();
         });
     }
-});
 
-document.addEventListener("DOMContentLoaded", () => {
+    // Token varsa login butonunu gizle
     const token = localStorage.getItem("access_token");
     if (token) {
         const loginBtn = document.getElementById("navLoginBtn");
@@ -170,6 +210,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
+// Smooth scroll için anchor linkler
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault(); // Varsayılan atlama davranışını engelle

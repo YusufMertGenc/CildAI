@@ -18,9 +18,9 @@ project_root_dir = os.path.join(current_file_dir, '..')
 fonts_dir = os.path.join(project_root_dir, 'fonts')
 
 
-images_dir = os.path.join(project_root_dir, 'static')
-logo_path = os.path.join(images_dir, "images")
-last_path = os.path.join(logo_path, "logo.jpg")
+images_dir = os.path.join(project_root_dir, 'static', 'images')
+logo_path = os.path.join(images_dir, 'logo.jpg')
+
 
 try:
     pdfmetrics.registerFont(TTFont("DejaVuSans", os.path.join(fonts_dir, "DejaVuSans.ttf")))
@@ -52,12 +52,12 @@ def generate_analysis_pdf(advice: str):
         width, height = letter
         margin = 1 * inch
 
-        if os.path.exists(last_path):
+        if os.path.exists(logo_path):
             logo_width = 80
             logo_height = 80
-            p.drawImage(last_path, (width - logo_width) / 2, height - inch - 20, width=logo_width, height=logo_height, mask='auto')
+            p.drawImage(logo_path, (width - logo_width) / 2, height - inch - 20, width=logo_width, height=logo_height, mask='auto')
         else:
-            print(f"Logo dosyası bulunamadı: {last_path}")
+            print(f"Logo dosyası bulunamadı: {logo_path}")
 
 
         x = margin

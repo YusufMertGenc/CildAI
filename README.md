@@ -138,7 +138,7 @@ Kayıt, giriş, görsel yükleme ve analiz ekranlarından örnekler:
 
 </details>
 
-<details open>
+<details>
 <summary><h1>Sprint 2</h1></summary>
 
 Daily Scrum WhatsApp üzerinden yapılması kararlaştırılmıştır. Ayrıca haftada 2 kez Google Meet üzerinden toplantı yapılmaktadır.
@@ -196,7 +196,7 @@ Mail ile doğrulama, Şifreyi değiştirme, geçmiş analizleri görüntüleme e
 </details>
 
 <details open>
-<summary><h1>Sprint 2</h1></summary>
+<summary><h1>Sprint 3</h1></summary>
 
 Daily Scrum WhatsApp üzerinden yapılması kararlaştırılmıştır. Ayrıca haftada 2 kez Google Meet üzerinden toplantı yapılmaktadır.
 

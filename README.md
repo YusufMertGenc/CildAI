@@ -204,7 +204,7 @@ WhatsApp üzerinden gerçekleştirilen Daily Scrum'dan bazı örnekler
 
 <img width="3579" height="1615" alt="Untitled (3)" src="https://github.com/user-attachments/assets/d24f9372-db32-466e-a476-a80d2acda107" />
 
-**İkinci sprint için tamamlanması gereken puan** 150 olarak belirlenmiştir.
+**Üçüncü sprint için tamamlanması gereken puan** 150 olarak belirlenmiştir.
 
 **Puan Tamamlama Mantığı:** Toplamda proje boyunca tamamlanması gereken puan 500 puan olarak belirlenmiştir. 3 sprint'e bölündüğünde üçüncü sprint 150 puan hedeflenmiş ve hedefe ulaşılmıştır.
 

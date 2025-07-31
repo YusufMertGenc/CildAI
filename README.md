@@ -194,3 +194,62 @@ Mail ile doğrulama, Şifreyi değiştirme, geçmiş analizleri görüntüleme e
 4. Bir sonraki sprintte analiz sonucunun zenginleştirilmesine ,sonucun pdf ile indirilebilmesine ve ürünün canlıya alınması konularına odaklanılmasına kararlaştırıldı.
 
 </details>
+
+<details open>
+<summary><h1>Sprint 2</h1></summary>
+
+Daily Scrum WhatsApp üzerinden yapılması kararlaştırılmıştır. Ayrıca haftada 2 kez Google Meet üzerinden toplantı yapılmaktadır.
+
+WhatsApp üzerinden gerçekleştirilen Daily Scrum'dan bazı örnekler
+
+<img width="3579" height="1615" alt="Untitled (3)" src="https://github.com/user-attachments/assets/d24f9372-db32-466e-a476-a80d2acda107" />
+
+**İkinci sprint için tamamlanması gereken puan** 150 olarak belirlenmiştir.
+
+**Puan Tamamlama Mantığı:** Toplamda proje boyunca tamamlanması gereken puan 500 puan olarak belirlenmiştir. 3 sprint'e bölündüğünde üçüncü sprint 150 puan hedeflenmiş ve hedefe ulaşılmıştır.
+
+## Sprint Notları
+
+1. Sprint sorunsuz ilerlemiştir.
+2. Trello üzerinden takip edilen Sprint 3 backlog öğelerinin tamamı başarıyla tamamlandı.
+3. PDF indirme özelliği başarıyla entegre edildi.
+4. Google ile ve GitHub ile giriş yapma özelliği eklendi.
+5. Geçmiş analizlerin e-mail ile gönderilmesi sağlandı.
+6. Analiz geçmişine filtreleme özelliği eklendi.
+7. Giriş ve yetki kontrolleri geliştirildi.
+8. Ürün canlıya alındı
+9. Yapay zeka modeli daha detaylı eğitildi, kullanıcıya daha isabetli ve güvenli cevaplar vermesi sağlandı.
+10. Riskli cilt durumu tespitlerinde 112’ye yönlendirme özelliği eklendi.
+
+## Sprint Board Görüntüleri
+
+<img width="1083" height="733" alt="image" src="https://github.com/user-attachments/assets/83a696f1-6860-4b30-ae7c-77719b752090" />
+
+## Ürünün 3. Sprint Sonu Görüntüleri
+
+<img width="3284" height="1973" alt="Untitled (5)" src="https://github.com/user-attachments/assets/d9a45865-5161-4df4-ac69-464e7c280547" />
+
+<img width="3389" height="1031" alt="Untitled (6)" src="https://github.com/user-attachments/assets/a3c6c220-0550-483b-afca-e2cdd8315deb" />
+
+![İsimsiz video ‐ Clipchamp ile yapıldı](https://github.com/user-attachments/assets/f5bc2c8c-6947-492c-9380-6e5c0ac17742)
+![İsimsiz video ‐ Clipchamp ile yapıldı (1)](https://github.com/user-attachments/assets/94f0394e-491f-4d3e-80db-a025213e552b)
+
+
+
+## Sprint 3 Review 
+
+1. PDF indirme, geçmiş analiz gönderimi ve filtreleme gibi kullanıcı deneyimini artıran işlevler başarıyla tamamlandı.
+2. Yapay zekaya yeni komutlar tanımlanarak analiz kalitesi ve kişiselleştirme düzeyi artırıldı.
+3. Giriş kontrolü ve yetkilendirme süreçleri geliştirildi.
+4. Uygulama yayına alındı ve test ortamından üretime taşındı.
+5. Sprint 3 kapsamında planlanan tüm backlog maddeleri tamamlandı ve hedef puan başarıyla karşılandı
+
+## Sprint 3 Retrospective
+
+1. Tüm yeni özellikler entegre edilirken sistemde istikrar korundu.
+2. AI çıktılarında belirgin kalite artışı gözlemlendi.
+3. Daily Scrum düzenli yapıldı, takım içi iletişim verimliydi.
+4. Kullanıcı arayüzünde sade ve işlevsel bir yapı korundu.
+5. Proje genel olarak başarıyla tamamlandı; ürün hem teknik hem kullanıcı deneyimi açısından beklentileri karşıladı.
+
+</details>

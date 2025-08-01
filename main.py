@@ -26,6 +26,12 @@ app.include_router(history_router)
 app.include_router(verify_email_router)
 Base.metadata.create_all(bind=engine)
 
+origins = [
+    "http://localhost:8000",
+    "http://192.158.29.215/"
+]
+
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],

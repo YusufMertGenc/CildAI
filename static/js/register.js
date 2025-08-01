@@ -1,6 +1,10 @@
 async function handleSignup(event) {
     event.preventDefault();
 
+    const baseURL = import.meta.env.MODE === 'development'
+        ? 'http://localhost:8000'
+        : 'https://api.senin-domainin.com';
+
     const email = document.getElementById("signup-email").value.trim();
     const password = document.getElementById("signup-password").value;
     const confirmPassword = document.getElementById("signup-confirm-password").value;
@@ -29,7 +33,7 @@ async function handleSignup(event) {
     };
 
     try {
-        const response = await fetch("http://localhost:8000/auth/create_user", {
+        const response = await fetch("`${baseURL}/auth/create_user", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

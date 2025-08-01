@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="tr" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CildAI - Hesap Ayarları</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <style>
+        .tabs-container {
+            margin-bottom: 2rem;
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid #e2e8f0;
+            margin-bottom: 2rem;
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 1rem;
+            background: none;
+            border: none;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab-button:hover {
+            background: #f7fafc;
+        }
+
+        .tab-button.active {
+            color: #4299e1;
+            border-bottom-color: #4299e1;
+            background: #ebf8ff;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .code-input-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .code-input {
+            width: 50px;
+            height: 60px;
+            font-size: 24px;
+            text-align: center;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            outline: none;
+            caret-color: #000;
+        }
+
+        .code-input:focus {
+            border-color: #000;
+        }
+
+        .code-input:first-child {
+            border-left: 2px solid #000;
+        }
+
+        .code-input::placeholder {
+            color: #ccc;
+        }
+    </style>
+</head>
+<body style="display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 2rem; background: var(--background);">
+
+<div class="password-container">
+    <!-- Header -->
+    <div class="password-header">
+        <div class="password-logo">CildAI</div>
+        <h1 class="password-title">Doğrulama Gerekli</h1>
+    </div>
+    <div class="code-input-container">
+        <input type="text" class="code-input" maxlength="1" autofocus>
+        <input type="text" class="code-input" maxlength="1">
+        <input type="text" class="code-input" maxlength="1">
+        <input type="text" class="code-input" maxlength="1">
+        <input type="text" class="code-input" maxlength="1">
+        <input type="text" class="code-input" maxlength="1">
+    </div>
+    <div style="text-align:center; margin-top: 1rem;">
+        <button id="verifyBtn" style="
+        background-color: #4299e1;
+        color: white;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        font-weight: 600;
+        font-size: 1rem;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    ">Doğrula
+        </button>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script>
+    toastr.options = {
+        "positionClass": "toast-top-center",
+        "timeOut": "4000"
+    };
+
+    const inputs = document.querySelectorAll('.code-input');
+    const verifyBtn = document.getElementById('verifyBtn');
+
+    // Otomatik input geçişi
+    inputs.forEach((input, i) => {
+        input.addEventListener('input', () => {
+            if (input.value.length === 1 && i < inputs.length - 1) {
+                inputs[i + 1].focus();
+            }
+        });
+
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Backspace' && input.value === '' && i > 0) {
+                inputs[i - 1].focus();
+            }
+        });
+    });
+
+    async function submitCode() {
+        const code = Array.from(inputs).map(input => input.value).join('');
+        if (code.length !== inputs.length) {
+            toastr.error("Lütfen tüm kutucukları doldurun.");
+            return;
+        }
+
+        const params = new URLSearchParams(window.location.search);
+        const email = params.get('email');
+        if (!email) {
+            toastr.error("E-posta bilgisi bulunamadı.");
+            return;
+        }
+
+        try {
+            const res = await fetch('http://127.0.0.1:8000/auth/verify-reset-code', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({email, code})
+            });
+
+            const data = await res.json();
+
+            if (res.ok) {
+                toastr.success("Kod doğrulandı. Şifre yenileme sayfasına yönlendiriliyorsunuz...");
+                setTimeout(() => {
+                    window.location.href = `reset-password.html?email=${encodeURIComponent(email)}&code=${encodeURIComponent(code)}`;
+                }, 2000);
+            } else {
+                toastr.error(data.detail || "Kod doğrulama başarısız.");
+            }
+        } catch (error) {
+            toastr.error("Sunucuya bağlanırken hata oluştu.");
+        }
+    }
+
+    verifyBtn.addEventListener('click', submitCode);
+</script>
+</body>
+</html>

@@ -1,18 +1,20 @@
 from datetime import timedelta, datetime, timezone
+from random import randint
+
 from fastapi import APIRouter, Depends, HTTPException, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
 from zmq.backend import first
 from database import SessionLocal
 from typing import Annotated
-from models import User
+from models import User, PasswordResetCode
 from starlette import status
 from sqlalchemy.orm import Session
 from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
 from passlib.context import CryptContext
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 from jose import JWTError, jwt
 from utils import generate_confirmation_token
-from mail_utils import send_verification_email
+from mail_utils import send_verification_email, send_verification_code_email
 import os
 from dotenv import load_dotenv
 import httpx
@@ -76,6 +78,21 @@ class ChangeEmailRequest(BaseModel):
     current_password: str
     new_email: str
     confirm_email: str
+
+
+class ForgotPasswordRequest(BaseModel):
+    email: EmailStr
+
+
+class VerifyResetCodeRequest(BaseModel):
+    email: EmailStr
+    code: str
+
+
+class ResetPasswordRequest(BaseModel):
+    email: EmailStr
+    code: str
+    new_password: str
 
 
 def create_access_token(email: str, user_id: int, role: str, expires_delta: timedelta):
@@ -202,7 +219,6 @@ async def google_callback(code: str, db: db_dependency):
                 provider="google"
             )
 
-            # JWT token oluştur
             jwt_token = create_access_token(
                 user.email,
                 user.id,
@@ -212,7 +228,6 @@ async def google_callback(code: str, db: db_dependency):
 
             print(f"✅ Google JWT token oluşturuldu: {jwt_token[:20]}...")
 
-            # Frontend'e başarılı giriş mesajı gönder - Origin '*' ile
             return HTMLResponse(content=f"""
             <html>
                 <script>
@@ -228,7 +243,6 @@ async def google_callback(code: str, db: db_dependency):
 
     except Exception as e:
         print(f"❌ Google OAuth hatası: {e}")
-        # Hata durumunda frontend'e hata mesajı gönder
         return HTMLResponse(content=f"""
         <html>
             <script>
@@ -243,7 +257,6 @@ async def google_callback(code: str, db: db_dependency):
         """)
 
 
-# GITHUB OAuth Endpoints
 @router.get("/github")
 async def github_login():
     """GitHub OAuth giriş sayfasına yönlendir"""
@@ -318,7 +331,6 @@ async def github_callback(code: str, db: db_dependency):
 
             print(f"🟣 GitHub primary email: {primary_email}")
 
-            # Kullanıcıyı bul veya oluştur
             name_parts = (user_data.get("name") or "").split(" ", 1)
             first_name = name_parts[0] if name_parts else user_data.get("login", "")
             last_name = name_parts[1] if len(name_parts) > 1 else ""
@@ -331,7 +343,6 @@ async def github_callback(code: str, db: db_dependency):
                 provider="github"
             )
 
-            # JWT token oluştur
             jwt_token = create_access_token(
                 user.email,
                 user.id,
@@ -340,8 +351,6 @@ async def github_callback(code: str, db: db_dependency):
             )
 
             print(f"✅ GitHub JWT token oluşturuldu: {jwt_token[:20]}...")
-
-            # Frontend'e başarılı giriş mesajı gönder - Origin '*' ile
             return HTMLResponse(content=f"""
             <html>
                 <script>
@@ -357,7 +366,6 @@ async def github_callback(code: str, db: db_dependency):
 
     except Exception as e:
         print(f"❌ GitHub OAuth hatası: {e}")
-        # Hata durumunda frontend'e hata mesajı gönder
         return HTMLResponse(content=f"""
         <html>
             <script>
@@ -371,8 +379,6 @@ async def github_callback(code: str, db: db_dependency):
         </html>
         """)
 
-
-# Mevcut endpoint'leriniz aynen kalıyor...
 
 @router.post("/create_user", status_code=status.HTTP_201_CREATED)
 async def create_user(db: db_dependency, create_user_request: CreateUserRequest):
@@ -438,11 +444,9 @@ async def change_password(
                 detail="Yeni şifre en az 8 karakter olmalıdır"
             )
 
-        # Yeni şifreyi hash'le ve güncelle
         new_hashed_password = bcrypt_context.hash(password_request.new_password)
         user.hashed_password = new_hashed_password
 
-        # Değişiklikleri kaydet
         db.commit()
 
         return {
@@ -458,6 +462,69 @@ async def change_password(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Şifre değiştirme işlemi başarısız: {str(e)}"
         )
+
+
+@router.post("/forgot-password")
+async def forgot_password(data: ForgotPasswordRequest, db: db_dependency):
+    user = db.query(User).filter(User.email == data.email).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="Bu e-posta sistemde kayıtlı değil")
+
+    db.query(PasswordResetCode).filter(PasswordResetCode.user_id == user.id).delete()
+
+    code = str(randint(100000, 999999))
+    expires_at = datetime.utcnow() + timedelta(minutes=10)
+
+    reset_entry = PasswordResetCode(user_id=user.id, code=code, expires_at=expires_at)
+    db.add(reset_entry)
+    db.commit()
+
+    await send_verification_code_email(email=user.email, token=code)
+
+    return {"message": "Doğrulama kodu e-posta adresinize gönderildi."}
+
+
+@router.post("/verify-reset-code")
+async def verify_reset_code(data: VerifyResetCodeRequest, db: db_dependency):
+    user = db.query(User).filter(User.email == data.email).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="Kullanıcı bulunamadı")
+
+    record = db.query(PasswordResetCode).filter(
+        PasswordResetCode.user_id == user.id,
+        PasswordResetCode.code == data.code,
+        PasswordResetCode.expires_at > datetime.utcnow()
+    ).first()
+
+    if not record:
+        raise HTTPException(status_code=400, detail="Kod geçersiz veya süresi dolmuş")
+
+    return {"message": "Kod doğru, şifre sıfırlama sayfasına geçebilirsiniz."}
+
+
+@router.post("/reset-password")
+async def reset_password(data: ResetPasswordRequest, db: db_dependency):
+    user = db.query(User).filter(User.email == data.email).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="Kullanıcı bulunamadı")
+
+    record = db.query(PasswordResetCode).filter(
+        PasswordResetCode.user_id == user.id,
+        PasswordResetCode.code == data.code,
+        PasswordResetCode.expires_at > datetime.utcnow()
+    ).first()
+
+    if not record:
+        raise HTTPException(status_code=400, detail="Kod geçersiz veya süresi dolmuş")
+
+    if len(data.new_password) < 8:
+        raise HTTPException(status_code=400, detail="Yeni şifre en az 8 karakter olmalı")
+
+    user.hashed_password = bcrypt_context.hash(data.new_password)
+    db.query(PasswordResetCode).filter(PasswordResetCode.user_id == user.id).delete()
+    db.commit()
+
+    return {"message": "Şifre başarıyla sıfırlandı"}
 
 
 @router.post("/change-email", status_code=status.HTTP_200_OK)

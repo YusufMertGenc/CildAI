@@ -1,9 +1,9 @@
 async function handleSignup(event) {
     event.preventDefault();
 
-    const baseURL = import.meta.env.MODE === 'development'
+    const baseURL = window.location.hostname === 'localhost'
         ? 'http://localhost:8000'
-        : 'https://api.senin-domainin.com';
+        : 'http://192.158.29.215';
 
     const email = document.getElementById("signup-email").value.trim();
     const password = document.getElementById("signup-password").value;

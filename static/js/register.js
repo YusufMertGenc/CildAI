@@ -33,7 +33,7 @@ async function handleSignup(event) {
     };
 
     try {
-        const response = await fetch("`${baseURL}/auth/create_user", {
+        const response = await fetch(`${baseURL}/auth/create_user`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

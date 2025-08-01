@@ -1,11 +1,11 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routers.auth import router as auth_router
-from routers.skin_analysis import router as skin_analysis_router
-from routers.history import router as history_router
-from routers.email import router as verify_email_router
-from models import Base
-from database import engine
+from .routers.auth import router as auth_router
+from .routers.skin_analysis import router as skin_analysis_router
+from .routers.history import router as history_router
+from .routers.email import router as verify_email_router
+from .models import Base
+from .database import engine
 
 app = FastAPI()
 app.include_router(auth_router)

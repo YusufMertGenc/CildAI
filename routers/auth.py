@@ -4,17 +4,17 @@ from random import randint
 from fastapi import APIRouter, Depends, HTTPException, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
 from zmq.backend import first
-from database import SessionLocal
+from ..database import SessionLocal
 from typing import Annotated
-from models import User, PasswordResetCode
+from ..models import User, PasswordResetCode
 from starlette import status
 from sqlalchemy.orm import Session
 from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
 from passlib.context import CryptContext
 from pydantic import BaseModel, EmailStr
 from jose import JWTError, jwt
-from utils import generate_confirmation_token
-from mail_utils import send_verification_email, send_verification_code_email
+from ..utils import generate_confirmation_token
+from ..mail_utils import send_verification_email, send_verification_code_email
 import os
 from dotenv import load_dotenv
 import httpx

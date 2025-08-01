@@ -6,11 +6,11 @@ from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
-from mail_utils import send_history_email
-from routers.auth import get_current_user
-from utils import confirm_token
-from models import User, Chat
-from database import SessionLocal
+from ..mail_utils import send_history_email
+from ..routers.auth import get_current_user
+from ..utils import confirm_token
+from ..models import User, Chat
+from ..database import SessionLocal
 
 router = APIRouter()
 

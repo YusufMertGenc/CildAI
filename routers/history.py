@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from models import Chat
-from routers.auth import get_current_user
-from database import SessionLocal
+from ..models import Chat
+from ..routers.auth import get_current_user
+from ..database import SessionLocal
 from typing import Annotated
 from datetime import datetime, timedelta
 

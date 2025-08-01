@@ -2,17 +2,17 @@ from fastapi import UploadFile, File, Form, HTTPException, APIRouter, Depends
 from fastapi.responses import JSONResponse, StreamingResponse
 import io
 from PIL import Image
-from database import SessionLocal
+from ..database import SessionLocal
 import google.generativeai as genai
 import os
 from dotenv import load_dotenv
 from typing import Annotated, Optional
 from sqlalchemy.orm import Session
-from routers.auth import get_current_user
-from routers.generatepdf import generate_analysis_pdf
+from ..routers.auth import get_current_user
+from ..routers.generatepdf import generate_analysis_pdf
 import markdown2 as markdown
 from bs4 import BeautifulSoup
-from models import Chat
+from ..models import Chat
 import uuid
 import requests
 

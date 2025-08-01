@@ -18,6 +18,7 @@ class User(Base):
     role = Column(String)
     is_verified = Column(Boolean, default=False)
     prompts = relationship("Chat", back_populates="user")
+    reset_codes = relationship("PasswordResetCode", back_populates="user", cascade="all, delete-orphan")
 
 
 class Chat(Base):
@@ -29,3 +30,13 @@ class Chat(Base):
     created_at = Column(DateTime, default=datetime.now())
     owner_id = Column(Integer, ForeignKey('users.id'))
     user = relationship("User", back_populates="prompts")
+
+class PasswordResetCode(Base):
+    __tablename__ = "password_reset_codes"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    code = Column(String(6), nullable=False)
+    expires_at = Column(DateTime, nullable=False)
+
+    user = relationship("User", back_populates="reset_codes")

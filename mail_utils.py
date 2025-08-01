@@ -36,6 +36,7 @@ async def send_verification_email(email: EmailStr, token: str):
     fm = FastMail(conf)
     await fm.send_message(message)
 
+
 async def send_history_email(to_email: EmailStr, history_data: List[dict]):
     body = "Geçmiş analizleriniz:\n\n"
     for item in history_data:
@@ -45,6 +46,18 @@ async def send_history_email(to_email: EmailStr, history_data: List[dict]):
         subject="Cilt Analiz Geçmişiniz",
         recipients=[to_email],
         body=body,
+        subtype="plain"
+    )
+    fm = FastMail(conf)
+    await fm.send_message(message)
+
+
+async def send_verification_code_email(email: EmailStr, token: str):
+    link = f"{token}"
+    message = MessageSchema(
+        subject="Şifre Sıfırlama",
+        recipients=[email],
+        body=f"Şifre sıfırlama kodunuz: {link}\nBu kod 10 dakika geçerlidir.",
         subtype="plain"
     )
     fm = FastMail(conf)

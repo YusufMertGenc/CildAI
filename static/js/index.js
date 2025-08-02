@@ -1,3 +1,5 @@
+import baseURL from './config.js';
+
 function openLoginModal() {
     document.getElementById("loginModal").style.display = "block";
 }
@@ -20,14 +22,13 @@ function handleStartAnalysis(event) {
     }
 }
 
-// OAuth Giriş Fonksiyonları - GÜNCELLENMIŞ
 function loginWithGoogle(event) {
     event.preventDefault();
-    const googleAuthUrl = 'http://localhost:8000/auth/google';
+    const googleAuthUrl = `${baseURL}/auth/google`;
     const popup = window.open(googleAuthUrl, 'googleLogin', 'width=500,height=600,scrollbars=yes,resizable=yes');
 
     // Popup mesaj dinleyicisini bir kez ekle
-    const messageHandler = function(event) {
+    const messageHandler = function (event) {
         // Origin kontrolünü kaldırdık - tüm mesajları dinle
         console.log('Google mesaj geldi:', event.data, 'Origin:', event.origin);
 
@@ -53,12 +54,11 @@ function loginWithGoogle(event) {
 
 function loginWithGitHub(event) {
     event.preventDefault();
-    const githubAuthUrl = 'http://localhost:8000/auth/github';
+    const githubAuthUrl = `${baseURL}/auth/github`;
     const popup = window.open(githubAuthUrl, 'githubLogin', 'width=500,height=600,scrollbars=yes,resizable=yes');
 
     // Popup mesaj dinleyicisini bir kez ekle
-    const messageHandler = function(event) {
-        // Origin kontrolünü kaldırdık - tüm mesajları dinle
+    const messageHandler = function (event) {
         console.log('GitHub mesaj geldi:', event.data, 'Origin:', event.origin);
 
         if (event.data.type === 'GITHUB_AUTH_SUCCESS') {
@@ -67,13 +67,11 @@ function loginWithGitHub(event) {
             closeLoginModal();
             toastr.success('GitHub ile başarıyla giriş yaptınız!');
             window.location.reload();
-            // Event listener'ı kaldır
             window.removeEventListener('message', messageHandler);
         } else if (event.data.type === 'GITHUB_AUTH_ERROR') {
             console.error('GitHub giriş hatası:', event.data.error);
             toastr.error('GitHub ile giriş yapılamadı: ' + event.data.error);
             popup.close();
-            // Event listener'ı kaldır
             window.removeEventListener('message', messageHandler);
         }
     };
@@ -92,7 +90,7 @@ async function handleLogin(event) {
     formData.append("password", password);
 
     try {
-        const response = await fetch("http://localhost:8000/auth/token", {
+        const response = await fetch(`${baseURL}/auth/token`, {
             method: "POST",
             body: formData,
         });
@@ -135,7 +133,7 @@ async function showUserGreeting() {
     if (!token) return;
 
     try {
-        const response = await fetch("http://localhost:8000/auth/me", {
+        const response = await fetch(`${baseURL}/auth/me`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },

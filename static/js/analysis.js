@@ -1,3 +1,5 @@
+import baseURL from "./config";
+
 const startCameraButton = document.getElementById("start-camera");
 const cameraDiv = document.getElementById("camera");
 const videoElement = document.getElementById("video");
@@ -224,7 +226,7 @@ uploadForm.addEventListener("submit", function (e) {
         resultBox.innerHTML = `⏳ Analiz ediliyor...`;
 
         try {
-            const response = await fetch("http://127.0.0.1:8000/skin-analysis/analyze-skin", {
+            const response = await fetch(`${baseURL}/skin-analysis/analyze-skin`, {
                 method: "POST",
                 headers: {
                     "Authorization": "Bearer " + token
@@ -296,7 +298,7 @@ document.addEventListener("click", function (e) {
         const formData = new FormData();
         formData.append("advice", adviceText);
 
-        fetch("http://127.0.0.1:8000/skin-analysis/generate-pdf/", {
+        fetch(`${baseURL}/skin-analysis/generate-pdf/`, {
             method: "POST",
             body: formData
         })
@@ -340,7 +342,7 @@ document.addEventListener("click", async function (e) {
                 return;
             }
 
-            const response = await fetch("http://127.0.0.1:8000/chat/send_history_mail", {
+            const response = await fetch(`${baseURL}/chat/send_history_mail`, {
                 method: "POST",
                 headers: {
                     "Authorization": `Bearer ${token}`,

@@ -1,9 +1,7 @@
+import baseURL from './config.js';
+
 async function handleSignup(event) {
     event.preventDefault();
-
-    const baseURL = window.location.hostname === 'localhost'
-        ? 'http://localhost:8000'
-        : 'http://192.158.29.215';
 
     const email = document.getElementById("signup-email").value.trim();
     const password = document.getElementById("signup-password").value;

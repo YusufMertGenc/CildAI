@@ -1,3 +1,5 @@
+import baseURL from './config.js';
+
 toastr.options = {
     "positionClass": "toast-top-center",
     "timeOut": "4000"
@@ -35,7 +37,7 @@ async function submitCode() {
     }
 
     try {
-        const res = await fetch('http://127.0.0.1:8000/auth/verify-reset-code', {
+        const res = await fetch(`${baseURL}/auth/verify-reset-code`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({email, code})

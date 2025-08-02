@@ -1,15 +1,14 @@
+import baseURL from "./config";
+
 let passwordStrength = 0;
 let currentUserEmail = '';
 
 document.addEventListener('DOMContentLoaded', function () {
-    // Token kontrolü
     const token = localStorage.getItem('access_token');
     if (!token) {
         window.location.href = 'index.html';
         return;
     }
-
-    // Kullanıcı bilgilerini yükle
     loadUserInfo();
 
     // Password form elements
@@ -59,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function () {
 async function loadUserInfo() {
     try {
         const token = localStorage.getItem('access_token');
-        const response = await fetch('http://127.0.0.1:8000/auth/me', {
+        const response = await fetch(`${baseURL}/auth/me`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -80,7 +79,6 @@ async function loadUserInfo() {
 
 // Tab değiştirme
 function switchTab(tabName) {
-    // Tüm tab butonlarını pasif yap
     document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
     // Tüm tab içeriklerini gizle
     document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
@@ -272,7 +270,7 @@ async function handlePasswordSubmit(e) {
 
     try {
         const token = localStorage.getItem('access_token');
-        const response = await fetch('http://127.0.0.1:8000/auth/change-password', {
+        const response = await fetch(`${baseURL}/auth/change-password`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -336,7 +334,7 @@ async function handleEmailSubmit(e) {
 
     try {
         const token = localStorage.getItem('access_token');
-        const response = await fetch('http://127.0.0.1:8000/auth/change-email', {
+        const response = await fetch(`${baseURL}/auth/change-email`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

@@ -1,3 +1,5 @@
+import baseURL from "./config";
+
 const sendCodeBtn = document.getElementById('sendCodeBtn');
 const emailInput = document.getElementById('verify_mail');
 
@@ -12,7 +14,7 @@ sendCodeBtn.addEventListener('click', async () => {
     sendCodeBtn.disabled = true;
 
     try {
-        const response = await fetch('http://127.0.0.1:8000/auth/forgot-password', {
+        const response = await fetch(`${baseURL}/auth/forgot-password`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({email})

@@ -1,3 +1,5 @@
+import baseURL from './config.js';
+
 async function showUserGreeting() {
     const token = localStorage.getItem("access_token");
     if (!token) {
@@ -6,7 +8,7 @@ async function showUserGreeting() {
     }
 
     try {
-        const response = await fetch("http://localhost:8000/auth/me", {
+        const response = await fetch(`${baseURL}/auth/me`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
@@ -41,10 +43,8 @@ const emptyState = document.getElementById("emptyState");
 const errorState = document.getElementById("errorState");
 
 document.addEventListener("DOMContentLoaded", () => {
-    // Kullanıcı dropdown'ını başlat
     showUserGreeting();
 
-    // Logout butonuna event listener ekle
     const logoutLink = document.getElementById("dropdownLogoutBtn");
     if (logoutLink) {
         logoutLink.addEventListener("click", function (e) {
@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
 
-    fetchChatHistory("http://127.0.0.1:8000/chat/history", token);
+    fetchChatHistory(`${baseURL}/chat/history`, token);
 });
 
 function fetchChatHistory(url, token) {
@@ -90,7 +90,6 @@ function fetchChatHistory(url, token) {
         });
 }
 
-
 document.getElementById("filterBtn").addEventListener("click", async () => {
     const dateFilter = document.getElementById("dateFilter").value;
     const searchQuery = document.getElementById("searchInput").value.trim().toLowerCase();
@@ -102,10 +101,10 @@ document.getElementById("filterBtn").addEventListener("click", async () => {
         return;
     }
 
-    let url = "http://127.0.0.1:8000/chat/history";
-    if (dateFilter === "7") url = "http://127.0.0.1:8000/chat/history/last_seven_day";
-    else if (dateFilter === "30") url = "http://127.0.0.1:8000/chat/history/last_month";
-    else if (dateFilter === "90") url = "http://127.0.0.1:8000/chat/history/last_three_month";
+    let url = `${baseURL}/chat/history`;
+    if (dateFilter === "7") url = `${baseURL}/chat/history/last_seven_day`;
+    else if (dateFilter === "30") url = `${baseURL}/chat/history/last_month`;
+    else if (dateFilter === "90") url = `${baseURL}/chat/history/last_three_month`;
 
     try {
         const response = await fetch(url, {
@@ -115,7 +114,6 @@ document.getElementById("filterBtn").addEventListener("click", async () => {
                 "Content-Type": "application/json"
             }
         });
-
 
         const data = await response.json();
 
@@ -135,7 +133,7 @@ document.getElementById("filterBtn").addEventListener("click", async () => {
 });
 
 function displayResults(results) {
-    chatHistoryContainer.innerHTML = ""; // Önceki içeriği temizle
+    chatHistoryContainer.innerHTML = "";
     loadingState.style.display = "none";
     emptyState.style.display = "none";
     errorState.style.display = "none";
@@ -168,14 +166,36 @@ function displayResults(results) {
             <div class="chat-content">
                 <div class="chat-prompt"><strong>Prompt:</strong><br>${truncateText(prompt, 3000)}</div>
                 <div class="chat-response"><strong>Cevap:</strong><br>${truncateText(response, 3000)}</div>
-
-                <form method="POST" action="http://127.0.0.1:8000/skin-analysis/generate-pdf/" target="_blank">
-                    <input type="hidden" name="advice" value="${escapedResponse}">
-                    <button type="submit" class="download-pdf-btn">📄 PDF İndir</button>
-                </form>
-                <button id="${sendButtonId}" class="gmail-send-btn">📧 Mail Gönder</button>
             </div>
         `;
+
+        // PDF Formu dinamik oluşturuluyor
+        const form = document.createElement("form");
+        form.method = "POST";
+        form.action = `${baseURL}/skin-analysis/generate-pdf/`;
+        form.target = "_blank";
+
+        const hiddenInput = document.createElement("input");
+        hiddenInput.type = "hidden";
+        hiddenInput.name = "advice";
+        hiddenInput.value = escapedResponse;
+
+        const submitButton = document.createElement("button");
+        submitButton.type = "submit";
+        submitButton.className = "download-pdf-btn";
+        submitButton.textContent = "📄 PDF İndir";
+
+        form.appendChild(hiddenInput);
+        form.appendChild(submitButton);
+
+        chatItem.querySelector(".chat-content").appendChild(form);
+
+        const mailBtn = document.createElement("button");
+        mailBtn.id = sendButtonId;
+        mailBtn.className = "gmail-send-btn";
+        mailBtn.textContent = "📧 Mail Gönder";
+
+        chatItem.querySelector(".chat-content").appendChild(mailBtn);
 
         chatHistoryContainer.appendChild(chatItem);
 
@@ -183,7 +203,7 @@ function displayResults(results) {
             const token = localStorage.getItem("access_token");
 
             try {
-                const res = await fetch("http://127.0.0.1:8000/chat/send_history_mail", {
+                const res = await fetch(`${baseURL}/chat/send_history_mail`, {
                     method: "POST",
                     headers: {
                         "Authorization": `Bearer ${token}`,
@@ -221,7 +241,7 @@ document.getElementById("send-all-history-mail").addEventListener("click", async
     }
 
     try {
-        const response = await fetch("http://127.0.0.1:8000/chat/send_all_history_mail", {
+        const response = await fetch(`${baseURL}/chat/send_all_history_mail`, {
             method: "POST",
             headers: {
                 "Authorization": `Bearer ${token}`
@@ -241,7 +261,6 @@ document.getElementById("send-all-history-mail").addEventListener("click", async
         toastr.error("Bir hata oluştu. Lütfen tekrar deneyin.");
     }
 });
-
 
 function truncateText(text, maxLength) {
     if (!text || typeof text !== "string") return "";

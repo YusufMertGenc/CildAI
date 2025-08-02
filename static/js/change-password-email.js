@@ -381,3 +381,10 @@ async function handleEmailSubmit(e) {
         validateEmailForm();
     }
 }
+
+window.switchTab = switchTab;
+window.togglePassword = togglePassword;
+window.heckPasswordStrength = checkPasswordStrength;
+window.updateStrengthMeter = updateStrengthMeter;
+window.validatePasswordForm = validatePasswordForm;
+window.validateRequirements = validateRequirements;

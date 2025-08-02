@@ -1,4 +1,4 @@
-import baseURL from "./config";
+import baseURL from "./config.js";
 
 const startCameraButton = document.getElementById("start-camera");
 const cameraDiv = document.getElementById("camera");

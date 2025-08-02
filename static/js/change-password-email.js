@@ -1,4 +1,4 @@
-import baseURL from "./config";
+import baseURL from "./config.js";
 
 let passwordStrength = 0;
 let currentUserEmail = '';

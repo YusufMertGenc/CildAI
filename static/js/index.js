@@ -1,5 +1,6 @@
 import baseURL from './config.js';
 
+// Globalde kullanılacak fonksiyonlar
 function openLoginModal() {
     document.getElementById("loginModal").style.display = "block";
 }
@@ -27,9 +28,7 @@ function loginWithGoogle(event) {
     const googleAuthUrl = `${baseURL}/auth/google`;
     const popup = window.open(googleAuthUrl, 'googleLogin', 'width=500,height=600,scrollbars=yes,resizable=yes');
 
-    // Popup mesaj dinleyicisini bir kez ekle
     const messageHandler = function (event) {
-        // Origin kontrolünü kaldırdık - tüm mesajları dinle
         console.log('Google mesaj geldi:', event.data, 'Origin:', event.origin);
 
         if (event.data.type === 'GOOGLE_AUTH_SUCCESS') {
@@ -38,13 +37,11 @@ function loginWithGoogle(event) {
             closeLoginModal();
             toastr.success('Google ile başarıyla giriş yaptınız!');
             window.location.reload();
-            // Event listener'ı kaldır
             window.removeEventListener('message', messageHandler);
         } else if (event.data.type === 'GOOGLE_AUTH_ERROR') {
             console.error('Google giriş hatası:', event.data.error);
             toastr.error('Google ile giriş yapılamadı: ' + event.data.error);
             popup.close();
-            // Event listener'ı kaldır
             window.removeEventListener('message', messageHandler);
         }
     };
@@ -57,7 +54,6 @@ function loginWithGitHub(event) {
     const githubAuthUrl = `${baseURL}/auth/github`;
     const popup = window.open(githubAuthUrl, 'githubLogin', 'width=500,height=600,scrollbars=yes,resizable=yes');
 
-    // Popup mesaj dinleyicisini bir kez ekle
     const messageHandler = function (event) {
         console.log('GitHub mesaj geldi:', event.data, 'Origin:', event.origin);
 
@@ -145,15 +141,9 @@ async function showUserGreeting() {
             const dropdownBtn = document.getElementById("userDropdownBtn");
             const dropdownContainer = document.querySelector(".dropdown");
 
-            if (dropdownBtn) {
-                dropdownBtn.textContent = `${user.first_name} ⌄`;
-            }
-            if (navBtn) {
-                navBtn.style.display = "none";
-            }
-            if (dropdownContainer) {
-                dropdownContainer.style.display = "block";
-            }
+            if (dropdownBtn) dropdownBtn.textContent = `${user.first_name} ⌄`;
+            if (navBtn) navBtn.style.display = "none";
+            if (dropdownContainer) dropdownContainer.style.display = "block";
         } else {
             localStorage.removeItem("access_token");
         }
@@ -169,7 +159,7 @@ function logout() {
 }
 
 // Navbar scroll efekti
-window.addEventListener("scroll", function () {
+window.addEventListener("scroll", () => {
     const navbar = document.querySelector(".navbar");
     if (window.scrollY > 50) {
         navbar.classList.add("scrolled");
@@ -179,7 +169,7 @@ window.addEventListener("scroll", function () {
 });
 
 // Modal dışına tıklayınca kapatma
-window.onclick = function (event) {
+window.onclick = (event) => {
     const modal = document.getElementById("loginModal");
     if (event.target === modal) {
         modal.style.display = "none";
@@ -188,10 +178,8 @@ window.onclick = function (event) {
 
 // Sayfa yüklendiğinde çalışacak fonksiyonlar
 document.addEventListener("DOMContentLoaded", () => {
-    // Kullanıcı greeting göster
     showUserGreeting();
 
-    // Logout butonuna event listener ekle
     const logoutLink = document.getElementById("dropdownLogoutBtn");
     if (logoutLink) {
         logoutLink.addEventListener("click", function (e) {
@@ -200,7 +188,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Token varsa login butonunu gizle
     const token = localStorage.getItem("access_token");
     if (token) {
         const loginBtn = document.getElementById("navLoginBtn");
@@ -208,27 +195,27 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-// Smooth scroll için anchor linkler
+// Smooth scroll
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
-        e.preventDefault(); // Varsayılan atlama davranışını engelle
+        e.preventDefault();
 
-        const targetId = this.getAttribute('href'); // Hedef ID'yi al (örn: #features veya #)
-
+        const targetId = this.getAttribute('href');
         if (targetId === '#') {
-            // Eğer hedef sadece '#' ise, sayfanın en başına yumuşakça kaydır
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
+            window.scrollTo({top: 0, behavior: 'smooth'});
         } else {
-            // Belirli bir ID'ye sahip hedefe yumuşakça kaydır
             const targetElement = document.querySelector(targetId);
             if (targetElement) {
-                targetElement.scrollIntoView({
-                    behavior: 'smooth'
-                });
+                targetElement.scrollIntoView({behavior: 'smooth'});
             }
         }
     });
 });
+
+window.openLoginModal = openLoginModal;
+window.closeLoginModal = closeLoginModal;
+window.handleStartAnalysis = handleStartAnalysis;
+window.loginWithGoogle = loginWithGoogle;
+window.loginWithGitHub = loginWithGitHub;
+window.handleLogin = handleLogin;
+window.logout = logout;

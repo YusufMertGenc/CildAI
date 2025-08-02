@@ -12,9 +12,6 @@ const imageInput = document.getElementById("imageInput");
 const uploadForm = document.getElementById("uploadForm");
 const resultBox = document.getElementById("result");
 const token = localStorage.getItem("access_token");
-const sendHistoryMailBtn = document.getElementById("send-history-mail"); // Mail buton referansı
-sendHistoryMailBtn.style.display = "none"; // Başlangıçta gizle
-
 let stream = null;
 let userLocation = null;
 

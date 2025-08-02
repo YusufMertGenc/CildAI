@@ -37,9 +37,9 @@ GITHUB_CLIENT_ID = os.getenv("GITHUB_CLIENT_ID")
 GITHUB_CLIENT_SECRET = os.getenv("GITHUB_CLIENT_SECRET")
 BASE_URL = "http://34.78.3.171"
 
-# OAuth redirect URL'leri
-GOOGLE_REDIRECT_URI = f"${BASE_URL}/auth/google/callback"
-GITHUB_REDIRECT_URI = f"${BASE_URL}/auth/github/callback"
+
+GOOGLE_REDIRECT_URI = f"{BASE_URL}/auth/google/callback"
+GITHUB_REDIRECT_URI = f"{BASE_URL}/auth/github/callback"
 
 
 def get_db():

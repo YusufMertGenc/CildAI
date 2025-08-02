@@ -1,7 +1,7 @@
 from datetime import timedelta, datetime, timezone
 from random import randint
 
-from fastapi import APIRouter, Depends, HTTPException, Request
+from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import HTMLResponse, RedirectResponse
 from zmq.backend import first
 from ..database import SessionLocal
@@ -35,10 +35,11 @@ GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
 GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET")
 GITHUB_CLIENT_ID = os.getenv("GITHUB_CLIENT_ID")
 GITHUB_CLIENT_SECRET = os.getenv("GITHUB_CLIENT_SECRET")
+BASE_URL = "http://34.78.3.171"
 
 # OAuth redirect URL'leri
-GOOGLE_REDIRECT_URI = "http://localhost:8000/auth/google/callback"
-GITHUB_REDIRECT_URI = "http://localhost:8000/auth/github/callback"
+GOOGLE_REDIRECT_URI = f"${BASE_URL}/auth/google/callback"
+GITHUB_REDIRECT_URI = f"${BASE_URL}/auth/github/callback"
 
 
 def get_db():

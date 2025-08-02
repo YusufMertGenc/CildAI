@@ -11,6 +11,7 @@ from ..routers.auth import get_current_user
 from ..utils import confirm_token
 from ..models import User, Chat
 from ..database import SessionLocal
+import os
 
 router = APIRouter()
 
@@ -22,11 +23,14 @@ def get_db():
     finally:
         db.close()
 
+script_dir = os.path.dirname(__file__)
+st_abs_file_path = os.path.join(script_dir, "templates/")
+
 
 db_dependency = Annotated[Session, Depends(get_db)]
 user_dependency = Annotated[dict, Depends(get_current_user)]
 
-templates = Jinja2Templates(directory="templates")
+templates = Jinja2Templates(directory=st_abs_file_path)
 
 
 class HistoryItem(BaseModel):

@@ -24,7 +24,10 @@ def get_db():
         db.close()
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-templates = Jinja2Templates(directory=os.path.join(BASE_DIR, "templates"))
+ROOT_DIR = os.path.abspath(os.path.join(BASE_DIR, ".."))
+TEMPLATE_DIR = os.path.join(ROOT_DIR, "templates")
+
+templates = Jinja2Templates(directory=TEMPLATE_DIR)
 
 
 db_dependency = Annotated[Session, Depends(get_db)]

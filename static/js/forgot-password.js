@@ -1,4 +1,4 @@
-import baseURL from "./config";
+import baseURL from "./config.js";
 
 const sendCodeBtn = document.getElementById('sendCodeBtn');
 const emailInput = document.getElementById('verify_mail');

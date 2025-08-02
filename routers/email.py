@@ -23,14 +23,12 @@ def get_db():
     finally:
         db.close()
 
-script_dir = os.path.dirname(__file__)
-st_abs_file_path = os.path.join(script_dir, "templates/")
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+templates = Jinja2Templates(directory=os.path.join(BASE_DIR, "templates"))
 
 
 db_dependency = Annotated[Session, Depends(get_db)]
 user_dependency = Annotated[dict, Depends(get_current_user)]
-
-templates = Jinja2Templates(directory=st_abs_file_path)
 
 
 class HistoryItem(BaseModel):

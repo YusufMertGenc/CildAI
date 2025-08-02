@@ -9,7 +9,7 @@ load_dotenv()
 MAIL_USERNAME = os.getenv("MAIL_USERNAME")
 MAIL_PASSWORD = os.getenv("MAIL_PASSWORD")
 MAIL_FROM = os.getenv("MAIL_FROM")
-
+BASE_URL = "http://192.158.29.215"
 conf = ConnectionConfig(
     MAIL_USERNAME=MAIL_USERNAME,
     MAIL_PASSWORD=MAIL_PASSWORD,
@@ -24,7 +24,7 @@ conf = ConnectionConfig(
 
 
 async def send_verification_email(email: EmailStr, token: str):
-    link = f"http://localhost:8000/verify-email?token={token}"
+    link = f"${BASE_URL}/verify-email?token={token}"
 
     message = MessageSchema(
         subject="E-posta Doğrulama",

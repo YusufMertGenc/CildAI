@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session
 from ..models import Chat
 from ..routers.auth import get_current_user
@@ -92,6 +92,34 @@ def get_last_three_months_chat_history(
     chat_records = (
         db.query(Chat)
         .filter(Chat.owner_id == current_user["id"], Chat.created_at >= ninety_days_ago)
+        .order_by(Chat.created_at.desc())
+        .all()
+    )
+
+    return [
+        {
+            "prompt": chat.input_text,
+            "response": chat.output_text,
+            "timestamp": chat.created_at.strftime("%Y-%m-%d %H:%M")
+        }
+        for chat in chat_records
+    ]
+
+@router.get("/chat/history/search")
+def search_chat_history(
+        db: db_dependency,
+        current_user: user_dependency,
+        q: str = Query(..., min_length=1, description="Aranacak metin")
+
+):
+    search_term = f"%{q}%"
+
+    chat_records = (
+        db.query(Chat)
+        .filter(
+            Chat.owner_id == current_user["id"],
+            (Chat.input_text.ilike(search_term)) | (Chat.output_text.ilike(search_term))
+        )
         .order_by(Chat.created_at.desc())
         .all()
     )

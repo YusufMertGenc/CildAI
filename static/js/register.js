@@ -58,3 +58,5 @@ async function handleSignup(event) {
         document.querySelector("form").appendChild(errorMsg);
     }
 }
+
+window.handleSignup = handleSignup;

@@ -131,3 +131,8 @@ function getVerificationTokenFromUrl() {
     const params = new URLSearchParams(window.location.search);
     return params.get("token") || "";
 }
+
+window.togglePassword = togglePassword;
+window.checkPasswordStrength = checkPasswordStrength;
+window.validateForm = validateForm;
+window.getVerificationTokenFromUrl = getVerificationTokenFromUrl;

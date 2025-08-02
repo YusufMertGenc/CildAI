@@ -116,7 +116,7 @@ document.getElementById("passwordForm").addEventListener("submit", async (e) => 
             toastr.info("Giriş sayfasına Yönlendiriliyorsunuz...");
             submitBtn.disabled = true;
             setTimeout(() => {
-                window.location.href = "../index.html";
+                window.location.href = "index.html";
             }, 2000);
         } else {
             toastr.error(data.detail || "Bir hata oluştu.");

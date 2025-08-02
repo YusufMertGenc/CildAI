@@ -266,3 +266,91 @@ function truncateText(text, maxLength) {
     if (!text || typeof text !== "string") return "";
     return text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
 }
+
+const searchInput = document.getElementById("searchInput");
+
+let searchTimeout = null; // debounce için
+
+searchInput.addEventListener("input", () => {
+    if (searchTimeout) clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(() => {
+        performSearch(searchInput.value.trim());
+    }, 500);
+});
+
+async function performSearch(query) {
+    const token = localStorage.getItem("access_token");
+    if (!token) {
+        window.location.href = "index.html";
+        return;
+    }
+
+    if (!query) {
+        fetchChatHistory(`${baseURL}/chat/history`, token);
+        return;
+    }
+
+    loadingState.style.display = "block";
+    emptyState.style.display = "none";
+    errorState.style.display = "none";
+    chatHistoryContainer.innerHTML = "";
+
+    try {
+        const response = await fetch(`${baseURL}/chat/history/search?q=${encodeURIComponent(query)}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json"
+            }
+        });
+
+        if (!response.ok) throw new Error("Arama sonuçları alınamadı");
+
+        const data = await response.json();
+
+        if (data.length === 0) {
+            emptyState.style.display = "block";
+            chatHistoryContainer.innerHTML = "";
+        } else {
+            displayHighlightedResults(data, query);
+        }
+    } catch (error) {
+        console.error("Arama sırasında hata oluştu:", error);
+        errorState.style.display = "block";
+    } finally {
+        loadingState.style.display = "none";
+    }
+}
+
+function highlightQuery(text, query) {
+    if (!text || !query) return text;
+    const escapedQuery = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const regex = new RegExp(`(${escapedQuery})`, "gi");
+    return text.replace(regex, `<span class="strikethrough-highlight">$1</span>`);
+}
+
+function displayHighlightedResults(results, query) {
+    chatHistoryContainer.innerHTML = "";
+    results.forEach(item => {
+        const chatItem = document.createElement("div");
+        chatItem.className = "chat-item";
+
+        const highlightedPrompt = highlightQuery(item.prompt ?? "", query);
+        const highlightedResponse = highlightQuery(item.response ?? "", query);
+        const date = item.timestamp ?? "";
+
+        chatItem.innerHTML = `
+            <div class="chat-meta">
+                <div class="chat-date">${date}</div>
+            </div>
+            <div class="chat-content">
+                <div class="chat-prompt"><strong>Prompt:</strong><br>${highlightedPrompt}</div>
+                <div class="chat-response"><strong>Cevap:</strong><br>${highlightedResponse}</div>
+            </div>
+        `;
+
+        chatHistoryContainer.appendChild(chatItem);
+    });
+}
+
+window.highlightQuery = highlightQuery;
+window.displayHighlightedResults = displayHighlightedResults;

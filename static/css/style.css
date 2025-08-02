@@ -2484,3 +2484,9 @@ body {
         max-height: 95vh;
     }
 }
+
+.strikethrough-highlight {
+    text-decoration: line-through;
+    color: #e74c3c;
+    font-weight: bold;
+}

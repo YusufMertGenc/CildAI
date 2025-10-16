@@ -18,6 +18,10 @@ CildAI
 https://trello.com/invite/b/685bc83a4f7c773d4bd4486c/ATTI8f82cf1744507d75dcd0ac5707eb5785723871F9/bootcamp-grup-106
 
 
+## Ürünümüzün Tanıtım Videosu
+
+https://www.youtube.com/watch?v=Dbu_XIxL3ok
+
 ## Ürünümüzün Linki
 
 http://34.78.3.171
